@@ -1,0 +1,7762 @@
+/* ====== Main Styles - Berry Vue Theme ====== */
+/* تم تحديث التصميم ليطابق Berry Vue بالضبط */
+
+:root {
+    /* Berry Vue Color Scheme */
+    --primary: linear-gradient(135deg, #17a2b8, #0f766e);
+    --primary-dark: #7c3aed;
+    --primary-light: linear-gradient(135deg, #17a2b8, #0f766e);
+    --secondary: #8a8d93;
+    --accent: #ffab00;
+
+    --success: #56ca00;
+    --warning: #ffb400;
+    --error: #ff4d49;
+    --info: #16b1ff;
+
+    /* Light Theme */
+    --bg: #f4f5fa;
+    --bg-card: #ffffff;
+    --bg-elevated: #f8f9fa;
+    --bg-hover: #f1f3f4;
+    --bg-sidebar: #ffffff;
+    --bg-navbar: #ffffff;
+
+    --text: #3a3541;
+    --text-muted: #6e6b7b;
+    --text-secondary: linear-gradient(135deg, #17a2b8, #0f766e);
+    --text-disabled: #b9b9c3;
+
+    --border: #e7e7e9;
+    --border-light: #f3f2f7;
+    --border-hover: linear-gradient(135deg, #17a2b8, #0f766e);
+    --border-input: #d8d6de;
+
+    --shadow: 0 2px 8px rgba(58, 53, 65, 0.14);
+    --shadow-hover: 0 4px 25px rgba(58, 53, 65, 0.15);
+    --shadow-card: 0 2px 8px rgba(58, 53, 65, 0.14);
+    --shadow-navbar: 0 2px 8px rgba(58, 53, 65, 0.14);
+
+    --gradient-primary: linear-gradient(135deg, #17a2b8, #0f766e);
+    --gradient-secondary: linear-gradient(135deg, #8a8d93 0%, #6e6b7b 100%);
+    --gradient-bg: linear-gradient(135deg, #f4f5fa 0%, #e7e7e9 100%);
+    --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+
+    --glow: 0 0 20px rgba(145, 85, 253, 0.2);
+    --glow-hover: 0 0 30px rgba(145, 85, 253, 0.3);
+}
+
+/* Dark Theme - Berry Vue Style */
+[data-theme="dark"] {
+    --primary: #9155fd;
+    --primary-dark: #7c3aed;
+    --primary-light: #a78bfa;
+    --secondary: #8a8d93;
+    --accent: #ffab00;
+
+    --success: #56ca00;
+    --warning: #ffb400;
+    --error: #ff4d49;
+    --info: #16b1ff;
+
+    --bg: #28243d;
+    --bg-card: #312d4b;
+    --bg-elevated: #3a3541;
+    --bg-hover: #4a4556;
+    --bg-sidebar: #28243d;
+    --bg-navbar: #312d4b;
+
+    --text: #e7e3fc;
+    --text-muted: #b6b0c7;
+    --text-secondary: #9155fd;
+    --text-disabled: #6e6b7b;
+
+    --border: #3a3541;
+    --border-light: #4a4556;
+    --border-hover: #9155fd;
+    --border-input: #4a4556;
+
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 4px 25px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-navbar: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    --gradient-bg: linear-gradient(135deg, #28243d 0%, #312d4b 100%);
+    --gradient-card: linear-gradient(135deg, #312d4b 0%, #3a3541 100%);
+}
+
+/* Dark theme scrollbar overrides */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--border);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* Simple Qibla Direction Styles */
+.simple-qibla-direction {
+    padding: 2rem;
+    text-align: center;
+}
+
+.qibla-arrow-simple {
+    margin-bottom: 2rem;
+}
+
+.qibla-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.qibla-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.qibla-instructions {
+    background: var(--bg-elevated);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-light);
+}
+
+.instruction-text {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Enhanced Calibrate Button */
+.calibrate-btn {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+}
+
+.calibrate-btn:hover {
+    background: linear-gradient(135deg, #0f766e 0%, #17a2b8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
+    color: white;
+}
+
+.calibrate-btn:active {
+    transform: translateY(0);
+}
+
+/* Mode Selection Popup */
+.mode-selection-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease;
+    padding: 20px;
+}
+
+.mode-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.mode-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border-light);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.mode-option:hover {
+    border-color: #17a2b8;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(23, 162, 184, 0.15);
+}
+
+.mode-option:hover::before {
+    transform: scaleX(1);
+}
+
+.mode-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.mode-content h6 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.mode-content p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Bottom Navigation Bar - Mobile Only */
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(15, 118, 110, 0.15));
+    border-top: 2px solid var(--primary);
+    display: none;
+    /* Hidden by default */
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 0;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Show bottom navbar only on mobile */
+@media (max-width: 768px) {
+    .bottom-navbar {
+        display: flex;
+    }
+
+    /* Hide top navbar on mobile */
+    .navbar.fixed-top {
+        display: none !important;
+    }
+
+    /* Hide scrollbar on mobile */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    html {
+        scrollbar-width: none;
+    }
+
+    body {
+        -ms-overflow-style: none;
+    }
+
+    * {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    *::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.bottom-navbar .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    min-width: 70px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
+}
+
+.bottom-navbar .nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.1), rgba(15, 118, 110, 0.1));
+    border-radius: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bottom-navbar .nav-item i {
+    font-size: 1.25rem;
+    color: var(--text);
+    transition: color 0.3s ease;
+}
+
+.bottom-navbar .nav-item span {
+    font-size: 0.75rem;
+    color: var(--text);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.bottom-navbar .nav-item:hover {
+    background: rgba(23, 162, 184, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+}
+
+.bottom-navbar .nav-item:hover::before {
+    opacity: 1;
+}
+
+.bottom-navbar .nav-item:hover i,
+.bottom-navbar .nav-item:hover span {
+    color: var(--primary);
+}
+
+.bottom-navbar .nav-item.active {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.3), rgba(15, 118, 110, 0.3));
+    box-shadow: 0 4px 20px rgba(23, 162, 184, 0.4);
+    border-color: 0 4px 20px rgba(23, 162, 184, 0.4);
+    transform: translateY(-2px);
+}
+
+.bottom-navbar .nav-item.active i,
+.bottom-navbar .nav-item.active span {
+    color: white;
+}
+
+.bottom-navbar .nav-item.active::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.1), rgba(15, 118, 110, 0.1));
+}
+
+.bottom-navbar .more-btn {
+    background: rgba(23, 162, 184, 0.2);
+    border: 2px solid var(--primary);
+    box-shadow: 0 2px 10px rgba(23, 162, 184, 0.2);
+}
+
+.bottom-navbar .more-btn:hover {
+    background: rgba(23, 162, 184, 0.35);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+}
+
+/* Enhanced Sidebar (Hidden by default) */
+.sidebar.enhanced-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background: var(--bg-card);
+    border-left: 1px solid var(--border);
+    z-index: 2000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar content styles */
+.sidebar-header {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logo-section .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.app-name {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.sidebar-content {
+    padding: 1.5rem;
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.nav-section-title {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.sidebar-nav-item:hover {
+    background: var(--bg-hover);
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+.sidebar-nav-item.active {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    color: white;
+}
+
+.sidebar-nav-item i:first-child {
+    font-size: 1.25rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.sidebar-nav-item i:last-child {
+    margin-right: auto;
+    opacity: 0.7;
+}
+
+.sidebar-info {
+    background: var(--bg-elevated);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+}
+
+.sidebar-info p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .hero-section {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .mobile-stats-box {
+        position: relative;
+        z-index: 2;
+        margin-top: 2rem;
+    }
+
+    /* Adjust main container margin for mobile */
+    main.container {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* Make hero section full width on mobile */
+    .hero-section.prayer-hero {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+    }
+
+    /* Make all hero sections full width on mobile */
+    .hero-section {
+        width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        margin-right: calc(-50vw + 50%) !important;
+        position: relative;
+        min-height: 100vh;
+    }
+
+    /* Ensure videos start from top of page */
+    .hero-video {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100%;
+        height: calc(100vh + 160px) !important;
+        position: absolute !important;
+        border-radius: 0 !important;
+        border: none !important;
+        outline: none !important;
+    }
+
+    /* Remove border radius from all videos */
+    video {
+        border-radius: 0 !important;
+        border: none !important;
+        outline: none !important;
+    }
+}
+
+.sidebar.enhanced-sidebar.show {
+    transform: translateX(0);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-corner {
+    background: var(--border);
+}
+
+[data-theme="dark"] * {
+    scrollbar-color: rgba(160, 82, 45, 0.6) var(--border);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ====== Custom Scrollbar Styles ====== */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--border-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.8);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--border-light);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 69, 19, 0.6) var(--bg-elevated);
+}
+
+/* Custom scrollbar for specific elements */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.5);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.7);
+}
+
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for lists and containers */
+.list::-webkit-scrollbar,
+.enhanced-player::-webkit-scrollbar,
+.prayer-times-grid::-webkit-scrollbar,
+.qibla-compass-enhanced::-webkit-scrollbar {
+    width: 6px;
+}
+
+.list::-webkit-scrollbar-track,
+.enhanced-player::-webkit-scrollbar-track,
+.prayer-times-grid::-webkit-scrollbar-track,
+.qibla-compass-enhanced::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb,
+.enhanced-player::-webkit-scrollbar-thumb,
+.prayer-times-grid::-webkit-scrollbar-thumb,
+.qibla-compass-enhanced::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.5);
+    border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-thumb:hover,
+.enhanced-player::-webkit-scrollbar-thumb:hover,
+.prayer-times-grid::-webkit-scrollbar-thumb:hover,
+.qibla-compass-enhanced::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.7);
+}
+
+/* Hide scrollbar for mushaf-view (reading page) */
+.mushaf-view::-webkit-scrollbar {
+    display: none;
+}
+
+.mushaf-view {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Enhanced scrollbar for mobile devices */
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .list::-webkit-scrollbar,
+    .enhanced-player::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .list::-webkit-scrollbar-thumb,
+    .enhanced-player::-webkit-scrollbar-thumb {
+        background: rgba(139, 69, 19, 0.6);
+        border-radius: 2px;
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    letter-spacing: .1px;
+    position: relative;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+    line-height: 1.6;
+}
+
+/* Cairo Font for All Elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+a,
+button,
+input,
+textarea,
+select,
+.navbar,
+.card,
+.btn,
+.form-control,
+.form-select,
+.alert,
+.modal,
+.list,
+.item,
+.stat-item,
+.search-bar,
+.player,
+.mode-btn,
+footer,
+.navbar-brand,
+.nav-link,
+.navbar-toggler,
+.card-header,
+.card-body,
+.hero-section,
+.stat-number,
+.stat-label,
+.search-bar input,
+.player-controls button,
+.item h4,
+.item p,
+.form-select,
+.btn,
+.theme-toggle,
+.offcanvas,
+.list-group,
+.list-group-item,
+.display-4,
+.lead,
+.text-muted,
+.text-primary,
+.social-links,
+.social-links a,
+.prayer-times-grid,
+.prayer-time-item,
+.prayer-name,
+.prayer-time,
+.countdown,
+.hijri-date,
+.hijri-day,
+.hijri-month,
+.hijri-year,
+.location-info,
+.next-prayer,
+.section-header,
+.control-icon,
+.back-btn,
+.mode-btn span,
+.mode-btn small,
+.hadith-text,
+.hadith-narrator,
+.hadith-grade,
+.hadith-category,
+.hadith-source,
+.hadith-book,
+.search-filters,
+.filter-group,
+.filter-label,
+.hadith-search,
+.narrator-filter,
+.category-filter,
+.search-results,
+.category-info,
+.no-results,
+.qibla-arrow,
+.qibla-direction,
+.qibla-distance,
+.prayer-countdown,
+.prayer-times-error,
+.location-error,
+.prayer-times-error,
+.hadith-error,
+.hadith-retry,
+.hadith-loading,
+.offcanvas-title,
+.offcanvas-header,
+.offcanvas-body,
+.list-group-item-action,
+.list-group-item-action.active,
+.bi,
+.bootstrap-icons,
+.icon,
+.svg-icon,
+*:not(.quran-text):not(.verse-text):not(.ayah-text):not(.surah-text):not(.quran-verse-bg .verse-text):not(#readingTitle):not(#listeningTitle):not(#listeningDesc) {
+    font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+}
+
+/* Quran Text - Keep Amiri Font */
+.quran-text,
+.verse-text,
+.ayah-text,
+.surah-text,
+.quran-verse-bg .verse-text,
+#readingTitle,
+#listeningTitle,
+#listeningDesc,
+.verse-text {
+    font-family: 'Amiri', serif !important;
+}
+
+/* Berry Vue Style Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.15;
+}
+
+/* Dark theme background */
+[data-theme="dark"] body::before {
+    background:
+        linear-gradient(135deg, rgba(145, 85, 253, 0.08) 0%, rgba(86, 202, 0, 0.08) 100%),
+        url('../media/images/landscape_2.jpg') center/cover no-repeat;
+    opacity: 0.4;
+}
+
+[data-theme="dark"] body::before {
+    background:
+        radial-gradient(circle at 20% 80%, rgba(145, 85, 253, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(86, 202, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 171, 0, 0.05) 0%, transparent 50%);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ====== Enhanced Navbar - Berry Vue Style ====== */
+.navbar {
+    background: var(--bg-navbar) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid var(--border) !important;
+    box-shadow: var(--shadow-navbar) !important;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary) !important;
+    text-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+    color: var(--primary-dark) !important;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 0 0.25rem;
+    position: relative;
+    color: var(--text) !important;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+}
+
+.navbar-nav .nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--primary) !important;
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+}
+
+.navbar-nav .nav-link.active {
+    background: var(--bg-hover);
+    color: var(--primary) !important;
+    font-weight: 600;
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 60%;
+    opacity: 1;
+}
+
+.navbar-toggler {
+    background: var(--bg-elevated) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 0.75rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.navbar-toggler:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    transform: scale(1.05) !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(145, 85, 253, 0.2) !important;
+}
+
+/* Theme Toggle Button - Berry Vue Style */
+.theme-toggle {
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    font-size: 0.875rem;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: var(--gradient-secondary);
+}
+
+/* ====== Enhanced Cards - Berry Vue Style ====== */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    min-height: 200px;
+}
+
+[data-theme="dark"] .card {
+    background: rgba(49, 45, 75, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Card with background image */
+.card.bg-image {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .card.bg-image {
+    background: linear-gradient(135deg, rgba(49, 45, 75, 0.9) 0%, rgba(49, 45, 75, 0.7) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: linear-gradient(135deg, #17a2b8, #0f766e)
+}
+
+.card-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px 12px 0 0;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-body {
+    padding: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ====== Enhanced Hero Section - Berry Vue Style ====== */
+.hero-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    padding: 2.5rem 2rem;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+[data-theme="dark"] .hero-section {
+    background: rgba(49, 45, 75, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Hero section with background image */
+.hero-section.bg-image {
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.05) 0%, rgba(86, 202, 0, 0.05) 100%);
+    position: relative;
+}
+
+.hero-section.bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/landscape_3.jpg') center/cover no-repeat;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+/* Quran page hero */
+.hero-section.quran-hero::before {
+    background: url('../media/images/landscape_1.jpg') center/cover no-repeat;
+}
+
+/* Mobile optimization for quran hero */
+@media (max-width: 768px) {
+    .hero-section.quran-hero {
+        min-height: 85vh !important;
+    }
+}
+
+/* Mobile Video Background and Stats Box */
+@media (max-width: 768px) {
+    .hero-section.bg-image {
+        position: relative !important;
+        overflow: hidden !important;
+        min-height: 85vh !important;
+        /* طول مناسب - أطول قليلاً */
+        z-index: 1 !important;
+    }
+
+    .hero-section.bg-image::before {
+        display: none !important;
+    }
+
+    .web-card {
+        display: none;
+    }
+
+    /* Ensure video is visible */
+    .hero-section.bg-image video {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 85vh !important;
+        /* طول مناسب - أطول قليلاً */
+        z-index: -999 !important;
+        object-fit: cover !important;
+        filter: brightness(0.8) contrast(1.1) !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* Mobile Stats Box - Smaller and positioned below video */
+    .mobile-stats-box {
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 0;
+        width: 80%;
+        max-width: 280px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 14px;
+        padding: 16px 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        margin-top: 0;
+        /* وضع الكارت أسفل أكثر */
+    }
+
+    .stat-item-mobile,
+    .quran-stat-item-mobile {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 10px 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        width: 100%;
+        margin-bottom: 6px;
+    }
+
+    .stat-row {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .stat-col {
+        text-align: center;
+        flex: 1;
+    }
+
+    .stat-number-mobile {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-label-mobile,
+    .quran-stat-item-mobile .stat-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-number-mobile,
+    .quran-stat-item-mobile .stat-value {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 4px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .quran-info-card-mobile {
+        width: 100%;
+    }
+
+    .quran-stats-row-mobile {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .quran-stat-item-mobile {
+        flex: 1;
+        text-align: center;
+    }
+
+    .quran-stat-item-mobile.readings-stat {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .quran-stat-item-mobile .stat-content {
+        text-align: center;
+    }
+
+    /* Prayer page mobile stats */
+    .prayer-info-card-mobile {
+        width: 100%;
+    }
+
+    .prayer-stats-row-mobile {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .prayer-stat-item-mobile {
+        flex: 1;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 12px 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+    }
+
+    .prayer-stat-item-mobile.countdown-stat {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .prayer-stat-item-mobile .stat-content {
+        text-align: center;
+    }
+
+    .prayer-stat-item-mobile .stat-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .prayer-stat-item-mobile .stat-value {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: white !important;
+        margin-bottom: 4px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Prayer times page hero */
+.hero-section.prayer-hero::before {
+    background: url('../media/images/landscape_2.jpg') center/cover no-repeat;
+    opacity: 0.6;
+}
+
+/* Qibla page hero */
+.hero-section.qibla-hero::before {
+    background: url('../media/images/kaaba.jpg') center/cover no-repeat;
+    opacity: 0.6;
+}
+
+/* Mobile optimization for qibla hero */
+@media (max-width: 768px) {
+    .hero-section.qibla-hero {
+        min-height: 85vh !important;
+    }
+}
+
+/* Hadith page hero */
+.hero-section.hadith-hero::before {
+    background: url('../media/images/landscape_3.jpg') center/cover no-repeat;
+    opacity: 0.6;
+}
+
+/* Mobile optimization for hadith hero */
+@media (max-width: 768px) {
+    .hero-section.hadith-hero {
+        min-height: 85vh !important;
+    }
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(145, 85, 253, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(86, 202, 0, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    filter: brightness(1.1) contrast(1.05);
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.quran-verse-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.25;
+    transform: rotate(-5deg);
+    filter: brightness(1.2) contrast(1.1);
+}
+
+.verse-text {
+    font-family: 'Amiri', serif !important;
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0.5rem 0;
+    white-space: nowrap;
+    animation: float 6s ease-in-out infinite;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(-5deg);
+    }
+}
+
+/* ====== Enhanced Stats - Berry Vue Style ====== */
+.stat-item {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10%;
+}
+
+/* Hero Stats Default Layout */
+.hero-stats.row {
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Override Bootstrap classes for hero stats */
+.hero-stats.row.g-4 {
+    gap: 1rem !important;
+}
+
+/* Force hero stats layout */
+.hero-stats.row.g-4>.col-4,
+.hero-stats.row.g-4>.col-md-3 {
+    flex: 0 0 auto !important;
+    max-width: none !important;
+}
+
+[data-theme="dark"] .stat-item {
+    background: rgba(49, 45, 75, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Stats with background images */
+.stat-item.quran-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.stat-item.prayer-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/prayer-icon.svg') center/contain no-repeat;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.stat-item.qibla-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/qibla-icon.svg') center/contain no-repeat;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.stat-item.hadith-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/hadith-icon.svg') center/contain no-repeat;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-item:hover::before {
+    opacity: 1;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ====== Enhanced Search Bar - Berry Vue Style ====== */
+.search-bar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+[data-theme="dark"] .search-bar {
+    background: rgba(49, 45, 75, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-bar:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(145, 85, 253, 0.1);
+    transform: translateY(-1px);
+}
+
+.search-bar input {
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 0.875rem;
+    font-family: 'Cairo', sans-serif;
+    outline: none;
+    width: 100%;
+    font-weight: 500;
+}
+
+.search-bar input::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* ====== Enhanced Player - Berry Vue Style ====== */
+.enhanced-player {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-card);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+}
+
+.enhanced-player:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+}
+
+.enhanced-player::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.enhanced-player:hover::before {
+    opacity: 1;
+}
+
+.enhanced-player::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(145, 85, 253, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(86, 202, 0, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    filter: brightness(1.1) contrast(1.05);
+}
+
+.enhanced-player:hover::after {
+    opacity: 1;
+}
+
+/* Enhanced Back Button */
+.enhanced-back-btn {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    color: var(--text);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+.enhanced-back-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Enhanced Player Controls */
+.enhanced-player .player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+}
+
+/* Enhanced control buttons */
+.enhanced-player .control-btn {
+    background: var(--bg-elevated);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    width: 4.5rem;
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-player .control-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+
+.enhanced-player .control-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.enhanced-player .control-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Special styling for repeat button */
+.enhanced-player .control-btn#repeatBtn.active {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.enhanced-player .control-btn#repeatBtn.active:hover {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+/* Stop button special styling */
+.enhanced-player .control-btn[onclick*="stopAudio"]:hover {
+    background: var(--error);
+    border-color: var(--error);
+}
+
+.enhanced-player .control-btn i {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+}
+
+.enhanced-player .control-btn:hover i {
+    transform: scale(1.1);
+}
+
+.enhanced-player .control-btn {
+    background: var(--bg-elevated);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-player .control-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.enhanced-player .control-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+
+.enhanced-player .control-btn:hover::before {
+    opacity: 0.1;
+}
+
+.enhanced-player .control-btn i {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.enhanced-player .control-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* Enhanced Player Progress */
+.enhanced-player .player-progress {
+    margin: 2.5rem 0;
+    padding: 0 1rem;
+}
+
+.enhanced-player .progress-container {
+    background: var(--bg-elevated);
+    border-radius: 16px;
+    height: 12px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+}
+
+.enhanced-player .progress-bar {
+    background: var(--gradient-primary);
+    height: 100%;
+    border-radius: 16px;
+    transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-player .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.enhanced-player .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Enhanced Player Info */
+.enhanced-player .player-info {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.enhanced-player .player-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0.6;
+}
+
+.enhanced-player .current-surah {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.enhanced-player .surah-info {
+    padding: 0.5rem 1rem;
+    background: rgba(145, 85, 253, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(145, 85, 253, 0.2);
+}
+
+.enhanced-player .surah-info small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.enhanced-player .current-ayah {
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+}
+
+.enhanced-player .reciter-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.enhanced-player .reciter-info i {
+    font-size: 1.5rem;
+}
+
+/* Enhanced Player Settings */
+.enhanced-player .player-settings {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enhanced-player .settings-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.enhanced-player .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Enhanced settings styling */
+.enhanced-player .setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.enhanced-player .setting-item:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow);
+}
+
+.enhanced-player .setting-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
+.enhanced-player .setting-control {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    min-height: 44px;
+}
+
+.enhanced-player .setting-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(145, 85, 253, 0.1);
+    outline: none;
+}
+
+/* Volume control styling */
+.enhanced-player input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.enhanced-player input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.enhanced-player input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+}
+
+.enhanced-player input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.enhanced-player input[type="range"]::-moz-range-thumb:hover {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+}
+
+.enhanced-player .setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.enhanced-player .setting-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.enhanced-player .setting-control {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.enhanced-player .setting-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(145, 85, 253, 0.1);
+    outline: none;
+}
+
+/* Enhanced Player Actions */
+.enhanced-player .player-actions {
+    display: flex;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 100px;
+    align-items: center;
+}
+
+.enhanced-player .action-btn {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1rem 2rem;
+    color: var(--text);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+}
+
+.enhanced-player .action-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.enhanced-player .action-btn i {
+    font-size: 1.125rem;
+}
+
+/* Enhanced Player List */
+.enhanced-player .player-list {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    max-height: 500px;
+    min-height: 200px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-card);
+    margin: 2.5rem 0;
+}
+
+/* ====== Mushaf View - Quran Reading Style ====== */
+.mushaf-view {
+    background: linear-gradient(135deg, #f8f6f0 0%, #f5f2e8 100%);
+    border: 2px solid #d4c4a8;
+    border-radius: 15px;
+    padding: 2rem;
+    min-height: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: auto;
+    max-height: 100vh;
+    /* Hide scrollbar completely */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+    /* Font settings to match surah title */
+    font-family: 'Amiri', serif;
+    font-size: 18px;
+    line-height: 2.5;
+    /* Ensure font size changes work */
+    transition: font-size 0.3s ease;
+}
+
+.mushaf-view::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Edge */
+}
+
+.mushaf-view::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Reading Header */
+.reading-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #d4c4a8;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.surah-title {
+    color: #8b4513;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+    /* Font to match reading content */
+    font-family: 'Amiri', serif;
+}
+
+/* Reading Controls */
+.reading-controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.control-btn {
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
+    background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
+}
+
+.control-btn.active {
+    background: linear-gradient(135deg, #228b22 0%, #32cd32 100%);
+    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.4);
+    transform: scale(1.1);
+}
+
+.control-btn i,
+.control-btn svg {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Back Button */
+.back-btn {
+    background: linear-gradient(135deg, #dc143c 0%, #b22222 100%);
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+    background: linear-gradient(135deg, #b22222 0%, #dc143c 100%);
+}
+
+.back-btn i,
+.back-btn svg {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Ayah Display */
+.ayah-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d4c4a8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.ayah-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    opacity: 0.8;
+}
+
+.ayah-text {
+    color: #562604;
+    font-weight: 700;
+    font-size: 1.7rem;
+    font-family: 'Amiri', serif !important;
+    line-height: 2;
+    text-align: right;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Ensure font size changes work */
+    transition: font-size 0.3s ease;
+}
+
+/* Translation and Tafsir */
+.ayah-translation {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #87ceeb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 4px 15px rgba(135, 206, 235, 0.2);
+    border-right: 8px solid #87ceeb;
+    opacity: 0.8;
+    user-select: none;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(0) scale(1);
+    display: block;
+    filter: blur(0px);
+    /* Ensure proper layout */
+    box-sizing: border-box;
+}
+
+.ayah-translation.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+    animation: slideInTranslation 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ayah-translation.hide {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    filter: blur(2px);
+    animation: slideOutTranslation 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Hide completely to avoid white space */
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ayah-translation:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(135, 206, 235, 0.3);
+}
+
+.ayah-translation p {
+    color: #2f4f4f;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.ayah-tafsir {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #32cd32;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 4px 15px rgba(50, 205, 50, 0.2);
+    border-right: 8px solid #32cd32;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(0) scale(1);
+    display: block;
+    filter: blur(0px);
+    /* Ensure proper layout */
+    box-sizing: border-box;
+}
+
+.ayah-tafsir.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+    animation: slideInTafsir 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ayah-tafsir.hide {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    filter: blur(2px);
+    animation: slideOutTafsir 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Hide completely to avoid white space */
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ayah-tafsir:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(50, 205, 50, 0.3);
+}
+
+.ayah-tafsir p {
+    color: #2f4f4f;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Translation and Tafsir Animations */
+@keyframes slideInTranslation {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.8);
+        filter: blur(3px);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(-15px) scale(0.9);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes slideOutTranslation {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(-10px) scale(0.95);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+        filter: blur(2px);
+    }
+}
+
+@keyframes slideInTafsir {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+        filter: blur(3px);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(15px) scale(0.9);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes slideOutTafsir {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(10px) scale(0.95);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        filter: blur(2px);
+    }
+}
+
+/* Dark Theme for Mushaf */
+[data-theme="dark"] .mushaf-view {
+    background: linear-gradient(135deg, #2d1b0e 0%, #1a0f05 100%);
+    border-color: #8b4513;
+}
+
+[data-theme="dark"] .mushaf-view::before {
+    background:
+        radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.1) 0%, transparent 50%);
+}
+
+[data-theme="dark"] .ayah-item {
+    background: rgba(45, 27, 14, 0.9);
+    border-color: #8b4513;
+}
+
+[data-theme="dark"] .ayah-text {
+    color: #f5f2e8;
+}
+
+[data-theme="dark"] .ayah-translation,
+[data-theme="dark"] .ayah-tafsir {
+    background: rgba(45, 27, 14, 0.95);
+    border-color: #87ceeb;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hide completely in dark theme when hidden */
+[data-theme="dark"] .ayah-translation.hide,
+[data-theme="dark"] .ayah-tafsir.hide {
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .ayah-translation.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+[data-theme="dark"] .ayah-translation {
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .ayah-translation:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+}
+
+[data-theme="dark"] .ayah-translation h5 {
+    color: #87ceeb;
+}
+
+[data-theme="dark"] .ayah-translation p {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+}
+
+[data-theme="dark"] .ayah-tafsir.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+[data-theme="dark"] .ayah-tafsir h5 {
+    color: #32cd32;
+}
+
+[data-theme="dark"] .ayah-tafsir p {
+    color: #e0e0e0;
+    font-size: 0.8rem;
+}
+
+[data-theme="dark"] .ayah-tafsir:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(50, 205, 50, 0.4);
+}
+
+/* Responsive Design for Mushaf */
+@media (max-width: 768px) {
+    .mushaf-view {
+        padding: 1rem;
+        min-height: 400px;
+        /* Ensure scrollbar is hidden on mobile */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .mushaf-view::-webkit-scrollbar {
+        display: none;
+    }
+
+    .reading-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .surah-title {
+        text-align: center;
+        font-size: 1.3rem;
+    }
+
+    .reading-controls {
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .control-btn,
+    .back-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .control-btn i,
+    .control-btn svg,
+    .back-btn i,
+    .back-btn svg {
+        font-size: 1rem;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .ayah-item {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .ayah-text {
+        font-size: 1.5rem;
+        line-height: 2;
+    }
+
+
+
+    .ayah-translation,
+    .ayah-tafsir {
+        padding: 1rem;
+    }
+
+    .ayah-translation h5,
+    .ayah-tafsir h5 {
+        font-size: 1rem;
+    }
+
+    .ayah-translation p,
+    .ayah-tafsir p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mushaf-view {
+        padding: 0.75rem;
+        min-height: 300px;
+        /* Ensure scrollbar is hidden on small screens */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .mushaf-view::-webkit-scrollbar {
+        display: none;
+    }
+
+    .reading-header {
+        gap: 0.75rem;
+    }
+
+    .surah-title {
+        font-size: 1.1rem;
+    }
+
+    .reading-controls {
+        gap: 0.5rem;
+    }
+
+    .control-btn,
+    .back-btn {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .control-btn i,
+    .control-btn svg,
+    .back-btn i,
+    .back-btn svg {
+        font-size: 0.9rem;
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    .ayah-item {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .ayah-text {
+        font-size: 1.25rem;
+        line-height: 1.8;
+    }
+}
+
+.enhanced-player .player-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.enhanced-player .player-list::-webkit-scrollbar-track {
+    background: var(--bg-elevated);
+    border-radius: 5px;
+}
+
+.enhanced-player .player-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+}
+
+.enhanced-player .player-list::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+}
+
+.enhanced-player .player-item {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.enhanced-player .player-item:hover {
+    background: var(--bg-hover);
+    transform: translateX(8px);
+    border-left: 4px solid var(--primary);
+}
+
+.enhanced-player .player-item:last-child {
+    border-bottom: none;
+}
+
+.enhanced-player .player-item.active {
+    background: rgba(145, 85, 253, 0.1);
+    border-left: 4px solid var(--primary);
+}
+
+.enhanced-player .player-item .num {
+    background: var(--gradient-primary);
+    color: white;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow);
+}
+
+.enhanced-player .player-item .content {
+    flex: 1;
+    min-width: 0;
+}
+
+.enhanced-player .player-item h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.enhanced-player .player-item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.enhanced-player .player-item .duration {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: auto;
+}
+
+/* Enhanced Player Responsive */
+@media (max-width: 768px) {
+    .enhanced-player {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .enhanced-player .player-controls {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .enhanced-player .control-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin: 0.25rem;
+    }
+
+    .enhanced-player .control-btn i {
+        font-size: 1rem;
+    }
+
+    .enhanced-player .settings-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .enhanced-player .setting-item {
+        padding: 0.75rem;
+    }
+
+    .enhanced-player .player-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .enhanced-player .action-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+
+    .enhanced-player .player-info {
+        padding: 1.5rem;
+    }
+
+    .enhanced-player .current-surah {
+        font-size: 1.25rem;
+    }
+
+    .enhanced-player .current-ayah {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .enhanced-player {
+        padding: 1rem;
+    }
+
+    .enhanced-player .player-controls {
+        gap: 0.75rem;
+    }
+
+    .enhanced-player .control-btn {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .enhanced-player .control-btn i {
+        font-size: 0.875rem;
+    }
+
+    .enhanced-player .settings-grid {
+        gap: 0.75rem;
+    }
+
+    .enhanced-player .setting-item {
+        padding: 0.5rem;
+    }
+
+    .enhanced-player .setting-label {
+        font-size: 0.8rem;
+    }
+
+    .enhanced-player .setting-control {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .enhanced-player {
+        padding: 1rem;
+    }
+
+    .web-card {
+        display: none;
+    }
+
+    .enhanced-player .player-title {
+        font-size: 1.5rem;
+    }
+
+    .enhanced-player .control-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .enhanced-player .player-item {
+        padding: 1rem;
+    }
+
+    .enhanced-player .player-item .num {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1rem;
+    }
+}
+
+/* ====== Enhanced List - Berry Vue Style ====== */
+.list {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0 0 12px 12px;
+    height: auto !important;
+    min-height: fit-content;
+    max-height: none !important;
+    overflow-y: visible !important;
+    box-shadow: var(--shadow-card);
+}
+
+.list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: var(--bg-elevated);
+    border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+}
+
+.item {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.item:hover {
+    background: var(--bg-hover);
+    transform: translateX(4px);
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item .num {
+    background: var(--gradient-primary);
+    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    order: 1;
+}
+
+.item .content {
+    flex: 1;
+    min-width: 0;
+    order: 2;
+}
+
+.item .ayah-count {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    order: 3;
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+.item h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* ====== Enhanced Buttons - Berry Vue Style ====== */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-success {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #4aad00;
+    border-color: #4aad00;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text);
+}
+
+/* ====== Enhanced Form Elements - Berry Vue Style ====== */
+.form-select {
+    background: var(--bg-card);
+    border: 1px solid var(--border-input);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(145, 85, 253, 0.1);
+    outline: none;
+}
+
+.form-select option {
+    background: var(--bg-card);
+    color: var(--text);
+}
+
+/* ====== Enhanced Alerts - Berry Vue Style ====== */
+.alert {
+    border-radius: 8px;
+    border: none;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.alert-info {
+    background: rgba(22, 177, 255, 0.1);
+    color: var(--info);
+    border-left: 4px solid var(--info);
+}
+
+.alert-success {
+    background: rgba(86, 202, 0, 0.1);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+}
+
+.alert-warning {
+    background: rgba(255, 180, 0, 0.1);
+    color: var(--warning);
+    border-left: 4px solid var(--warning);
+}
+
+.alert-danger {
+    background: rgba(255, 77, 73, 0.1);
+    color: var(--error);
+    border-left: 4px solid var(--error);
+}
+
+/* ====== Location Permission Popup ====== */
+.location-permission-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease;
+    padding: 20px;
+}
+
+.popup-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #17a2b8;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 100%;
+    overflow: hidden;
+    animation: slideInUp 0.4s ease;
+    position: relative;
+}
+
+.popup-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+}
+
+.popup-header {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.popup-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotateSlow 20s linear infinite;
+}
+
+.popup-header h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.popup-body {
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: white;
+}
+
+.popup-body p {
+    color: var(--text);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.popup-actions .btn {
+    min-width: 140px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.popup-actions .btn-primary {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    border: none;
+    color: white;
+}
+
+.popup-actions .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(23, 162, 184, 0.4);
+}
+
+.popup-actions .btn-outline-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    border: none;
+    color: white;
+}
+
+.popup-actions .btn-outline-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(108, 117, 125, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ====== Enhanced Modal - Berry Vue Style ====== */
+.modal {
+    background-color: rgba(58, 53, 65, 0.4);
+    backdrop-filter: blur(8px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    overflow: auto;
+    min-height: 100vh;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-dialog {
+    margin: 1.75rem auto;
+    max-width: 600px;
+    position: relative;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-hover);
+    position: relative;
+    pointer-events: auto;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+.modal-header {
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    padding: 2rem;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0.6;
+}
+
+.modal-title {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 2rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.btn-close:hover {
+    background: var(--error);
+    color: white;
+    border-color: var(--error);
+    transform: scale(1.1);
+}
+
+.btn-close::before {
+    content: '×';
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Modal Open Body */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Modal Animation */
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -50px);
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+
+    .modal-header,
+    .modal-body {
+        padding: 1.5rem;
+    }
+}
+
+/* ====== Enhanced Mode Buttons - Berry Vue Style ====== */
+.mode-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+    min-height: 200px;
+    align-items: center;
+    justify-content: center;
+}
+
+.mode-btn {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-btn:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+    background: var(--bg-hover);
+}
+
+.mode-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mode-btn:hover::before {
+    opacity: 1;
+}
+
+.mode-btn svg {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.mode-btn:hover svg {
+    transform: scale(1.1);
+    color: var(--primary-dark);
+}
+
+.mode-btn span {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.mode-btn small {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Modal Animation */
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -50px);
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .mode-buttons {
+        flex-direction: column;
+    }
+
+    .mode-btn {
+        min-width: auto;
+        padding: 1.5rem 1rem;
+    }
+
+    .mode-btn svg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .mode-btn span {
+        font-size: 1.125rem;
+    }
+}
+
+/* ====== Enhanced Footer - Berry Vue Style ====== */
+footer,
+.enhanced-footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0.6;
+}
+
+.footer-brand {
+    text-align: center;
+}
+
+.footer-brand img {
+    box-shadow: var(--shadow);
+    border: 2px solid var(--primary);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.footer-links li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.footer-links li a:hover {
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+.footer-links li:not(a) {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+}
+
+.footer-divider {
+    border-color: var(--border);
+    margin: 2rem 0 1rem 0;
+    opacity: 0.5;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.125rem;
+}
+
+.social-link:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Footer Responsive */
+@media (max-width: 768px) {
+    .enhanced-footer {
+        padding: 2rem 0 1.5rem 0;
+    }
+
+    .footer-brand {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .social-links {
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* ====== Desktop Design ====== */
+@media (min-width: 1201px) {
+    .hero-stats.row.g-4 {
+        justify-content: flex-end !important;
+        margin-top: 3rem !important;
+        gap: 2rem !important;
+        margin-right: 1rem !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .hero-stats .stat-item {
+        min-width: 160px !important;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+
+    .hero-stats.row.g-4 {
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 0.8rem !important;
+        margin-top: 1.5rem !important;
+        margin-right: 1rem !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+
+    .hero-stats .stat-item {
+        padding: 0.75rem !important;
+        min-width: 100px !important;
+        margin: 0 !important;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .mode-buttons {
+        flex-direction: column;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.5rem 1rem !important;
+        margin: 0.25rem 0;
+    }
+
+    /* تحسينات إضافية للموبايل */
+    .mobile-stats-box {
+        margin-top: 0;
+        /* تقليل المسافة من أعلى لسهولة الوصول */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .hero-stats.row.g-4 {
+        justify-content: flex-end !important;
+        margin-top: 2.5rem !important;
+        gap: 1.5rem !important;
+        margin-right: 0.5rem !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .hero-stats .stat-item {
+        min-width: 150px !important;
+        padding: 1.25rem !important;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .hero-stats.row.g-4 {
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 0.6rem !important;
+        margin-top: 1rem !important;
+        margin-right: 0.5rem !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+
+    .hero-stats .stat-item {
+        min-width: 80px !important;
+        margin: 0 !important;
+        padding: 0.5rem !important;
+    }
+
+    .verse-text {
+        font-size: 1.5rem;
+    }
+
+    .hero-stats .stat-number {
+        font-size: 1.2rem !important;
+    }
+
+    .hero-stats .stat-label {
+        font-size: 0.6rem !important;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* تحسينات للشاشات الصغيرة */
+    .mobile-stats-box {
+        width: 95%;
+        max-width: 350px;
+        padding: 20px 15px;
+        margin-top: 0;
+        /* تقليل المسافة لسهولة الوصول */
+    }
+
+    .stat-item-mobile {
+        padding: 12px 10px;
+        margin-bottom: 8px;
+    }
+
+    .stat-number-mobile {
+        font-size: 1.4rem;
+    }
+
+    .stat-label-mobile {
+        font-size: 0.75rem;
+    }
+}
+
+/* Enhanced Player Header */
+.player-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Enhanced Qibla compass with beautiful animations */
+.qibla-compass-enhanced {
+    position: relative;
+    padding: 3rem;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qibla-compass-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at center, rgba(145, 85, 253, 0.05) 0%, transparent 70%),
+        url('../media/images/kaaba_2.jpg') center/cover no-repeat;
+    opacity: 0.25;
+    border-radius: 20px;
+    z-index: -1;
+    animation: subtleFloat 6s ease-in-out infinite;
+    filter: brightness(1.2) contrast(1.1) saturate(1.05);
+}
+
+.compass-container {
+    position: relative;
+    z-index: 1;
+}
+
+.compass-ring {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border: 3px solid var(--primary);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.1), rgba(255, 255, 255, 0.1));
+    box-shadow:
+        0 0 30px rgba(145, 85, 253, 0.2),
+        inset 0 0 30px rgba(145, 85, 253, 0.1);
+    animation: rotateSlow 20s linear infinite;
+}
+
+.compass-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: var(--primary);
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 0 10px rgba(145, 85, 253, 0.5));
+}
+
+.compass-arrow i {
+    animation: arrowGlow 2s ease-in-out infinite alternate;
+}
+
+.compass-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.dot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    box-shadow: 0 0 15px rgba(145, 85, 253, 0.4);
+    animation: dotPulse 3s ease-in-out infinite;
+}
+
+.dot-north {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dot-east {
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+}
+
+.dot-south {
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dot-west {
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+}
+
+.compass-info {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.qibla-direction {
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+.qibla-distance,
+.qibla-angle {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes arrowGlow {
+    from {
+        filter: drop-shadow(0 0 10px rgba(145, 85, 253, 0.5));
+        transform: scale(1);
+    }
+
+    to {
+        filter: drop-shadow(0 0 20px rgba(145, 85, 253, 0.8));
+        transform: scale(1.1);
+    }
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        transform: scale(1) translateX(-50%);
+        box-shadow: 0 0 15px rgba(145, 85, 253, 0.4);
+    }
+
+    50% {
+        transform: scale(1.1) translateX(-50%);
+        box-shadow: 0 0 25px rgba(145, 85, 253, 0.6);
+    }
+}
+
+.dot-east,
+.dot-west {
+    animation: dotPulseVertical 3s ease-in-out infinite;
+}
+
+@keyframes dotPulseVertical {
+
+    0%,
+    100% {
+        transform: scale(1) translateY(-50%);
+        box-shadow: 0 0 15px rgba(145, 85, 253, 0.4);
+    }
+
+    50% {
+        transform: scale(1.1) translateY(-50%);
+        box-shadow: 0 0 25px rgba(145, 85, 253, 0.6);
+    }
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 5px rgba(145, 85, 253, 0.3);
+    }
+
+    to {
+        text-shadow: 0 0 15px rgba(145, 85, 253, 0.6);
+    }
+}
+
+@keyframes subtleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1) rotate(var(--qibla-angle, 0deg));
+    }
+
+    50% {
+        transform: scale(1.1) rotate(var(--qibla-angle, 0deg));
+    }
+
+    100% {
+        transform: scale(1) rotate(var(--qibla-angle, 0deg));
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .qibla-compass-enhanced {
+        padding: 2rem;
+        min-height: 300px;
+    }
+
+    .compass-ring {
+        width: 150px;
+        height: 150px;
+    }
+
+    .compass-arrow {
+        font-size: 3rem;
+    }
+
+    .dot {
+        width: 25px;
+        height: 25px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Prayer times with landscape background */
+.prayer-times-grid {
+    position: relative;
+    padding: 2rem;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prayer-times-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/landscape_2.jpg') center/cover no-repeat;
+    opacity: 0.15;
+    border-radius: 12px;
+    z-index: -1;
+    filter: brightness(1.2) contrast(1.1) saturate(1.05);
+}
+
+/* Hadith content with background */
+.hadith-content {
+    position: relative;
+    padding: 2rem;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hadith-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../media/images/landscape_3.jpg') center/cover no-repeat;
+    opacity: 0.12;
+    border-radius: 12px;
+    z-index: -1;
+    filter: brightness(1.2) contrast(1.1) saturate(1.05);
+}
+
+.player-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.player-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Active Ayah Styling */
+#listeningList .item.active {
+    background: rgba(var(--brand-rgb), 0.1);
+    border-left: 4px solid var(--brand);
+    transform: translateX(4px);
+    transition: all 0.3s ease;
+}
+
+#listeningList .item:hover {
+    background: rgba(var(--brand-rgb), 0.05);
+    transform: translateX(2px);
+}
+
+/* Share Notifications */
+.share-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideInRight 0.3s ease-out;
+}
+
+.share-notification.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.share-notification.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.share-notification.info {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.share-notification i {
+    font-size: 1.25rem;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Modal Close Button Fix */
+
+/* ====== Homepage Animations ====== */
+/* Staggered card animations for homepage */
+.hero-section {
+    animation: heroSlideIn 1.2s ease-out;
+}
+
+.hero-stats .stat-item {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: statCardSlideIn 0.8s ease-out forwards;
+}
+
+.hero-stats .stat-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.hero-stats .stat-item:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.hero-stats .stat-item:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Hero section entrance animation */
+@keyframes heroSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Stat cards slide in animation */
+@keyframes statCardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(15px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Background image fade in */
+.hero-section.bg-image::before {
+    animation: backgroundFadeIn 2s ease-out;
+}
+
+@keyframes backgroundFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+}
+
+/* Verse text staggered animation */
+.quran-verse-bg .verse-text {
+    opacity: 0;
+    transform: translateY(20px) rotate(-5deg);
+    animation: verseTextSlideIn 1s ease-out forwards;
+}
+
+.quran-verse-bg .verse-text:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.quran-verse-bg .verse-text:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.quran-verse-bg .verse-text:nth-child(3) {
+    animation-delay: 0.7s;
+}
+
+.quran-verse-bg .verse-text:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+.quran-verse-bg .verse-text:nth-child(5) {
+    animation-delay: 1.1s;
+}
+
+@keyframes verseTextSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) rotate(-5deg);
+    }
+
+    100% {
+        opacity: 0.15;
+        transform: translateY(0) rotate(-5deg);
+    }
+}
+
+/* Enhanced hover effects for stat cards */
+.hero-stats .stat-item {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-stats .stat-item:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(145, 85, 253, 0.2);
+    border-color: transparent;
+}
+
+/* Floating animation for hero content */
+.hero-section h1,
+.hero-section p {
+    opacity: 0;
+    animation: textFadeInUp 1s ease-out forwards;
+}
+
+.hero-section h1 {
+    animation-delay: 0.4s;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 2.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section p {
+    animation-delay: 0.6s;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes textFadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced stat numbers animation */
+.hero-stats .stat-number {
+    animation: numberCountUp 2s ease-out forwards;
+    animation-delay: 1s;
+}
+
+@keyframes numberCountUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive animations */
+@media (max-width: 768px) {
+    .hero-stats .stat-item {
+        animation-delay: 0.1s !important;
+    }
+
+    .hero-section {
+        animation-duration: 0.8s;
+    }
+
+    .quran-verse-bg .verse-text {
+        animation-duration: 0.8s;
+    }
+}
+
+/* ====== Additional Page Animations ====== */
+/* Quran section animations */
+.card {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: cardSlideIn 0.8s ease-out forwards;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+@keyframes cardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Search bar animation */
+.search-bar {
+    animation: searchBarSlideIn 1s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes searchBarSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* List items staggered animation */
+.list .item {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: listItemSlideIn 0.6s ease-out forwards;
+    transition: none !important;
+    height: auto !important;
+    min-height: fit-content;
+}
+
+.list .item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.list .item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.list .item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.list .item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.list .item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.list .item:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.list .item:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.list .item:nth-child(8) {
+    animation-delay: 0.8s;
+}
+
+.list .item:nth-child(9) {
+    animation-delay: 0.9s;
+}
+
+.list .item:nth-child(10) {
+    animation-delay: 1.0s;
+}
+
+@keyframes listItemSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Remove hover effects from list items */
+.list .item:hover {
+    background: var(--bg-card) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove all hover effects from list items */
+.list .item *:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    background: inherit !important;
+}
+
+/* Enhanced card hover effects */
+.card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Enhanced Player Styles */
+.enhanced-player {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 20px;
+    padding: 2rem;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-player::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    pointer-events: none;
+}
+
+/* Current Ayah Display */
+.current-ayah-display {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ayah-text-container {
+    position: relative;
+}
+
+.ayah-number-badge {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ayah-text {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ayah-translation {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Player Info */
+.player-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.current-surah {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.reciter-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 0.9;
+}
+
+/* Player Controls */
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn.main-control {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    font-size: 2rem;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.control-btn.main-control:hover {
+    background: linear-gradient(135deg, #ff5252, #d63031);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+}
+
+/* Player Progress */
+.player-progress {
+    margin-bottom: 2rem;
+}
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Player Settings */
+.player-settings {
+    margin-bottom: 2rem;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.setting-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.setting-control {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.setting-control:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.setting-control option {
+    background: #333;
+    color: white;
+}
+
+/* Player Actions */
+.player-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .enhanced-player {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+    
+    .ayah-text {
+        font-size: 1.5rem;
+    }
+    
+    .ayah-translation {
+        font-size: 1rem;
+    }
+    
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .control-btn.main-control {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .player-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Surah List Styles */
+.surah-list-section {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.surah-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.surah-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.surah-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+.surah-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #17a2b8, #0f766e);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.surah-info {
+    flex: 1;
+}
+
+.surah-name {
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.surah-details {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .surah-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .surah-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(145, 85, 253, 0.15);
+}
+
+/* Enhanced stat cards hover */
+.hero-stats .stat-item:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(145, 85, 253, 0.2);
+}
+
+/* Enhanced mode buttons hover */
+.mode-btn:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(145, 85, 253, 0.2);
+}
+
+/* Enhanced buttons hover */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(145, 85, 253, 0.2);
+}
+
+/* Mode buttons animation */
+.mode-btn {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: modeButtonSlideIn 0.8s ease-out forwards;
+}
+
+.mode-btn:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.mode-btn:nth-child(2) {
+    animation-delay: 0.7s;
+}
+
+@keyframes modeButtonSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(15px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Enhanced mode button hover */
+.mode-btn {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mode-btn:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(145, 85, 253, 0.2);
+    border-color: transparent;
+}
+
+/* ====== Hide Scrollbar for Reading Page ====== */
+/* Hide scrollbar for reading page elements */
+#readingSection .mushaf-view,
+#readingSection .content,
+#readingSection .section-header,
+.reading-page .mushaf-view,
+.reading-page .content,
+.reading-page .section-header {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+#readingSection .mushaf-view::-webkit-scrollbar,
+#readingSection .content::-webkit-scrollbar,
+#readingSection .section-header::-webkit-scrollbar,
+.reading-page .mushaf-view::-webkit-scrollbar,
+.reading-page .content::-webkit-scrollbar,
+.reading-page .section-header::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Edge */
+}
+
+/* Hide scrollbar for reading list */
+#readingList {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#readingList::-webkit-scrollbar {
+    display: none;
+}
+
+/* ====== Hide White Space for Hidden Elements ====== */
+/* Ensure hidden translation and tafsir don't take up space */
+.ayah-translation.hide,
+.ayah-tafsir.hide {
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transform: scale(0) !important;
+    position: absolute !important;
+    visibility: hidden !important;
+}
+
+/* Smooth transition for showing/hiding */
+.ayah-translation,
+.ayah-tafsir {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Additional rules to prevent white space */
+.ayah-translation.hide,
+.ayah-tafsir.hide {
+    /* Remove from document flow completely */
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    /* Ensure no dimensions */
+    width: 0 !important;
+    height: 0 !important;
+    /* Remove all spacing */
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    /* Hide completely */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    /* Prevent text selection */
+    user-select: none !important;
+    /* Remove from accessibility tree */
+    aria-hidden: true !important;
+}
+
+/* Footer animation */
+footer {
+    opacity: 0;
+    animation: footerFadeIn 1.5s ease-out forwards;
+    animation-delay: 1.2s;
+}
+
+@keyframes footerFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state animations */
+.spinner-border {
+    animation: spinnerGlow 2s ease-in-out infinite;
+}
+
+@keyframes spinnerGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(145, 85, 253, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(145, 85, 253, 0.6);
+    }
+}
+
+/* Enhanced button animations */
+.btn {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(145, 85, 253, 0.2);
+    border-color: transparent;
+}
+
+/* Smooth page transitions */
+body {
+    animation: pageLoad 0.5s ease-out;
+}
+
+@keyframes pageLoad {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Enhanced Offcanvas - Berry Vue Style */
+.enhanced-sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0 20px 20px 0;
+    box-shadow: var(--shadow-hover);
+    min-height: 100vh;
+    width: 320px;
+}
+
+.enhanced-sidebar .offcanvas-header {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-brand img {
+    box-shadow: var(--shadow);
+    border: 2px solid var(--primary);
+}
+
+.enhanced-close {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.enhanced-close:hover {
+    background: var(--error);
+    color: white;
+    border-color: var(--error);
+    transform: scale(1.1);
+}
+
+.enhanced-close::before {
+    content: '×';
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.enhanced-sidebar .offcanvas-body {
+    min-height: calc(100vh - 80px);
+    padding: 1.5rem;
+}
+
+.sidebar-nav {
+    height: 100%;
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.nav-section-title {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: right;
+}
+
+.sidebar-nav-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: translateX(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.sidebar-nav-item.active {
+    background: rgba(145, 85, 253, 0.1);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.sidebar-nav-item i:first-child {
+    font-size: 1.25rem;
+    margin-left: 0.75rem;
+    color: var(--text-muted);
+}
+
+.sidebar-nav-item.active i:first-child {
+    color: var(--primary);
+}
+
+.sidebar-nav-item span {
+    flex: 1;
+    font-weight: 500;
+}
+
+.sidebar-nav-item i:last-child {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-nav-item:hover i:last-child {
+    transform: translateX(-3px);
+}
+
+.sidebar-info {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.sidebar-info p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+    color: var(--text);
+    display: none;
+}
+
+.sidebar-toggle:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: scale(1.05);
+}
+
+/* Show sidebar toggle on mobile */
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .enhanced-sidebar {
+        width: 280px;
+    }
+
+    /* Hide navbar in mobile */
+    .navbar-collapse {
+        display: none !important;
+    }
+
+    /* Hide navbar toggle button */
+    .navbar-toggler:not(.sidebar-toggle) {
+        display: none !important;
+    }
+}
+
+/* ====== Font Controls ====== */
+.font-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.font-btn {
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%) !important;
+    border: none !important;
+    color: white !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.font-btn:hover {
+    transform: translateY(-2px) scale(1.1) !important;
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4) !important;
+    background: linear-gradient(135deg, #357abd 0%, #4a90e2 100%) !important;
+}
+
+.font-btn i,
+.font-btn svg {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Ensure font buttons are clickable */
+.font-btn:active {
+    transform: translateY(0) scale(0.95) !important;
+}
+
+/* Font size controls specific styles */
+.font-controls .font-btn {
+    z-index: 10;
+    position: relative;
+}
+
+
+
+
+/* Responsive Font Controls */
+@media (max-width: 768px) {
+    .font-controls {
+        margin-right: 0.5rem;
+        gap: 0.25rem;
+    }
+
+    .font-btn {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    .font-btn i,
+    .font-btn svg {
+        font-size: 0.875rem;
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .reading-controls {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .reading-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+}
+
+@media (max-width: 480px) {
+    .font-controls {
+        justify-content: center;
+        margin-right: 0;
+        margin-bottom: 0;
+        order: 1;
+        gap: 0.25rem;
+    }
+
+    /* Ensure all buttons are properly sized */
+    .control-btn,
+    .back-btn,
+    .font-btn {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        margin: 0 0.125rem;
+    }
+
+    .control-btn i,
+    .control-btn svg,
+    .back-btn i,
+    .back-btn svg,
+    .font-btn i,
+    .font-btn svg {
+        font-size: 0.9rem;
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+}
+
+
+
+/* Select Surah Message */
+.select-surah-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 2rem;
+}
+
+.select-surah-message .message-content {
+    text-align: center;
+    max-width: 400px;
+}
+
+.select-surah-message .message-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.select-surah-message h3 {
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.select-surah-message p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Loading and Error States */
+.loading-state,
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.error-state .error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.notification.success {
+    background: var(--success);
+}
+
+.notification.error {
+    background: var(--error);
+}
+
+.notification.info {
+    background: var(--info);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Player Active Ayah */
+.ayah-item.active {
+    background: rgba(var(--primary-rgb), 0.1);
+    border-left: 4px solid var(--primary);
+}
+
+/* ========== PRAYER TIMES PAGE STYLES ========== */
+.prayer-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile optimization for prayer hero */
+@media (max-width: 768px) {
+    .prayer-hero {
+        min-height: 85vh !important;
+    }
+
+    .prayer-hero .hero-video {
+        height: 85vh !important;
+    }
+}
+
+.prayer-hero .hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+/* Single Prayer Info Card */
+.prayer-info-card {
+    background: rgba(0, 0, 0, 0.255);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0);
+    transition: all 0.3s ease;
+}
+
+.prayer-info-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.prayer-info-content {
+    color: white;
+}
+
+.quran-quote {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Amiri', serif;
+    line-height: 1.6;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.quran-quote.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.next-prayer-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.countdown-display {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+    font-family: 'Cairo', sans-serif;
+}
+
+.prayer-hero .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.prayer-hero .hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.prayer-stat {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.prayer-stat:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.prayer-stat .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.prayer-stat .stat-label {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile Prayer Stats */
+.prayer-hero .mobile-stats-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.prayer-hero .stat-item-mobile {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.prayer-hero .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prayer-hero .stat-col {
+    text-align: center;
+    flex: 1;
+}
+
+.prayer-hero .stat-number-mobile {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.prayer-hero .stat-label-mobile {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Prayer Times Grid Enhancement */
+.prayer-times-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.prayer-time-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.prayer-time-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.prayer-time-item:hover::before {
+    left: 100%;
+}
+
+.prayer-time-item:hover {
+    transform: translateY(-8px) scale(1.05);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.prayer-time-item .prayer-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.prayer-time-item .prayer-time {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 8px rgba(145, 85, 253, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* Enhanced Qibla Compass */
+.qibla-compass-enhanced {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 25px;
+    padding: 3rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+}
+
+.qibla-compass-enhanced::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(145, 85, 253, 0.1) 0%, transparent 70%);
+    animation: rotateSlow 20s linear infinite;
+    z-index: -1;
+}
+
+.compass-container {
+    position: relative;
+    z-index: 2;
+}
+
+.compass-ring {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border: 4px solid var(--primary);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.15), rgba(255, 255, 255, 0.1));
+    box-shadow:
+        0 0 40px rgba(145, 85, 253, 0.3),
+        inset 0 0 40px rgba(145, 85, 253, 0.1);
+    animation: rotateSlow 30s linear infinite;
+}
+
+.compass-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    color: var(--primary);
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 0 15px rgba(145, 85, 253, 0.6));
+    z-index: 3;
+}
+
+.compass-arrow i {
+    animation: arrowGlow 2s ease-in-out infinite alternate;
+}
+
+.compass-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.dot {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 0 20px rgba(145, 85, 253, 0.5);
+    animation: dotPulse 3s ease-in-out infinite;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.compass-info {
+    text-align: center;
+    margin-top: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qibla-direction {
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    animation: textGlow 2s ease-in-out infinite alternate;
+    text-shadow: 0 2px 8px rgba(145, 85, 253, 0.4);
+}
+
+.qibla-distance,
+.qibla-angle {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+/* Qibla Compass Enhancement */
+.qibla-compass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.compass-needle {
+    font-size: 3rem;
+    color: var(--primary);
+    transition: transform 0.5s ease;
+}
+
+.compass-text {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Prayer Hero Responsive */
+@media (max-width: 768px) {
+    .prayer-hero {
+        min-height: 300px;
+        padding: 2rem 1rem;
+    }
+
+    .prayer-hero .hero-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .prayer-hero .stat-item {
+        min-width: 120px;
+        padding: 1rem;
+    }
+
+    .prayer-hero .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .prayer-hero .stat-label {
+        font-size: 0.8rem;
+    }
+
+    .prayer-hero .mobile-stats-box {
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .prayer-hero {
+        min-height: 250px;
+        padding: 1.5rem 0.75rem;
+    }
+
+    .prayer-hero .stat-item {
+        min-width: 100px;
+        padding: 0.75rem;
+    }
+
+    .prayer-hero .stat-number {
+        font-size: 1.3rem;
+    }
+
+    .prayer-hero .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .prayer-hero .mobile-stats-box {
+        width: 95%;
+        max-width: 320px;
+        padding: 1.25rem;
+        margin-top: 1.5rem;
+
+    }
+}
+
+/* Enhanced Prayer Page Styles */
+.enhanced-prayer-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    border-radius: 24px;
+    padding: 2rem;
+}
+
+.enhanced-quote {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.prayer-stats-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.prayer-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+}
+
+.prayer-stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.2));
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.stat-content {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.25rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Enhanced Card Headers */
+.enhanced-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: 16px 16px 0 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.enhanced-header-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    backdrop-filter: blur(10px);
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.prayer-date {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Enhanced Location Card */
+.enhanced-location-card {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.location-display {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.location-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.location-details {
+    flex: 1;
+}
+
+.location-status {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.location-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Enhanced Prayer Times */
+.enhanced-prayer-times-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.6));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(23, 162, 184, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enhanced-prayer-times-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(23, 162, 184, 0.3);
+    border-color: rgba(23, 162, 184, 0.5);
+}
+
+.enhanced-prayer-times-card .enhanced-card-header {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(15, 118, 110, 0.1));
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(23, 162, 184, 0.2);
+    padding: 1.5rem 2rem;
+}
+
+.enhanced-prayer-times-card .enhanced-card-header h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #17a2b8, #0f766e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.enhanced-prayer-times-card .enhanced-card-header small {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.enhanced-prayer-times-card .prayer-date {
+    background: linear-gradient(135deg, #17a2b8, #0f766e);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    box-shadow: 0 3px 12px rgba(23, 162, 184, 0.3);
+}
+
+.enhanced-prayer-grid {
+    gap: 2rem;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.enhanced-prayer-item .prayer-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.enhanced-prayer-item .prayer-time {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Cairo', sans-serif;
+}
+
+.enhanced-prayer-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(248, 250, 252, 0.5));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(226, 232, 240, 0.4);
+    border-radius: 22px;
+    padding: 1.8rem;
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1);
+}
+
+.enhanced-prayer-item:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
+    border-color: rgba(145, 85, 253, 0.4);
+    box-shadow: 0 8px 30px rgba(31, 38, 135, 0.2);
+}
+
+.enhanced-prayer-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 0;
+}
+
+.enhanced-prayer-item:hover::before {
+    opacity: 1;
+}
+
+.enhanced-prayer-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.9), rgba(167, 139, 250, 0.8));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 25px rgba(145, 85, 253, 0.3);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.enhanced-prayer-item:hover .enhanced-prayer-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 35px rgba(145, 85, 253, 0.4);
+    background: linear-gradient(135deg, rgba(145, 85, 253, 1), rgba(167, 139, 250, 1));
+}
+
+/* Background images for prayer cards with blur effect */
+.enhanced-prayer-item.fajr {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/fajr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.enhanced-prayer-item.duhr {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/duhr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.enhanced-prayer-item.asr {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/asr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.enhanced-prayer-item.maghrib {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/maghrib_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.enhanced-prayer-item.ishaa {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/ishaa_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.enhanced-prayer-item.sunrise {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background-image: url('../media/images/fajr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Enhanced blur effect for prayer cards */
+.enhanced-prayer-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2px);
+    border-radius: 22px;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for blur */
+.enhanced-prayer-item:hover::after {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(3px);
+}
+
+/* Ensure text remains readable */
+.enhanced-prayer-item .prayer-name,
+.enhanced-prayer-item .prayer-time,
+.enhanced-prayer-item .prayer-status {
+    position: relative;
+    z-index: 2;
+}
+
+/* Prayer status styles */
+.enhanced-prayer-item .prayer-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Past prayer status (red) */
+.enhanced-prayer-item .prayer-status.past {
+    background: rgba(220, 53, 69, 0.8);
+    color: white;
+}
+
+/* Current prayer status (green) */
+.enhanced-prayer-item .prayer-status.current {
+    background: rgba(40, 167, 69, 0.8);
+    color: white;
+}
+
+/* Upcoming prayer status (blue) */
+.enhanced-prayer-item .prayer-status.upcoming {
+    background: rgba(23, 162, 184, 0.8);
+    color: white;
+}
+
+.prayer-status {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-top: 0.8rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.15), rgba(167, 139, 250, 0.1));
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    display: inline-block;
+    border: 1px solid rgba(145, 85, 253, 0.2);
+    transition: all 0.3s ease;
+}
+
+.prayer-status:hover {
+    background: linear-gradient(135deg, rgba(145, 85, 253, 0.25), rgba(167, 139, 250, 0.2));
+    transform: scale(1.05);
+}
+
+/* Enhanced Countdown Card */
+.enhanced-countdown-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 90%;
+}
+
+/* Tablet responsive adjustments for prayer cards */
+@media (max-width: 992px) and (min-width: 769px) {
+    .enhanced-prayer-grid {
+        gap: 1.5rem;
+        padding: 0.8rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile responsive adjustments for prayer cards */
+@media (max-width: 768px) {
+    .enhanced-prayer-grid {
+        gap: 0.8rem;
+        padding: 0.3rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .enhanced-prayer-item {
+        padding: 0.8rem;
+        min-height: 90px;
+        border-radius: 14px;
+    }
+
+    .enhanced-prayer-item .prayer-name {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .enhanced-prayer-item .prayer-time {
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .enhanced-prayer-item .prayer-status {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 8px;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .enhanced-prayer-grid {
+        gap: 0.6rem;
+        padding: 0.2rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .enhanced-prayer-item {
+        padding: 0.6rem;
+        min-height: 80px;
+        border-radius: 12px;
+    }
+
+    .enhanced-prayer-item .prayer-name {
+        font-size: 0.8rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .enhanced-prayer-item .prayer-time {
+        font-size: 0.9rem;
+        margin-bottom: 0.15rem;
+    }
+
+    .enhanced-prayer-item .prayer-status {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 6px;
+    }
+}
+
+.enhanced-countdown {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-next-prayer {
+    margin-bottom: 2rem;
+}
+
+.enhanced-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.countdown-progress {
+    margin-top: 2rem;
+}
+
+.progress-ring {
+    position: relative;
+    display: inline-block;
+}
+
+.progress-ring-svg {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: #e2e8f0;
+    stroke-width: 4;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.progress-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* Enhanced Qibla Card */
+.enhanced-qibla-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.enhanced-compass-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.enhanced-compass-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--primary);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-compass-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: var(--primary);
+    z-index: 2;
+    transition: all 0.5s ease;
+}
+
+.enhanced-compass-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.enhanced-dot {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.enhanced-compass-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    z-index: 1;
+}
+
+.enhanced-qibla-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.enhanced-info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.6));
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    transition: all 0.3s ease;
+}
+
+.enhanced-info-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Enhanced Info Cards */
+.enhanced-info-card,
+.enhanced-hijri-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.enhanced-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.enhanced-info-li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.6));
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    transition: all 0.3s ease;
+}
+
+.enhanced-info-li:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-info-li .info-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.enhanced-hijri-date {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.enhanced-hijri-day {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-hijri-month {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.enhanced-hijri-year {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.gregorian-date {
+    padding: 0.5rem;
+    background: rgba(226, 232, 240, 0.5);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] .enhanced-prayer-card {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .enhanced-quote {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .prayer-stat-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .prayer-stat-item:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
+}
+
+[data-theme="dark"] .stat-label {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .stat-value {
+    color: white;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .enhanced-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+[data-theme="dark"] .enhanced-location-card,
+[data-theme="dark"] .enhanced-prayer-times-card,
+[data-theme="dark"] .enhanced-countdown-card,
+[data-theme="dark"] .enhanced-qibla-card,
+[data-theme="dark"] .enhanced-info-card,
+[data-theme="dark"] .enhanced-hijri-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.8));
+    border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+[data-theme="dark"] .enhanced-prayer-times-card {
+    background: linear-gradient(135deg, rgba(49, 46, 129, 0.8), rgba(79, 70, 229, 0.6));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="dark"] .enhanced-prayer-item {
+    background: linear-gradient(135deg, rgba(49, 46, 129, 0.6), rgba(79, 70, 229, 0.4));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="dark"] .enhanced-prayer-item .prayer-name {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .enhanced-prayer-item .prayer-time {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .prayer-status {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.25), rgba(196, 181, 253, 0.2));
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    color: #a78bfa;
+}
+
+/* Dark theme prayer status styles */
+[data-theme="dark"] .enhanced-prayer-item .prayer-status.past {
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+}
+
+[data-theme="dark"] .enhanced-prayer-item .prayer-status.current {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+[data-theme="dark"] .enhanced-prayer-item .prayer-status.upcoming {
+    background: rgba(23, 162, 184, 0.9);
+    color: white;
+}
+
+[data-theme="dark"] .enhanced-prayer-item:hover {
+    background: linear-gradient(135deg, rgba(49, 46, 129, 0.8), rgba(79, 70, 229, 0.6));
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+}
+
+/* Dark theme background images for prayer cards */
+[data-theme="dark"] .enhanced-prayer-item.fajr {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/fajr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .enhanced-prayer-item.duhr {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/duhr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .enhanced-prayer-item.asr {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/asr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .enhanced-prayer-item.maghrib {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/maghrib_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .enhanced-prayer-item.ishaa {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/ishaa_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .enhanced-prayer-item.sunrise {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: url('../media/images/fajr_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dark theme blur effect for prayer cards */
+[data-theme="dark"] .enhanced-prayer-item::after {
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(2px);
+}
+
+[data-theme="dark"] .enhanced-prayer-item:hover::after {
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(3px);
+}
+
+[data-theme="dark"] .enhanced-prayer-item:hover .enhanced-prayer-icon {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 1), rgba(196, 181, 253, 1));
+    box-shadow: 0 12px 35px rgba(167, 139, 250, 0.5);
+}
+
+[data-theme="dark"] .enhanced-prayer-icon {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(167, 139, 250, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+}
+
+[data-theme="dark"] .enhanced-prayer-item:hover .enhanced-prayer-icon {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 1), rgba(196, 181, 253, 1));
+    box-shadow: 0 12px 35px rgba(167, 139, 250, 0.5);
+}
+
+[data-theme="dark"] .enhanced-prayer-times-card .enhanced-card-header {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(167, 139, 250, 0.1));
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="dark"] .enhanced-prayer-times-card .enhanced-card-header h4 {
+    background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+[data-theme="dark"] .enhanced-prayer-times-card .prayer-date {
+    background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+    color: #1e1b4b;
+    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+}
+
+[data-theme="dark"] .enhanced-prayer-item {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.6));
+    border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+[data-theme="dark"] .enhanced-info-item,
+[data-theme="dark"] .enhanced-info-li {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.6));
+    border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .enhanced-prayer-card {
+        padding: 1.5rem;
+    }
+
+    .enhanced-quote {
+        font-size: 1.25rem;
+    }
+
+    .prayer-stats-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .prayer-stat-item {
+        padding: 0.75rem 1rem;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+
+    .enhanced-compass-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    .enhanced-compass-arrow {
+        font-size: 2.5rem;
+    }
+
+    .enhanced-dot {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+
+    .enhanced-hijri-day {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .enhanced-prayer-card {
+        padding: 1rem;
+    }
+
+    .enhanced-quote {
+        font-size: 1.1rem;
+    }
+
+    .prayer-stat-item {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+
+    .enhanced-compass-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .enhanced-compass-arrow {
+        font-size: 2rem;
+    }
+
+    .enhanced-dot {
+        width: 24px;
+        height: 24px;
+        font-size: 0.6rem;
+    }
+
+    .enhanced-hijri-day {
+        font-size: 2rem;
+    }
+}
+
+/* Google Style Qibla Compass */
+.google-style-compass {
+    padding: 2rem 0;
+}
+
+.google-compass-container {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.google-compass-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 4px solid var(--primary);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* Compass Background Grid */
+.compass-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.compass-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-line {
+    position: absolute;
+    background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.1), transparent);
+}
+
+.grid-line-vertical {
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.grid-line-horizontal {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform: translateY(-50%);
+}
+
+/* Direction Labels */
+.direction-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+}
+
+.direction-label {
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.direction-north {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction-east {
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.direction-south {
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction-west {
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Qibla Arrow */
+.google-qibla-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid var(--primary);
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.arrow-shaft {
+    width: 6px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    margin: 0 auto;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.arrow-label {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Compass Center */
+.google-compass-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-icon {
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* Degree Markers */
+.degree-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.degree-marker {
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.degree-marker:nth-child(1) {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.degree-marker:nth-child(2) {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.degree-marker:nth-child(3) {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.degree-marker:nth-child(4) {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Compass Instructions */
+.compass-instructions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.instruction-text {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 0.95rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* Additional Qibla Info */
+.qibla-additional-info {
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+}
+
+.info-card-content {
+    padding: 1.5rem;
+}
+
+.tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tips-list li:last-child {
+    border-bottom: none;
+}
+
+.tips-list li::before {
+    content: '✓';
+    color: var(--success);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Enhanced Qibla Info Items */
+.enhanced-qibla-info .enhanced-info-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.enhanced-qibla-info .enhanced-info-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.enhanced-qibla-info .info-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.enhanced-qibla-info .info-content {
+    flex: 1;
+}
+
+.enhanced-qibla-info .info-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.enhanced-qibla-info .info-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] .google-compass-ring {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.8));
+    border-color: var(--primary);
+}
+
+[data-theme="dark"] .direction-label {
+    background: rgba(30, 41, 59, 0.9);
+    color: var(--primary);
+}
+
+[data-theme="dark"] .degree-marker {
+    background: rgba(30, 41, 59, 0.8);
+    color: var(--text);
+}
+
+[data-theme="dark"] .instruction-text {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .info-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.8));
+    border-color: rgba(71, 85, 105, 0.4);
+}
+
+[data-theme="dark"] .enhanced-qibla-info .enhanced-info-item {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.8));
+    border-color: rgba(71, 85, 105, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .google-compass-container {
+        width: 240px;
+        height: 240px;
+    }
+
+    .direction-label {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .google-compass-center {
+        width: 50px;
+        height: 50px;
+    }
+
+    .center-icon {
+        font-size: 1.25rem;
+    }
+
+    .arrow-shaft {
+        height: 70px;
+    }
+
+    .arrow-head {
+        border-left-width: 12px;
+        border-right-width: 12px;
+        border-bottom-width: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .google-compass-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    .direction-label {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .google-compass-center {
+        width: 40px;
+        height: 40px;
+    }
+
+    .center-icon {
+        font-size: 1rem;
+    }
+
+    .arrow-shaft {
+        height: 60px;
+        width: 4px;
+    }
+
+    .arrow-head {
+        border-left-width: 10px;
+        border-right-width: 10px;
+        border-bottom-width: 20px;
+    }
+
+    .degree-marker {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    animation: slideInRight 0.3s ease;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.notification-success {
+    border-left: 4px solid #10b981;
+}
+
+.notification-error {
+    border-left: 4px solid #ef4444;
+}
+
+.notification-info {
+    border-left: 4px solid #3b82f6;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 600;
+}
+
+.notification-header i {
+    font-size: 1.1rem;
+}
+
+.notification-success .notification-header i {
+    color: #10b981;
+}
+
+.notification-error .notification-header i {
+    color: #ef4444;
+}
+
+.notification-info .notification-header i {
+    color: #3b82f6;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #64748b;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.notification-close:hover {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.notification-body {
+    padding: 1rem 1.5rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Compass Calibration Animation */
+.calibrating {
+    animation: calibrate 2s ease-in-out infinite;
+}
+
+@keyframes calibrate {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(5deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+}
+
+/* Pulse Animation for Qibla Arrow */
+.pulse {
+    animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Enhanced Compass Interactions */
+.google-compass-ring:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.google-qibla-arrow:hover {
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+.direction-label:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.degree-marker:hover {
+    background: rgba(59, 130, 246, 0.9);
+    color: white;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}
+
+/* Compass Loading State */
+.compass-loading {
+    position: relative;
+}
+
+.compass-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid #e2e8f0;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 5;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dark Theme Notifications */
+[data-theme="dark"] .notification {
+    background: #1e293b;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .notification-header {
+    background: #334155;
+    border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .notification-body {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .notification-close:hover {
+    background: #475569;
+    color: #e2e8f0;
+}
+
+/* Responsive Notifications */
+@media (max-width: 768px) {
+    .notification {
+        width: 300px;
+        right: 15px;
+        top: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notification {
+        width: calc(100vw - 30px);
+        right: 15px;
+        left: 15px;
+    }
+
+    .notification-header,
+    .notification-body {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Enhanced Hero Section */
+.prayer-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    margin-bottom: 3rem;
+}
+
+.prayer-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    z-index: 1;
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 0;
+}
+
+/* Enhanced Prayer Card Positioning */
+.enhanced-prayer-card {
+    position: relative;
+    z-index: 3;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+/* Notification Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.notification.slide-out {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+/* Enhanced Modal Styles */
+.location-modal {
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.location-modal .modal-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 1.5rem;
+}
+
+.location-modal .modal-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.location-modal .modal-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    backdrop-filter: blur(10px);
+}
+
+.location-modal .modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.location-modal .modal-body {
+    padding: 2rem;
+}
+
+.location-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.benefit-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.benefit-content h6 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.benefit-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.location-note {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.note-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.location-note p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.location-modal .modal-footer {
+    padding: 1.5rem;
+    border: none;
+    background: #f8fafc;
+}
+
+.location-modal .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.location-modal .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.location-modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.location-modal .btn-secondary {
+    background: #64748b;
+    border: none;
+    color: white;
+}
+
+.location-modal .btn-secondary:hover {
+    background: #475569;
+    transform: translateY(-2px);
+}

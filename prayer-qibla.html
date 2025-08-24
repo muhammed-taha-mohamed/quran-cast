@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quran Cast - مواقيت الصلاة واتجاه القبلة</title>
+    <meta name="description" content="مواقيت الصلاة مع العد التنازلي واتجاه القبلة مع بوصلة تفاعلية">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- Top Navigation - Desktop Only -->
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="prayer-qibla.html">
+                            <i class="bi bi-clock me-2"></i>الصلاة والقبلة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hadith.html">
+                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Theme Toggle -->
+                <div class="navbar-nav">
+                    <button class="btn theme-toggle btn-sm" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                        <i class="bi bi-moon-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-navbar">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="bi bi-book-half"></i>
+            <span>القرآن</span>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='prayer-qibla.html'">
+            <i class="bi bi-clock"></i>
+            <span>الأذان</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='hadith.html'">
+            <i class="bi bi-chat-quote"></i>
+            <span>الأحاديث</span>
+        </div>
+        <div class="nav-item more-btn" onclick="toggleSidebar()">
+            <i class="bi bi-three-dots-vertical"></i>
+            <span>More</span>
+        </div>
+    </nav>
+
+    <!-- Enhanced Sidebar (Hidden by default) -->
+    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
+        <div class="sidebar-header">
+            <div class="logo-section">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" class="logo">
+                <h4 class="app-name">Quran Cast</h4>
+            </div>
+            <button class="sidebar-toggle enhanced-sidebar-toggle" onclick="toggleSidebar()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">القائمة الرئيسية</h6>
+                <a href="index.html" class="sidebar-nav-item">
+                    <i class="bi bi-book-open"></i>
+                    <span>القرآن الكريم</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="prayer-qibla.html" class="sidebar-nav-item active">
+                    <i class="bi bi-clock"></i>
+                    <span>الصلاة والقبلة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="hadith.html" class="sidebar-nav-item">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>الأحاديث</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="#" class="sidebar-nav-item" onclick="showModePopup()">
+                    <i class="bi bi-book"></i>
+                    <span>القراءة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="#" class="sidebar-nav-item" onclick="showModePopup()">
+                    <i class="bi bi-ear"></i>
+                    <span>المشغل</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </div>
+
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">إعدادات سريعة</h6>
+                <button class="sidebar-nav-item" onclick="toggleTheme()">
+                    <i class="bi bi-moon-stars"></i>
+                    <span>تبديل الوضع</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="nav-section">
+                <h6 class="nav-section-title">معلومات التطبيق</h6>
+                <div class="sidebar-info">
+                    <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
+                    <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location Permission Modal -->
+    <div class="modal fade" id="locationPermissionModal" tabindex="-1" aria-labelledby="locationPermissionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content location-modal">
+                <div class="modal-header">
+                    <div class="modal-title-wrapper">
+                        <div class="modal-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title" id="locationPermissionModalLabel">نحتاج إلى موقعك</h5>
+                            <small class="text-muted">لمعرفة مواقيت الصلاة بدقة</small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="location-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h6>مواقيت الصلاة الدقيقة</h6>
+                                <p>حساب أوقات الصلاة حسب موقعك الجغرافي</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="bi bi-compass"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h6>اتجاه القبلة الصحيح</h6>
+                                <p>تحديد الاتجاه الدقيق نحو الكعبة المشرفة</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h6>خصوصية كاملة</h6>
+                                <p>موقعك محفوظ محلياً ولا يتم مشاركته مع أي طرف ثالث</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-note">
+                        <div class="note-icon">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <p>سيتم طلب إذن الموقع من متصفحك. يمكنك رفض الطلب واستخدام موقع افتراضي.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>لاحقاً
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="requestLocationPermission()">
+                        <i class="bi bi-check-circle me-2"></i>السماح بالموقع
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reading and Listening Popup -->
+    <div class="mode-selection-popup" id="modeSelectionPopup" style="display: none;">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h5>اختر المود المناسب</h5>
+            </div>
+            <div class="popup-body">
+                <p>اختر ما يناسبك من القراءة أو الاستماع للقرآن الكريم</p>
+
+                <div class="mode-options">
+                    <div class="mode-option" onclick="goToReading()">
+                        <div class="mode-icon">
+                            <i class="bi bi-book-open"></i>
+                        </div>
+                        <div class="mode-content">
+                            <h6>قراءة القرآن</h6>
+                            <p>اقرأ القرآن الكريم بخط واضح وجميل</p>
+                        </div>
+                    </div>
+
+                    <div class="mode-option" onclick="goToPlayer()">
+                        <div class="mode-icon">
+                            <i class="bi bi-ear"></i>
+                        </div>
+                        <div class="mode-content">
+                            <h6>استماع القرآن</h6>
+                            <p>استمع للقرآن بصوت جميل ومريح</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-actions">
+                <button class="btn btn-outline-secondary" onclick="closeModePopup()">
+                    لاحقاً
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container" style="margin-top: 80px; margin-bottom: 100px;">
+
+        <!-- Hero Section -->
+        <div style="border-radius: 0%; width: 100%;" class="hero-section prayer-hero bg-image text-center py-5 mb-5">
+            <!-- Desktop Image Background -->
+            <div class="d-none d-md-block">
+                <img src="media/images/azan_header.jpg" alt="" class="hero-bg-image">
+            </div>
+
+            <!-- Mobile Video Background -->
+            <video autoplay muted loop playsinline class="d-md-none hero-video">
+                <source src="media/vedios/azan_page_mobile.mp4" type="video/mp4">
+            </video>
+
+            <!-- Mobile Stats (Top Position) -->
+            <div class="mobile-stats-box d-md-none">
+                <div class="prayer-info-card-mobile">
+                    <div class="prayer-stats-row-mobile">
+                        <div class="prayer-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">الصلاة القادمة</div>
+                                <div class="stat-value" id="nextPrayerNameMobile">--</div>
+                            </div>
+                        </div>
+                        <div class="prayer-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">وقتها</div>
+                                <div class="stat-value" id="nextPrayerTimeMobile">--:--</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prayer-stat-item-mobile countdown-stat">
+                        <div class="stat-content">
+                            <div class="stat-label">المؤقت</div>
+                            <div class="stat-value" id="prayerCountdownMobile">--:--:--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-content d-none d-md-block">
+                <div class="row justify-content-center">
+                    <div>
+                        <!-- Enhanced Prayer Info Card -->
+                        <div class="prayer-info-card enhanced-prayer-card">
+                            <div class="prayer-info-content">
+
+                                <div class="prayer-stats-row">
+                                    <div class="prayer-stat-item">
+
+                                        <div class="stat-content">
+                                            <div class="stat-label">الصلاة القادمة</div>
+
+                                            <div class="stat-value" id="nextPrayerName">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+                                                    <path fill="none" stroke="#FFFFFF" stroke-width="3"
+                                                        stroke-linecap="round" stroke-dasharray="300 385"
+                                                        stroke-dashoffset="0"
+                                                        d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
+                                                        <animate attributeName="stroke-dashoffset" calcMode="spline"
+                                                            dur="5" values="685;-685" keySplines="0 0 1 1"
+                                                            repeatCount="indefinite"></animate>
+                                                    </path>
+                                                </svg>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="prayer-stat-item">
+
+                                        <div class="stat-content">
+                                            <div class="stat-label">الوقت المتبقي</div>
+                                            <div class="stat-value" id="heroPrayerCountdown">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+                                                    <path fill="none" stroke="#FFFFFF" stroke-width="3"
+                                                        stroke-linecap="round" stroke-dasharray="300 385"
+                                                        stroke-dashoffset="0"
+                                                        d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
+                                                        <animate attributeName="stroke-dashoffset" calcMode="spline"
+                                                            dur="5" values="685;-685" keySplines="0 0 1 1"
+                                                            repeatCount="indefinite"></animate>
+                                                    </path>
+                                                </svg>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="row g-4">
+
+            <!-- Prayer Times Section -->
+            <div class="col-12">
+                <div class="card prayer-times-card enhanced-prayer-times-card">
+                    <div class="card-header enhanced-card-header">
+                        <div class="d-flex align-items-center">
+
+                            <div class="header-content">
+                                <h5 class="mb-0">مواقيت الصلاة اليوم حسب موقعك الجغرافي</h5>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <span class="prayer-date" id="prayerDate">--</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="prayer-times-grid enhanced-prayer-grid" id="prayerTimesGrid">
+                            <div class="prayer-time-item fajr enhanced-prayer-item fajr">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">الفجر</div>
+                                    <div class="prayer-time" id="fajr">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                            <div class="prayer-time-item sunrise enhanced-prayer-item sunrise">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">الشروق</div>
+                                    <div class="prayer-time" id="sunrise">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                            <div class="prayer-time-item dhuhr enhanced-prayer-item duhr">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">الظهر</div>
+                                    <div class="prayer-time" id="dhuhr">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                            <div class="prayer-time-item asr enhanced-prayer-item asr">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">العصر</div>
+                                    <div class="prayer-time" id="asr">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                            <div class="prayer-time-item maghrib enhanced-prayer-item maghrib">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">المغرب</div>
+                                    <div class="prayer-time" id="maghrib">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                            <div class="prayer-time-item isha enhanced-prayer-item ishaa">
+
+                                <div class="prayer-info">
+                                    <div class="prayer-name">العشاء</div>
+                                    <div class="prayer-time" id="isha">--:--</div>
+                                    <div class="prayer-status"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Qibla Section -->
+            <div class="col-12">
+                <div class="card prayer-times-card enhanced-prayer-times-card">
+
+
+                    <div class="card-header enhanced-card-header">
+                        <div class="d-flex align-items-center">
+
+                            <div class="header-content">
+                                <h5 class="mb-0">مواقيت الصلاة اليوم حسب موقعك الجغرافي</h5>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline-light btn-sm calibrate-btn" onclick="calibrateCompass()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>معايرة
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 text-center">
+                                <div class="qibla-compass-enhanced google-style-compass">
+                                    <div class="compass-container google-compass-container">
+                                        <div class="compass-ring google-compass-ring">
+                                            <!-- Compass Background -->
+                                            <div class="compass-background">
+                                                <div class="compass-grid">
+                                                    <div class="grid-line grid-line-vertical"></div>
+                                                    <div class="grid-line grid-line-horizontal"></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Direction Labels -->
+                                            <div class="direction-labels">
+                                                <div class="direction-label direction-north">شمال</div>
+                                                <div class="direction-label direction-east">شرق</div>
+                                                <div class="direction-label direction-south">جنوب</div>
+                                                <div class="direction-label direction-west">غرب</div>
+                                            </div>
+
+                                            <!-- Qibla Arrow -->
+                                            <div class="qibla-arrow google-qibla-arrow" id="qiblaArrow">
+                                                <div class="arrow-head"></div>
+                                                <div class="arrow-shaft"></div>
+                                                <div class="arrow-label">القبلة</div>
+                                            </div>
+
+                                            <!-- Compass Center -->
+                                            <div class="compass-center google-compass-center">
+                                                <div class="center-icon">
+                                                    <i class="bi bi-geo-alt-fill"></i>
+                                                </div>
+                                            </div>
+
+                                            <!-- Degree Markers -->
+                                            <div class="degree-markers">
+                                                <div class="degree-marker" style="transform: rotate(0deg)">0°</div>
+                                                <div class="degree-marker" style="transform: rotate(90deg)">90°
+                                                </div>
+                                                <div class="degree-marker" style="transform: rotate(180deg)">180°
+                                                </div>
+                                                <div class="degree-marker" style="transform: rotate(270deg)">270°
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Compass Instructions -->
+                                    <div class="compass-instructions">
+                                        <p class="instruction-text">
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            وجه هاتفك نحو الاتجاه المشار إليه بالسهم
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="qibla-info enhanced-qibla-info">
+                                    <div class="info-item enhanced-info-item">
+                                        <div class="info-icon">
+                                            <i class="bi bi-arrow-up-circle"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <div class="info-label">الاتجاه:</div>
+                                            <div class="info-value" id="qiblaDirection">--</div>
+                                        </div>
+                                    </div>
+                                    <div class="info-item enhanced-info-item">
+                                        <div class="info-icon">
+                                            <i class="bi bi-rulers"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <div class="info-label">المسافة:</div>
+                                            <div class="info-value" id="qiblaDistance">--</div>
+                                        </div>
+                                    </div>
+                                    <div class="info-item enhanced-info-item">
+                                        <div class="info-icon">
+                                            <i class="bi bi-protractor"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <div class="info-label">الزاوية:</div>
+                                            <div class="info-value" id="qiblaAngle">--</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer شيل class="mt-5">
+        <div class="text-center text-muted">
+            <small>Quran Cast - تطبيق إسلامي شامل للمسلمين</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="js/prayer-qibla.js"></script>
+</body>
+
+</html>

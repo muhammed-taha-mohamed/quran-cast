@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quran Cast - المشغل الصوتي</title>
+    <meta name="description" content="استمع للقرآن الكريم مع مشغل صوتي أنيق">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Almarai:wght@300;400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- Top Navigation - Desktop Only -->
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prayer-qibla.html">
+                            <i class="bi bi-clock me-2"></i>الصلاة والقبلة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hadith.html">
+                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reading.html">
+                            <i class="bi bi-book me-2"></i>القراءة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="player.html">
+                            <i class="bi bi-ear me-2"></i>المشغل الصوتي
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Theme Toggle -->
+                <div class="navbar-nav">
+                    <button class="btn theme-toggle btn-sm" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                        <i class="bi bi-moon-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <main class="container" style="margin-top: 80px;">
+        <!-- Hero Section -->
+        <div class="hero-section player-hero bg-image text-center py-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold text-primary mb-3">🎵 المشغل الصوتي</h1>
+                    <p class="lead text-muted mb-4">استمع للقرآن الكريم مع مشغل صوتي أنيق</p>
+                </div>
+            </div>
+        </div>
+
+                <!-- Enhanced Audio Player Section -->
+        <div id="listeningSection" class="card enhanced-player">
+            <!-- Player Header -->
+            <div class="player-header">
+                <button class="back-btn enhanced-back-btn" onclick="goToMainPage()">
+                    <i class="bi bi-arrow-right me-2"></i>
+                </button>
+            </div>
+
+            <!-- Current Ayah Display -->
+            <div class="current-ayah-display" id="currentAyahDisplay">
+                <div class="ayah-text-container">
+                    <div class="ayah-number-badge" id="ayahNumberBadge">--</div>
+                    <div class="ayah-text" id="currentAyahText">اختر سورة للبدء في الاستماع</div>
+                    <div class="ayah-translation" id="currentAyahTranslation">--</div>
+                </div>
+            </div>
+
+            <!-- Player Info -->
+            <div class="player-info">
+                <div class="current-surah" id="currentSurahName">اختر سورة للاستماع</div>
+                <div class="reciter-info">
+                    <i class="bi bi-person-circle"></i>
+                    <span id="currentReciter">مشاري العفاسي</span>
+                </div>
+            </div>
+
+            <!-- Enhanced Player Controls -->
+            <div class="player-controls">
+                <button class="control-btn" onclick="previousAyah()" title="الآية السابقة">
+                    <i class="bi bi-skip-backward-fill"></i>
+                </button>
+                <button class="control-btn main-control" onclick="togglePlayPause()" id="playPauseBtn" title="تشغيل/إيقاف">
+                    <i class="bi bi-play-fill" id="playIcon"></i>
+                </button>
+                <button class="control-btn" onclick="nextAyah()" title="الآية التالية">
+                    <i class="bi bi-skip-forward-fill"></i>
+                </button>
+            </div>
+
+            <!-- Player Progress -->
+            <div class="player-progress">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+                <div class="progress-info">
+                    <span id="currentTime">00:00</span>
+                    <span id="totalTime">00:00</span>
+                </div>
+            </div>
+
+            <!-- Player Settings -->
+            <div class="player-settings">
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label class="setting-label">القارئ</label>
+                        <select class="setting-control" id="reciterSelect" onchange="changeReciter()">
+                            <option value="ar.alafasy">مشاري العفاسي</option>
+                            <option value="ar.abdul_basit">عبد الباسط عبد الصمد</option>
+                            <option value="ar.abdurrahmaan_as-sudais">عبد الرحمن السديس</option>
+                            <option value="ar.sa3d_al-ghamidi">سعد الغامدي</option>
+                            <option value="ar.mahmoud_khalil_al_husary">محمود خليل الحصري</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">مستوى الصوت</label>
+                        <input type="range" class="setting-control" id="volumeControl" min="0" max="100" value="100"
+                            onchange="changeVolume()">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">سرعة التشغيل</label>
+                        <select class="setting-control" id="playbackSpeed" onchange="changePlaybackSpeed()">
+                            <option value="0.5">0.5x (بطيء)</option>
+                            <option value="0.75">0.75x</option>
+                            <option value="1" selected>1x (عادي)</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x (سريع)</option>
+                            <option value="2">2x (سريع جداً)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Actions -->
+            <div class="player-actions">
+                <button class="action-btn" onclick="downloadAyah()">
+                    <i class="bi bi-download"></i>
+                    تحميل الآية
+                </button>
+                <button class="action-btn" onclick="shareAyah()">
+                    <i class="bi bi-share"></i>
+                    مشاركة
+                </button>
+                <button class="action-btn" onclick="addToFavorites()">
+                    <i class="bi bi-heart"></i>
+                    المفضلة
+                </button>
+            </div>
+
+            <!-- Ayah List -->
+            <div class="player-list" id="playerList">
+                <!-- Content will be loaded here -->
+                <div class="text-center py-5">
+                    <i class="bi bi-ear display-1 text-muted mb-3"></i>
+                    <h4 class="text-muted">اختر سورة للبدء في الاستماع</h4>
+                    <div class="mt-4">
+                        <button class="btn btn-primary btn-lg me-3" onclick="showSurahList()">
+                            <i class="bi bi-list me-2"></i>قائمة السور
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg" onclick="goToMainPage()">
+                            <i class="bi bi-arrow-right me-2"></i>العودة للصفحة الرئيسية
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Surah List Section (Hidden by default) -->
+            <div class="surah-list-section" id="surahListSection" style="display: none;">
+                <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">
+                        <i class="bi bi-list me-2"></i>قائمة السور
+                    </h3>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="hideSurahList()">
+                        <i class="bi bi-x-lg me-2"></i>إغلاق
+                    </button>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="search-container mb-4">
+                    <div class="search-bar" role="search">
+                        <i class="bi bi-search text-muted"></i>
+                        <input id="surahSearch" placeholder="ابحث في السور..." aria-label="بحث في السور" />
+                    </div>
+                </div>
+
+                <!-- Surah Grid -->
+                <div class="surah-grid" id="surahGrid">
+                    <!-- Surahs will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer style="height: 20px;"></footer>
+
+    <!-- Bottom Navigation Bar - Mobile Only -->
+    <nav class="bottom-navbar">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="bi bi-book-half"></i>
+
+            <span>القرآن</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
+            <i class="bi bi-clock"></i>
+            <span>الأذان</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='hadith.html'">
+            <i class="bi bi-chat-quote"></i>
+            <span>الأحاديث</span>
+        </div>
+        <div class="nav-item more-btn" onclick="toggleSidebar()">
+            <i class="bi bi-three-dots-vertical"></i>
+            <span>More</span>
+        </div>
+    </nav>
+
+    <!-- Enhanced Sidebar (Hidden by default) -->
+    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
+        <div class="sidebar-header">
+            <div class="logo-section">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" class="logo">
+                <h4 class="app-name">Quran Cast</h4>
+            </div>
+            <button class="sidebar-toggle enhanced-sidebar-toggle" onclick="toggleSidebar()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">القائمة الرئيسية</h6>
+                <a href="index.html" class="sidebar-nav-item">
+                    <i class="bi bi-book-open"></i>
+                    <span>القرآن الكريم</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="prayer-qibla.html" class="sidebar-nav-item">
+                    <i class="bi bi-clock"></i>
+                    <span>الصلاة والقبلة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="hadith.html" class="sidebar-nav-item">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>الأحاديث</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="reading.html" class="sidebar-nav-item">
+                    <i class="bi bi-book"></i>
+                    <span>القراءة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="player.html" class="sidebar-nav-item active">
+                    <i class="bi bi-ear"></i>
+                    <span>المشغل الصوتي</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </div>
+
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">إعدادات سريعة</h6>
+                <button class="sidebar-nav-item" onclick="toggleTheme()">
+                    <i class="bi bi-moon-stars"></i>
+                    <span>تبديل الوضع</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="nav-section">
+                <h6 class="nav-section-title">معلومات التطبيق</h6>
+                <div class="sidebar-info">
+                    <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
+                    <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/player.js"></script>
+    <script>
+        // Player page specific functions
+        function goToMainPage() {
+            window.location.href = 'index.html';
+        }
+
+        // Toggle sidebar function
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+                    sidebar.style.display = 'block';
+                    sidebar.classList.add('show');
+                } else {
+                    sidebar.classList.remove('show');
+                    setTimeout(() => {
+                        sidebar.style.display = 'none';
+                    }, 300);
+                }
+            }
+        }
+
+        // Show surah list
+        function showSurahList() {
+            document.getElementById('playerList').style.display = 'none';
+            document.getElementById('surahListSection').style.display = 'block';
+            loadSurahList();
+        }
+
+        // Hide surah list
+        function hideSurahList() {
+            document.getElementById('surahListSection').style.display = 'none';
+            document.getElementById('playerList').style.display = 'block';
+        }
+
+        // Load surah list
+        function loadSurahList() {
+            const surahGrid = document.getElementById('surahGrid');
+            if (surahGrid.children.length === 0) {
+                // Load surahs from main page data or create default list
+                const surahs = [
+                    { number: 1, name: 'الفاتحة', arabicName: 'Al-Fatiha', verses: 7, type: 'مكية' },
+                    { number: 2, name: 'البقرة', arabicName: 'Al-Baqarah', verses: 286, type: 'مدنية' },
+                    { number: 3, name: 'آل عمران', arabicName: 'Aal-Imran', verses: 200, type: 'مدنية' },
+                    { number: 4, name: 'النساء', arabicName: 'An-Nisa', verses: 176, type: 'مدنية' },
+                    { number: 5, name: 'المائدة', arabicName: 'Al-Ma\'idah', verses: 120, type: 'مدنية' },
+                    { number: 6, name: 'الأنعام', arabicName: 'Al-An\'am', verses: 165, type: 'مكية' },
+                    { number: 7, name: 'الأعراف', arabicName: 'Al-A\'raf', verses: 206, type: 'مكية' },
+                    { number: 8, name: 'الأنفال', arabicName: 'Al-Anfal', verses: 75, type: 'مدنية' },
+                    { number: 9, name: 'التوبة', arabicName: 'At-Tawbah', verses: 129, type: 'مدنية' },
+                    { number: 10, name: 'يونس', arabicName: 'Yunus', verses: 109, type: 'مكية' }
+                ];
+
+                surahs.forEach(surah => {
+                    const surahCard = document.createElement('div');
+                    surahCard.className = 'surah-card';
+                    surahCard.innerHTML = `
+                        <div class="surah-number">${surah.number}</div>
+                        <div class="surah-info">
+                            <h5 class="surah-name">${surah.name}</h5>
+                            <p class="surah-details">${surah.arabicName} • ${surah.verses} آية • ${surah.type}</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="selectSurah(${surah.number})">
+                            <i class="bi bi-play me-1"></i>تشغيل
+                        </button>
+                    `;
+                    surahGrid.appendChild(surahCard);
+                });
+            }
+        }
+
+        // Select surah for playing
+        function selectSurah(surahNumber) {
+            // Here you can implement the logic to start playing the selected surah
+            console.log(`Selected surah: ${surahNumber}`);
+            // For now, just hide the surah list
+            hideSurahList();
+            // You can add more logic here to start playing the surah
+        }
+
+        // Initialize player page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize theme
+            initializeTheme();
+
+            // Initialize audio player
+            initializeAudioPlayer();
+        });
+    </script>
+</body>
+
+</html>

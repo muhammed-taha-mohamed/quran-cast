@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quran Cast - القرآن الكريم</title>
+    <meta name="description" content="Quran Cast — تلاوة القرآن الكريم مع مشغل أنيق، بحث في السور والآيات، ووضع ليلي.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Almarai:wght@300;400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- Top Navigation - Desktop Only -->
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prayer-qibla.html">
+                            <i class="bi bi-clock me-2"></i>الصلاة والقبلة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hadith.html">
+                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Theme Toggle -->
+                <div class="navbar-nav">
+                    <button class="btn theme-toggle btn-sm" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                        <i class="bi bi-moon-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enhanced Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start enhanced-sidebar" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header">
+            <div class="sidebar-brand d-flex align-items-center">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40"
+                    class="rounded-circle me-3">
+                <h5 class="offcanvas-title mb-0">Quran Cast</h5>
+            </div>
+            <button type="button" class="btn-close enhanced-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="sidebar-nav">
+                <div class="nav-section mb-4">
+                    <h6 class="nav-section-title">القائمة الرئيسية</h6>
+                    <a href="index.html" class="sidebar-nav-item active">
+                        <i class="bi bi-book-open"></i>
+                        <span>القرآن الكريم</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a href="prayer-qibla.html" class="sidebar-nav-item">
+                        <i class="bi bi-clock"></i>
+                        <span>الصلاة والقبلة</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a href="hadith.html" class="sidebar-nav-item">
+                        <i class="bi bi-chat-quote"></i>
+                        <span>الأحاديث</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a href="reading.html" class="sidebar-nav-item">
+                        <i class="bi bi-book"></i>
+                        <span>القراءة</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a href="player.html" class="sidebar-nav-item">
+                        <i class="bi bi-ear"></i>
+                        <span>المشغل</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </div>
+
+                <div class="nav-section mb-4">
+                    <h6 class="nav-section-title">إعدادات سريعة</h6>
+                    <button class="sidebar-nav-item" onclick="toggleTheme()">
+                        <i class="bi bi-moon-stars"></i>
+                        <span>تبديل الوضع</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <h6 class="nav-section-title">معلومات التطبيق</h6>
+                    <div class="sidebar-info">
+                        <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
+                        <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container" style="margin-top: 80px;">
+        <!-- Hero Section -->
+        <div style="border-radius: 0%; width: 100%;" class="hero-section quran-hero bg-image text-center mb-5">
+            <!-- Mobile Video Background -->
+            <video style="border-radius: 0" autoplay muted loop playsinline class="d-md-none">
+                <source src="media/vedios/quran_page_mobile.mp4" type="video/mp4">
+            </video>
+
+            <!-- Mobile Stats (Top Position) -->
+            <div class="mobile-stats-box d-md-none">
+                <div class="quran-info-card-mobile">
+                    <div class="quran-stats-row-mobile">
+                        <div class="quran-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">عدد السور</div>
+                                <div class="stat-value">114</div>
+                            </div>
+                        </div>
+                        <div class="quran-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">عدد الآيات</div>
+                                <div class="stat-value">6236</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quran-stat-item-mobile readings-stat">
+                        <div class="stat-content">
+                            <div class="stat-label">القراءات</div>
+                            <div class="stat-value">7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Stats (Center Position) -->
+            <div class="hero-content d-none d-md-block">
+                <div class="row justify-content-center">
+                    <div>
+                        <!-- Enhanced Quran Info Card -->
+                        <div class="quran-info-card enhanced-prayer-card">
+                            <div class="quran-info-content">
+                                <div class="quran-stats-row prayer-stats-row">
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">عدد السور</div>
+                                            <div class="stat-value">114</div>
+                                        </div>
+                                    </div>
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">عدد الآيات</div>
+                                            <div class="stat-value">6236</div>
+                                        </div>
+                                    </div>
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">القراءات</div>
+                                            <div class="stat-value">7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Mode Selection Modal -->
+        <div id="modeSelection" class="modal fade" tabindex="-1" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" onclick="closeModeModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mode-buttons">
+                            <div class="mode-btn" onclick="selectReadingMode()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-book" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                                </svg>
+                                <span style="font-size: 16px;">قراءة</span>
+                                <small style="font-size: 12px;">قراءة الآيات مع التفسير</small>
+                            </div>
+                            <div class="mode-btn" onclick="selectListeningMode()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-ear" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.5 1A4.5 4.5 0 0 0 4 5.5v7.047a2.453 2.453 0 0 0 4.75.861l.512-1.363a5.6 5.6 0 0 1 .816-1.46l2.008-2.581A4.34 4.34 0 0 0 8.66 1zM3 5.5A5.5 5.5 0 0 1 8.5 0h.16a5.34 5.34 0 0 1 4.215 8.618l-2.008 2.581a4.6 4.6 0 0 0-.67 1.197l-.51 1.363A3.453 3.453 0 0 1 3 12.547zM8.5 4A1.5 1.5 0 0 0 7 5.5v2.695q.168-.09.332-.192c.327-.208.577-.44.72-.727a.5.5 0 1 1 .895.448c-.256.513-.673.865-1.079 1.123A9 9 0 0 1 7 9.313V11.5a.5.5 0 0 1-1 0v-6a2.5 2.5 0 0 1 5 0V6a.5.5 0 0 1-1 0v-.5A1.5 1.5 0 0 0 8.5 4" />
+                                </svg>
+                                <span style="font-size: 16px;">استماع</span>
+                                <small style="font-size: 12px;">الاستماع للآيات مع مشغل صوتي</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Audio Player Section (Merged with Listening) -->
+        <div id="listeningSection" class="card enhanced-player" style="display: none;">
+            <!-- Player Header -->
+            <div class="player-header">oenhanced-back-btn" onclick="showSurahList()">
+                <i class="bi bi-arrow-right me-2"></i>
+                قائمة السور
+                </button>
+            </div>
+
+            <!-- Player Info -->
+
+        </div>
+
+
+
+        <!-- Quran Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="search-bar" role="search">
+
+                            <input id="search" placeholder="ابحث في القرآن" aria-label="بحث في القرآن" />
+                        </div>
+                    </div>
+                    <div class="list" id="surahList" aria-live="polite"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Mode Section -->
+        <div id="readingSection" class="card mushaf-view" style="display: none;">
+            <div class="content">
+                <div class="section-header">
+                    <div class="reading-header">
+                        <h3 id="readingTitle" class="surah-title"> اسم السورة</h3>
+                        <div class="reading-controls">
+                            <!-- Font Settings Control -->
+                            <div class="font-controls">
+                                <button class="control-btn font-btn" id="fontSettingsBtn"
+                                    onclick="toggleFontSettingsMenu()" title="إعدادات الفونت">
+                                    <i class="bi bi-gear-fill"></i>
+                                </button>
+                            </div>
+
+                            <button class="control-btn" id="showTafsir" onclick="toggleTafsir()" title="التفسير">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-badge-cc" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.708 7.755c0-1.111.488-1.753 1.319-1.753.681 0 1.138.47 1.186 1.107H7.36V7c-.052-1.186-1.024-2-2.342-2C3.414 5 2.5 6.05 2.5 7.751v.747c0 1.7.905 2.73 2.518 2.73 1.314 0 2.285-.792 2.342-1.939v-.114H6.213c-.048.615-.496 1.05-1.186 1.05-.84 0-1.319-.62-1.319-1.727zm6.14 0c0-1.111.488-1.753 1.318-1.753.682 0 1.139.47 1.187 1.107H13.5V7c-.053-1.186-1.024-2-2.342-2C9.554 5 8.64 6.05 8.64 7.751v.747c0 1.7.905 2.73 2.518 2.73 1.314 0 2.285-.792 2.342-1.939v-.114h-1.147c-.048.615-.497 1.05-1.187 1.05-.839 0-1.318-.62-1.318-1.727z" />
+                                    <path
+                                        d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+                                </svg>
+                            </button>
+                            <button class="control-btn" id="showTranslation" onclick="toggleTranslation()"
+                                title="الترجمة">
+                                <i class="bi bi-translate"></i>
+                            </button>
+                            <button class="back-btn" onclick="showSurahList()" title="قائمة السور">
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Font Settings Menu -->
+                    <div class="font-menus">
+                        <div id="fontSettingsMenu" class="font-menu" style="display: none;">
+                            <div class="font-menu-header">
+                                <h6>إعدادات الفونت</h6>
+                                <button class="close-menu" onclick="toggleFontSettingsMenu()">×</button>
+                            </div>
+                            <div class="font-menu-content">
+                                <!-- Font Size Section -->
+                                <div class="settings-section">
+                                    <h6 class="section-title">حجم الخط</h6>
+                                    <div class="settings-options">
+                                        <button class="font-option" onclick="changeFontSize('small')">صغير</button>
+                                        <button class="font-option" onclick="changeFontSize('medium')">متوسط</button>
+                                        <button class="font-option" onclick="changeFontSize('large')">كبير</button>
+                                        <button class="font-option" onclick="changeFontSize('xlarge')">كبير
+                                            جداً</button>
+                                    </div>
+                                </div>
+
+                                <!-- Font Family Section -->
+                                <div class="settings-section">
+                                    <h6 class="section-title">نوع الخط</h6>
+                                    <div class="settings-options">
+                                        <button class="font-option" onclick="changeFontFamily('Amiri')">أميري
+                                            (كلاسيكي)</button>
+                                        <button class="font-option"
+                                            onclick="changeFontFamily('Scheherazade New')">شهرزاد (واضح)</button>
+                                        <button class="font-option"
+                                            onclick="changeFontFamily('Noto Nastaliq Urdu')">نستعليق (أنيق)</button>
+                                        <button class="font-option" onclick="changeFontFamily('Reem Kufi')">كوفي
+                                            (تقليدي)</button>
+                                        <button class="font-option" onclick="changeFontFamily('Almarai')">المارعي
+                                            (حديث)</button>
+                                    </div>
+                                </div>
+
+                                <!-- Line Height Section -->
+                                <div class="settings-section">
+                                    <h6 class="section-title">ارتفاع السطر</h6>
+                                    <div class="settings-options">
+                                        <button class="font-option" onclick="changeLineHeight('tight')">مضغوط</button>
+                                        <button class="font-option" onclick="changeLineHeight('normal')">عادي</button>
+                                        <button class="font-option" onclick="changeLineHeight('relaxed')">مريح</button>
+                                        <button class="font-option" onclick="changeLineHeight('loose')">واسع</button>
+                                    </div>
+                                </div>
+
+                                <!-- OK Button -->
+                                <div class="ok-button-section">
+                                    <button class="ok-btn" onclick="applyFontSettings()">موافق</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mushaf-view" id="readingList"></div>
+        </div>
+
+
+    </main>
+
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer style="height: 20px;">
+
+    </footer>
+
+    <!-- Bottom Navigation Bar - Mobile Only -->
+    <nav class="bottom-navbar">
+        <div class="nav-item active" onclick="window.location.href='index.html'">
+            <i class="bi bi-book-half"></i>
+            <span>القرآن</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
+            <i class="bi bi-clock"></i>
+            <span>الأذان</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='hadith.html'">
+            <i class="bi bi-chat-quote"></i>
+            <span>الأحاديث</span>
+        </div>
+        <div class="nav-item more-btn" onclick="toggleSidebar()">
+            <i class="bi bi-three-dots-vertical"></i>
+            <span>More</span>
+        </div>
+    </nav>
+
+    <!-- Enhanced Sidebar (Hidden by default) -->
+    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
+        <div class="sidebar-header">
+            <div class="logo-section">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" class="logo">
+                <h4 class="app-name">Quran Cast</h4>
+            </div>
+            <button class="sidebar-toggle enhanced-sidebar-toggle" onclick="toggleSidebar()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">القائمة الرئيسية</h6>
+                <a href="index.html" class="sidebar-nav-item active">
+                    <i class="bi bi-book-open"></i>
+                    <span>القرآن الكريم</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="prayer-qibla.html" class="sidebar-nav-item">
+                    <i class="bi bi-clock"></i>
+                    <span>الصلاة والقبلة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="hadith.html" class="sidebar-nav-item">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>الأحاديث</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="reading.html" class="sidebar-nav-item">
+                    <i class="bi bi-book"></i>
+                    <span>القراءة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="player.html" class="sidebar-nav-item">
+                    <i class="bi bi-ear"></i>
+                    <span>المشغل</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </div>
+
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">إعدادات سريعة</h6>
+                <button class="sidebar-nav-item" onclick="toggleTheme()">
+                    <i class="bi bi-moon-stars"></i>
+                    <span>تبديل الوضع</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="nav-section">
+                <h6 class="nav-section-title">معلومات التطبيق</h6>
+                <div class="sidebar-info">
+                    <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
+                    <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
