@@ -14,7 +14,7 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="styles/main.css">
 
-    
+
 </head>
 
 <body>
@@ -31,37 +31,38 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">
-                            <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                            <i class="bi me-2"></i> الرئيسية
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="player.html">
-                            <i class="bi bi-play-circle me-2"></i>المشغل
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="reading.html">
-                            <i class="bi bi-book me-2"></i>القراءة
-                        </a>
-                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="prayer-qibla.html">
-                            <i class="bi bi-clock me-2"></i>الصلاة والقبلة
+                            <i class="bi me-2"></i>الصلاة والقبلة
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="player.html">
+                            <i class="bi me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="hadith.html">
-                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                            <i class="bi me-2"></i>الأحاديث
                         </a>
                     </li>
                 </ul>
 
                 <!-- Theme Toggle -->
                 <div class="navbar-nav">
-                    <button class="btn theme-toggle btn-sm" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                    <button class="btn theme-toggle" onclick="toggleTheme()" title="تبديل الوضع المظلم">
                         <i class="bi bi-moon-fill" id="themeIcon"></i>
                     </button>
                 </div>
+
             </div>
         </div>
     </nav>
@@ -160,7 +161,8 @@
                     <i class="bi bi-skip-forward"></i>
                     التالي
                 </button>
-                <button id="showTafsirMain" class="btn btn-outline-secondary" onclick="toggleTafsir()" title="إظهار/إخفاء التفسير">
+                <button id="showTafsirMain" class="btn btn-outline-secondary" onclick="toggleTafsir()"
+                    title="إظهار/إخفاء التفسير">
                     <i class="bi bi-book-open"></i>
                     التفسير
                 </button>
@@ -215,27 +217,27 @@
 
     <script>
         // خريطة القراء إلى أكواد الإصدارات (editions) في API
-        
+
         const RECITERS = [
-  { name: 'مشاري راشد العفاسي', code: 'ar.alafasy' },
-  { name: 'عبد الباسط عبد الصمد (مرتل)', code: 'ar.abdulbasitmurattal' },
-  { name: 'عبد الباسط عبد الصمد (مجود)', code: 'ar.abdulbasitmujawwad' },
-  { name: 'محمد صديق المنشاوي (مرتل)', code: 'ar.minshawi' },
-  { name: 'محمد صديق المنشاوي (مجود)', code: 'ar.minshawimujawwad' },
-  { name: 'عبد الرحمن السديس', code: 'ar.abdurrahmaansudais' },
-  { name: 'محمود خليل الحصري (مرتل)', code: 'ar.husary' },
-  { name: 'محمود خليل الحصري (مجود)', code: 'ar.husarymujawwad' },
-  { name: 'سعود الشريم', code: 'ar.saoodshuraym' },
-  { name: 'محمد أيوب', code: 'ar.muhammadayyoub' },
-  { name: ' ابو بكر الشاطري', code: 'ar.shaatree' },
-  { name: '  احمد بن علي العجمي', code: 'ar.ahmedajamy' },
-  { name:  ' ماهر المعيقلي'    , code: 'ar.ahmedajamy' },
+            { name: 'مشاري راشد العفاسي', code: 'ar.alafasy' },
+            { name: 'عبد الباسط عبد الصمد (مرتل)', code: 'ar.abdulbasitmurattal' },
+            { name: 'عبد الباسط عبد الصمد (مجود)', code: 'ar.abdulbasitmujawwad' },
+            { name: 'محمد صديق المنشاوي (مرتل)', code: 'ar.minshawi' },
+            { name: 'محمد صديق المنشاوي (مجود)', code: 'ar.minshawimujawwad' },
+            { name: 'عبد الرحمن السديس', code: 'ar.abdurrahmaansudais' },
+            { name: 'محمود خليل الحصري (مرتل)', code: 'ar.husary' },
+            { name: 'محمود خليل الحصري (مجود)', code: 'ar.husarymujawwad' },
+            { name: 'سعود الشريم', code: 'ar.saoodshuraym' },
+            { name: 'محمد أيوب', code: 'ar.muhammadayyoub' },
+            { name: ' ابو بكر الشاطري', code: 'ar.shaatree' },
+            { name: '  احمد بن علي العجمي', code: 'ar.ahmedajamy' },
+            { name: ' ماهر المعيقلي', code: 'ar.ahmedajamy' },
 
-  
 
-  
- 
-];
+
+
+
+        ];
 
 
 
@@ -280,7 +282,7 @@
                 surahs = Array.from({ length: 114 }, (_, i) => ({ number: i + 1, name: `سورة ${i + 1}` }));
             }
             renderSurahOptions();
-            
+
             // تحقق من وجود سورة مختارة من الصفحة الرئيسية
             checkForSelectedSurah();
         }
@@ -292,13 +294,13 @@
                 try {
                     const surahData = JSON.parse(selectedSurah);
                     console.log('تم العثور على سورة مختارة:', surahData);
-                    
+
                     // تعيين السورة المختارة
                     surahSelect.value = surahData.number;
-                    
+
                     // تحميل السورة
                     selectSurah(surahData.number, true);
-                    
+
                     // مسح البيانات من localStorage
                     localStorage.removeItem('qc-selected-surah');
                 } catch (error) {
@@ -455,7 +457,7 @@
                 const tafsirUrl = `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}/ar.muyassar`;
                 const tafsirRes = await fetch(tafsirUrl);
                 const tafsirData = await tafsirRes.json();
-                
+
                 if (tafsirData.status === 'OK') {
                     tafsirText.textContent = tafsirData.data.text;
                 } else {
@@ -501,7 +503,7 @@
                 // السورة انتهت، ابحث عن السورة التالية
                 const currentSurahNumber = Number(surahSelect.value);
                 const nextSurahNumber = currentSurahNumber + 1;
-                
+
                 if (nextSurahNumber <= 114) {
                     // تحميل السورة التالية وتشغيلها تلقائياً
                     const nextSurah = surahs.find(s => s.number === nextSurahNumber);
@@ -656,6 +658,182 @@
             surahSelect.value = '1';
             // لا تشغل تلقائياً عند التحميل الأولي
             selectSurah(1, false);
+        });
+    </script>
+
+    <!-- Bottom Navigation Bar - Mobile Only -->
+    <nav class="bottom-navbar">
+
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="bi bi-house-door"></i>
+            <span>الرئيسية</span>
+        </div>
+
+
+        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
+            <i class="bi bi-clock"></i>
+            <span>الصلاة</span>
+        </div>
+
+        <div class="nav-item active" onclick="window.location.href='player.html'">
+            <i class="bi bi-book-half"></i>
+            <span>القرآن</span>
+        </div>
+
+
+        <div class="nav-item" onclick="window.location.href='hadith.html'">
+            <i class="bi bi-chat-quote"></i>
+            <span>الأحاديث</span>
+        </div>
+
+        <div class="nav-item more-btn" onclick="toggleSidebar()">
+            <i class="bi bi-three-dots"></i>
+            <span>المزيد</span>
+        </div>
+    </nav>
+
+    <!-- Enhanced Sidebar (Hidden by default) -->
+    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
+        <div class="sidebar-header">
+            <div class="logo-section">
+
+                <h4 class="app-name">Quran Cast</h4>
+            </div>
+
+        </div>
+        <div class="sidebar-content">
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">القائمة الرئيسية</h6>
+                <a href="index.html" class="sidebar-nav-item">
+                    <i class="bi bi-book-open"></i>
+                    <span>القرآن الكريم</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="prayer-qibla.html" class="sidebar-nav-item">
+                    <i class="bi bi-clock"></i>
+                    <span>الصلاة والقبلة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="hadith.html" class="sidebar-nav-item">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>الأحاديث</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="reading.html" class="sidebar-nav-item">
+                    <i class="bi bi-book"></i>
+                    <span>القراءة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="player.html" class="sidebar-nav-item active">
+                    <i class="bi bi-ear"></i>
+                    <span>المشغل</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </div>
+
+            <div class="nav-section mb-4">
+                <h6 class="nav-section-title">إعدادات سريعة</h6>
+                <button class="sidebar-nav-item" onclick="toggleTheme()">
+                    <i class="bi bi-moon-stars"></i>
+                    <span>تبديل الوضع</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+
+            <div class="nav-section mb-4">
+
+                <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
+                    onclick="toggleSidebar()">
+                    <span> اغلاق</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <!-- Quran Mode Selection Modal -->
+    <div class="modal fade" id="quranModeModal" tabindex="-1" aria-labelledby="quranModeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center pb-4">
+                    <div class="quran-mode-icon mb-4">
+                        <i class="bi bi-book-open display-1 text-primary"></i>
+                    </div>
+                    <h4 class="modal-title mb-4" id="quranModeModalLabel">اختر وضع القرآن الكريم</h4>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="quran-mode-option" onclick="selectQuranMode('listening')">
+                                <div class="mode-icon mb-3">
+                                    <i class="bi bi-ear display-4 text-success"></i>
+                                </div>
+                                <h5 class="mode-title">الاستماع</h5>
+                                <p class="mode-description text-muted">استمع إلى تلاوات عطرة</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="quran-mode-option" onclick="selectQuranMode('reading')">
+                                <div class="mode-icon mb-3">
+                                    <i class="bi bi-book display-4 text-info"></i>
+                                </div>
+                                <h5 class="mode-title">القراءة</h5>
+                                <p class="mode-description text-muted">اقرأ القرآن مع التفسير</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quran Mode Selection Functions
+        function selectQuranMode(mode) {
+            if (mode === 'listening') {
+                window.location.href = 'player.html';
+            } else if (mode === 'reading') {
+                window.location.href = 'reading.html';
+            }
+        }
+
+        // Show Quran Mode Modal for Quran-related navigation items
+        function showQuranModeModal() {
+            const modal = new bootstrap.Modal(document.getElementById('quranModeModal'));
+            modal.show();
+        }
+
+        // Add click event listeners to Quran navigation items
+        document.addEventListener('DOMContentLoaded', function () {
+            // Desktop navbar Quran link
+            const desktopQuranLink = document.querySelector('.navbar-nav .nav-item a[href="player.html"]');
+            if (desktopQuranLink) {
+                desktopQuranLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showQuranModeModal();
+                });
+            }
+
+            // Bottom navbar Quran item
+            const bottomQuranItem = document.querySelector('.bottom-navbar .nav-item[onclick*="player.html"]');
+            if (bottomQuranItem) {
+                bottomQuranItem.setAttribute('onclick', 'showQuranModeModal()');
+            }
+
+            // Sidebar Quran link
+            const sidebarQuranLink = document.querySelector('.sidebar .sidebar-nav-item[href="player.html"]');
+            if (sidebarQuranLink) {
+                sidebarQuranLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showQuranModeModal();
+                });
+            }
         });
     </script>
 </body>

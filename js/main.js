@@ -2738,7 +2738,7 @@ function toggleSidebar() {
             // Force reflow to ensure display change takes effect
             sidebar.offsetHeight;
             sidebar.classList.add('show');
-            
+
             // Add click outside listener when sidebar is shown
             addSidebarClickOutsideListener();
         } else {
@@ -2749,7 +2749,7 @@ function toggleSidebar() {
                 sidebar.style.display = 'none';
                 sidebar.style.animation = '';
             }, 400);
-            
+
             // Remove click outside listener when sidebar is hidden
             removeSidebarClickOutsideListener();
         }
@@ -2760,7 +2760,7 @@ function toggleSidebar() {
 function addSidebarClickOutsideListener() {
     // Remove existing listener if any
     removeSidebarClickOutsideListener();
-    
+
     // Add new listener
     document.addEventListener('click', handleSidebarClickOutside);
 }
@@ -2774,9 +2774,9 @@ function removeSidebarClickOutsideListener() {
 function handleSidebarClickOutside(event) {
     const sidebar = document.getElementById('sidebar');
     const moreBtn = document.querySelector('.more-btn');
-    
+
     if (!sidebar || !moreBtn) return;
-    
+
     // Check if click is outside sidebar and not on the more button
     if (!sidebar.contains(event.target) && !moreBtn.contains(event.target)) {
         // Close sidebar
@@ -2786,7 +2786,7 @@ function handleSidebarClickOutside(event) {
             sidebar.style.display = 'none';
             sidebar.style.animation = '';
         }, 400);
-        
+
         // Remove click outside listener
         removeSidebarClickOutsideListener();
     }
