@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
@@ -19,8 +19,9 @@
 </head>
 
 <body>
-    <!-- Top Navigation - Desktop Only -->
-    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
+
+     <!-- Top Navigation - Desktop Only -->
+     <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index.html">
                 <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
@@ -31,220 +32,141 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">
-                            <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                            <i class="bi me-2"></i> الرئيسية
                         </a>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link active" href="prayer-qibla.html">
-                            <i class="bi bi-clock me-2"></i>الصلاة والقبلة
+                            <i class="bi me-2"></i>الصلاة والقبلة
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="player.html">
+                            <i class="bi me-2"></i>المشغل
+                        </a>
+                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="hadith.html">
-                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                            <i class="bi me-2"></i>الأحاديث
                         </a>
                     </li>
                 </ul>
 
                 <!-- Theme Toggle -->
                 <div class="navbar-nav">
-                    <button class="btn theme-toggle btn-sm" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                    <button class="btn theme-toggle" onclick="toggleTheme()" title="تبديل الوضع المظلم">
                         <i class="bi bi-moon-fill" id="themeIcon"></i>
                     </button>
                 </div>
+
             </div>
         </div>
     </nav>
 
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="bottom-navbar">
-        <div class="nav-item" onclick="window.location.href='index.html'">
-            <i class="bi bi-book-half"></i>
-            <span>القرآن</span>
-        </div>
-        <div class="nav-item active" onclick="window.location.href='prayer-qibla.html'">
-            <i class="bi bi-clock"></i>
-            <span>الأذان</span>
-        </div>
-        <div class="nav-item" onclick="window.location.href='hadith.html'">
-            <i class="bi bi-chat-quote"></i>
-            <span>الأحاديث</span>
-        </div>
-        <div class="nav-item more-btn" onclick="toggleSidebar()">
-            <i class="bi bi-three-dots-vertical"></i>
-            <span>More</span>
-        </div>
-    </nav>
+   <!-- Bottom Navigation Bar - Mobile Only -->
+   <nav class="bottom-navbar">
+        
+    <div class="nav-item" onclick="window.location.href='index.html'">
+        <i class="bi bi-house-door"></i>
+        <span>الرئيسية</span>
+    </div>
 
-    <!-- Enhanced Sidebar (Hidden by default) -->
-    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
-        <div class="sidebar-header">
-            <div class="logo-section">
-                <img src="media/images/logo.jpg" alt="Quran Cast Logo" class="logo">
-                <h4 class="app-name">Quran Cast</h4>
-            </div>
-            <button class="sidebar-toggle enhanced-sidebar-toggle" onclick="toggleSidebar()">
-                <i class="bi bi-x-lg"></i>
+
+    <div class="nav-item active" onclick="window.location.href='prayer-qibla.html'">
+        <i class="bi bi-clock"></i>
+        <span>الصلاة</span>
+    </div>
+
+    <div class="nav-item" onclick="window.location.href='player.html'">
+        <i class="bi bi-book-half"></i>
+        <span>القرآن</span>
+    </div>
+
+    
+    <div class="nav-item" onclick="window.location.href='hadith.html'">
+        <i class="bi bi-chat-quote"></i>
+        <span>الأحاديث</span>
+    </div>
+
+    <div class="nav-item more-btn" onclick="toggleSidebar()">
+        <i class="bi bi-three-dots"></i>
+        <span>المزيد</span>
+    </div>
+</nav>
+
+   <!-- Enhanced Sidebar (Hidden by default) -->
+   <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
+    <div class="sidebar-header">
+        <div class="logo-section">
+
+            <h4 class="app-name">Quran Cast</h4>
+        </div>
+
+    </div>
+    <div class="sidebar-content">
+        <div class="nav-section mb-4">
+            <h6 class="nav-section-title">القائمة الرئيسية</h6>
+            <a href="index.html" class="sidebar-nav-item ">
+                <i class="bi bi-book-open"></i>
+                <span>القرآن الكريم</span>
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <a href="prayer-qibla.html" class="sidebar-nav-item active">
+                <i class="bi bi-clock"></i>
+                <span>الصلاة والقبلة</span>
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <a href="hadith.html" class="sidebar-nav-item">
+                <i class="bi bi-chat-quote"></i>
+                <span>الأحاديث</span>
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <a href="reading.html" class="sidebar-nav-item">
+                <i class="bi bi-book"></i>
+                <span>القراءة</span>
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <a href="player.html" class="sidebar-nav-item">
+                <i class="bi bi-ear"></i>
+                <span>المشغل</span>
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        </div>
+
+        <div class="nav-section mb-4">
+            <h6 class="nav-section-title">إعدادات سريعة</h6>
+            <button class="sidebar-nav-item" onclick="toggleTheme()">
+                <i class="bi bi-moon-stars"></i>
+                <span>تبديل الوضع</span>
+                <i class="bi bi-chevron-left"></i>
             </button>
         </div>
 
-        <div class="sidebar-content">
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="index.html" class="sidebar-nav-item">
-                    <i class="bi bi-book-open"></i>
-                    <span>القرآن الكريم</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="prayer-qibla.html" class="sidebar-nav-item active">
-                    <i class="bi bi-clock"></i>
-                    <span>الصلاة والقبلة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="hadith.html" class="sidebar-nav-item">
-                    <i class="bi bi-chat-quote"></i>
-                    <span>الأحاديث</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="#" class="sidebar-nav-item" onclick="showModePopup()">
-                    <i class="bi bi-book"></i>
-                    <span>القراءة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="#" class="sidebar-nav-item" onclick="showModePopup()">
-                    <i class="bi bi-ear"></i>
-                    <span>المشغل</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </div>
 
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">إعدادات سريعة</h6>
-                <button class="sidebar-nav-item" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                    <span>تبديل الوضع</span>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </div>
+        <div class="nav-section mb-4">
 
-            <div class="nav-section">
-                <h6 class="nav-section-title">معلومات التطبيق</h6>
-                <div class="sidebar-info">
-                    <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
-                    <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
-                </div>
-            </div>
+            <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
+                onclick="toggleSidebar()">
+                <span> اغلاق</span>
+                <i class="bi bi-chevron-left"></i>
+            </button>
         </div>
+
+
+
     </div>
+</div>
 
-    <!-- Location Permission Modal -->
-    <div class="modal fade" id="locationPermissionModal" tabindex="-1" aria-labelledby="locationPermissionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content location-modal">
-                <div class="modal-header">
-                    <div class="modal-title-wrapper">
-                        <div class="modal-icon">
-                            <i class="bi bi-geo-alt"></i>
-                        </div>
-                        <div>
-                            <h5 class="modal-title" id="locationPermissionModalLabel">نحتاج إلى موقعك</h5>
-                            <small class="text-muted">لمعرفة مواقيت الصلاة بدقة</small>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="location-benefits">
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="bi bi-clock"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h6>مواقيت الصلاة الدقيقة</h6>
-                                <p>حساب أوقات الصلاة حسب موقعك الجغرافي</p>
-                            </div>
-                        </div>
 
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="bi bi-compass"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h6>اتجاه القبلة الصحيح</h6>
-                                <p>تحديد الاتجاه الدقيق نحو الكعبة المشرفة</p>
-                            </div>
-                        </div>
+   
 
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h6>خصوصية كاملة</h6>
-                                <p>موقعك محفوظ محلياً ولا يتم مشاركته مع أي طرف ثالث</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="location-note">
-                        <div class="note-icon">
-                            <i class="bi bi-info-circle"></i>
-                        </div>
-                        <p>سيتم طلب إذن الموقع من متصفحك. يمكنك رفض الطلب واستخدام موقع افتراضي.</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-2"></i>لاحقاً
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="requestLocationPermission()">
-                        <i class="bi bi-check-circle me-2"></i>السماح بالموقع
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reading and Listening Popup -->
-    <div class="mode-selection-popup" id="modeSelectionPopup" style="display: none;">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h5>اختر المود المناسب</h5>
-            </div>
-            <div class="popup-body">
-                <p>اختر ما يناسبك من القراءة أو الاستماع للقرآن الكريم</p>
-
-                <div class="mode-options">
-                    <div class="mode-option" onclick="goToReading()">
-                        <div class="mode-icon">
-                            <i class="bi bi-book-open"></i>
-                        </div>
-                        <div class="mode-content">
-                            <h6>قراءة القرآن</h6>
-                            <p>اقرأ القرآن الكريم بخط واضح وجميل</p>
-                        </div>
-                    </div>
-
-                    <div class="mode-option" onclick="goToPlayer()">
-                        <div class="mode-icon">
-                            <i class="bi bi-ear"></i>
-                        </div>
-                        <div class="mode-content">
-                            <h6>استماع القرآن</h6>
-                            <p>استمع للقرآن بصوت جميل ومريح</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="popup-actions">
-                <button class="btn btn-outline-secondary" onclick="closeModePopup()">
-                    لاحقاً
-                </button>
-            </div>
-        </div>
-    </div>
+   
 
     <main class="container" style="margin-top: 80px; margin-bottom: 100px;">
 
@@ -353,7 +275,7 @@
                         <div class="d-flex align-items-center">
 
                             <div class="header-content">
-                                <h5 class="mb-0">مواقيت الصلاة اليوم حسب موقعك الجغرافي</h5>
+                                <h5 class="mb-0">مواقيت الصلاة اليوم   </h5>
                             </div>
                         </div>
                         <div class="header-actions">
@@ -424,7 +346,7 @@
                         <div class="d-flex align-items-center">
 
                             <div class="header-content">
-                                <h5 class="mb-0">مواقيت الصلاة اليوم حسب موقعك الجغرافي</h5>
+                                <h5 class="mb-0"> اتجاه القبلة </h5>
                             </div>
                         </div>
                         <div class="header-actions">
@@ -534,7 +456,7 @@
     </main>
 
     <!-- Enhanced Footer -->
-    <footer شيل class="mt-5">
+    <footer class="mt-5">
         <div class="text-center text-muted">
             <small>Quran Cast - تطبيق إسلامي شامل للمسلمين</small>
         </div>

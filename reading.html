@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
@@ -30,8 +30,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">
+                        <a class="nav-link" href="index.html">
                             <i class="bi bi-book-open me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="player.html">
+                            <i class="bi bi-play-circle me-2"></i>المشغل
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reading.html">
+                            <i class="bi bi-book me-2"></i>القراءة
                         </a>
                     </li>
                     <li class="nav-item">
@@ -75,6 +85,16 @@
                         <span>القرآن الكريم</span>
                         <i class="bi bi-chevron-left"></i>
                     </a>
+                    <a href="player.html" class="sidebar-nav-item">
+                        <i class="bi bi-play-circle"></i>
+                        <span>المشغل</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a href="reading.html" class="sidebar-nav-item active">
+                        <i class="bi bi-book"></i>
+                        <span>القراءة</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
                     <a href="prayer-qibla.html" class="sidebar-nav-item">
                         <i class="bi bi-clock"></i>
                         <span>الصلاة والقبلة</span>
@@ -85,7 +105,6 @@
                         <span>الأحاديث</span>
                         <i class="bi bi-chevron-left"></i>
                     </a>
-
                 </div>
 
                 <div class="nav-section mb-4">
@@ -167,6 +186,14 @@
             <i class="bi bi-book-open"></i>
             <span>القرآن</span>
         </div>
+        <div class="nav-item" onclick="window.location.href='player.html'">
+            <i class="bi bi-play-circle"></i>
+            <span>المشغل</span>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='reading.html'">
+            <i class="bi bi-book"></i>
+            <span>القراءة</span>
+        </div>
         <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
             <i class="bi bi-clock"></i>
             <span>الأذان</span>
@@ -174,10 +201,6 @@
         <div class="nav-item" onclick="window.location.href='hadith.html'">
             <i class="bi bi-chat-quote"></i>
             <span>الأحاديث</span>
-        </div>
-        <div class="nav-item more-btn" onclick="toggleSidebar()">
-            <i class="bi bi-three-dots-vertical"></i>
-            <span>More</span>
         </div>
     </nav>
 
@@ -201,6 +224,16 @@
                     <span>القرآن الكريم</span>
                     <i class="bi bi-chevron-left"></i>
                 </a>
+                <a href="player.html" class="sidebar-nav-item">
+                    <i class="bi bi-play-circle"></i>
+                    <span>المشغل</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <a href="reading.html" class="sidebar-nav-item active">
+                    <i class="bi bi-book"></i>
+                    <span>القراءة</span>
+                    <i class="bi bi-chevron-left"></i>
+                </a>
                 <a href="prayer-qibla.html" class="sidebar-nav-item">
                     <i class="bi bi-clock"></i>
                     <span>الصلاة والقبلة</span>
@@ -209,16 +242,6 @@
                 <a href="hadith.html" class="sidebar-nav-item">
                     <i class="bi bi-chat-quote"></i>
                     <span>الأحاديث</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="reading.html" class="sidebar-nav-item active">
-                    <i class="bi bi-book"></i>
-                    <span>القراءة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="player.html" class="sidebar-nav-item">
-                    <i class="bi bi-ear"></i>
-                    <span>المشغل</span>
                     <i class="bi bi-chevron-left"></i>
                 </a>
             </div>

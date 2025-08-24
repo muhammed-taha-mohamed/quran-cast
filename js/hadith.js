@@ -461,6 +461,21 @@ function toggleTheme() {
 
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.getElementById('themeIcon');
+    if (themeIcon) {
+        if (theme === 'dark') {
+            themeIcon.className = 'bi bi-sun-fill';
+            themeIcon.title = 'الوضع النهاري';
+        } else {
+            themeIcon.className = 'bi bi-moon-fill';
+            themeIcon.title = 'الوضع المظلم';
+        }
+    }
 }
 
 // Toggle sidebar function
@@ -468,13 +483,19 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (sidebar) {
         if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+            // Show sidebar with animation
             sidebar.style.display = 'block';
+            // Force reflow to ensure display change takes effect
+            sidebar.offsetHeight;
             sidebar.classList.add('show');
         } else {
+            // Hide sidebar with animation
             sidebar.classList.remove('show');
+            sidebar.style.animation = 'slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             setTimeout(() => {
                 sidebar.style.display = 'none';
-            }, 300);
+                sidebar.style.animation = '';
+            }, 400);
         }
     }
 }

@@ -603,7 +603,11 @@ function showNotification(message, type) {
 // Initialize theme
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
 }
 
 // Theme toggle
@@ -614,12 +618,18 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
 
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
     const themeIcon = document.getElementById('themeIcon');
     if (themeIcon) {
-        if (newTheme === 'dark') {
+        if (theme === 'dark') {
             themeIcon.className = 'bi bi-sun-fill';
+            themeIcon.title = 'الوضع النهاري';
         } else {
             themeIcon.className = 'bi bi-moon-fill';
+            themeIcon.title = 'الوضع المظلم';
         }
     }
 }

@@ -1,4 +1,3 @@
-
 const t = {
     ar: {
         searchPlaceholder: "ابحث برقم او اسم السورة",
@@ -2734,13 +2733,61 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (sidebar) {
         if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+            // Show sidebar with animation
             sidebar.style.display = 'block';
+            // Force reflow to ensure display change takes effect
+            sidebar.offsetHeight;
             sidebar.classList.add('show');
+            
+            // Add click outside listener when sidebar is shown
+            addSidebarClickOutsideListener();
         } else {
+            // Hide sidebar with animation
             sidebar.classList.remove('show');
+            sidebar.style.animation = 'slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             setTimeout(() => {
                 sidebar.style.display = 'none';
-            }, 300);
+                sidebar.style.animation = '';
+            }, 400);
+            
+            // Remove click outside listener when sidebar is hidden
+            removeSidebarClickOutsideListener();
         }
+    }
+}
+
+// Function to add click outside listener
+function addSidebarClickOutsideListener() {
+    // Remove existing listener if any
+    removeSidebarClickOutsideListener();
+    
+    // Add new listener
+    document.addEventListener('click', handleSidebarClickOutside);
+}
+
+// Function to remove click outside listener
+function removeSidebarClickOutsideListener() {
+    document.removeEventListener('click', handleSidebarClickOutside);
+}
+
+// Function to handle clicks outside sidebar
+function handleSidebarClickOutside(event) {
+    const sidebar = document.getElementById('sidebar');
+    const moreBtn = document.querySelector('.more-btn');
+    
+    if (!sidebar || !moreBtn) return;
+    
+    // Check if click is outside sidebar and not on the more button
+    if (!sidebar.contains(event.target) && !moreBtn.contains(event.target)) {
+        // Close sidebar
+        sidebar.classList.remove('show');
+        sidebar.style.animation = 'slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        setTimeout(() => {
+            sidebar.style.display = 'none';
+            sidebar.style.animation = '';
+        }, 400);
+        
+        // Remove click outside listener
+        removeSidebarClickOutsideListener();
     }
 }

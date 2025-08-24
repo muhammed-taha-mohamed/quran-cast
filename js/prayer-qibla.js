@@ -1262,17 +1262,25 @@ function timeToMinutes(timeString) {
 
 // Theme toggle function
 function toggleTheme() {
-    const body = document.body;
-    const themeIcon = document.getElementById('themeIcon');
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-    if (body.getAttribute('data-theme') === 'dark') {
-        body.removeAttribute('data-theme');
-        themeIcon.className = 'bi bi-moon-fill';
-        localStorage.setItem('theme', 'light');
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        themeIcon.className = 'bi bi-sun-fill';
-        localStorage.setItem('theme', 'dark');
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.getElementById('themeIcon');
+    if (themeIcon) {
+        if (theme === 'dark') {
+            themeIcon.className = 'bi bi-sun-fill';
+            themeIcon.title = 'الوضع النهاري';
+        } else {
+            themeIcon.className = 'bi bi-moon-fill';
+            themeIcon.title = 'الوضع المظلم';
+        }
     }
 }
 
@@ -1302,11 +1310,12 @@ function toggleLanguage() {
 
 // Load saved theme
 function loadSavedTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        document.getElementById('themeIcon').className = 'bi bi-sun-fill';
-    }
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
 }
 
 // Initialize theme
@@ -1684,13 +1693,19 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (sidebar) {
         if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+            // Show sidebar with animation
             sidebar.style.display = 'block';
+            // Force reflow to ensure display change takes effect
+            sidebar.offsetHeight;
             sidebar.classList.add('show');
         } else {
+            // Hide sidebar with animation
             sidebar.classList.remove('show');
+            sidebar.style.animation = 'slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             setTimeout(() => {
                 sidebar.style.display = 'none';
-            }, 300);
+                sidebar.style.animation = '';
+            }, 400);
         }
     }
 }
