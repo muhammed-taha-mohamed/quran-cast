@@ -79,7 +79,7 @@
             </div>
         </div>
 
-                <!-- Enhanced Audio Player Section -->
+        <!-- Enhanced Audio Player Section -->
         <div id="listeningSection" class="card enhanced-player">
             <!-- Player Header -->
             <div class="player-header">
@@ -111,11 +111,15 @@
                 <button class="control-btn" onclick="previousAyah()" title="الآية السابقة">
                     <i class="bi bi-skip-backward-fill"></i>
                 </button>
-                <button class="control-btn main-control" onclick="togglePlayPause()" id="playPauseBtn" title="تشغيل/إيقاف">
+                <button class="control-btn main-control" onclick="togglePlayPause()" id="playPauseBtn"
+                    title="تشغيل/إيقاف">
                     <i class="bi bi-play-fill" id="playIcon"></i>
                 </button>
                 <button class="control-btn" onclick="nextAyah()" title="الآية التالية">
                     <i class="bi bi-skip-forward-fill"></i>
+                </button>
+                <button class="control-btn" onclick="toggleRepeat()" id="repeatBtn" title="تكرار">
+                    <i class="bi bi-arrow-repeat"></i>
                 </button>
             </div>
 
@@ -164,6 +168,10 @@
 
             <!-- Player Actions -->
             <div class="player-actions">
+                <button class="action-btn" onclick="stopAudio()">
+                    <i class="bi bi-stop-fill"></i>
+                    إيقاف
+                </button>
                 <button class="action-btn" onclick="downloadAyah()">
                     <i class="bi bi-download"></i>
                     تحميل الآية
@@ -178,38 +186,21 @@
                 </button>
             </div>
 
-            <!-- Ayah List -->
-            <div class="player-list" id="playerList">
-                <!-- Content will be loaded here -->
-                <div class="text-center py-5">
-                    <i class="bi bi-ear display-1 text-muted mb-3"></i>
-                    <h4 class="text-muted">اختر سورة للبدء في الاستماع</h4>
-                    <div class="mt-4">
-                        <button class="btn btn-primary btn-lg me-3" onclick="showSurahList()">
-                            <i class="bi bi-list me-2"></i>قائمة السور
-                        </button>
-                        <button class="btn btn-outline-primary btn-lg" onclick="goToMainPage()">
-                            <i class="bi bi-arrow-right me-2"></i>العودة للصفحة الرئيسية
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Surah List Section (Hidden by default) -->
-            <div class="surah-list-section" id="surahListSection" style="display: none;">
+                        <!-- Surah List Section -->
+            <div class="surah-list-section" id="surahListSection">
                 <div class="section-header d-flex justify-content-between align-items-center mb-4">
                     <h3 class="mb-0">
                         <i class="bi bi-list me-2"></i>قائمة السور
                     </h3>
-                    <button class="btn btn-outline-secondary btn-sm" onclick="hideSurahList()">
-                        <i class="bi bi-x-lg me-2"></i>إغلاق
+                    <button class="btn btn-outline-light btn-sm" onclick="toggleSurahList()">
+                        <i class="bi bi-chevron-up me-2"></i>إخفاء
                     </button>
                 </div>
                 
                 <!-- Search Bar -->
                 <div class="search-container mb-4">
                     <div class="search-bar" role="search">
-                        <i class="bi bi-search text-muted"></i>
+                        <i class="bi bi-search text-white"></i>
                         <input id="surahSearch" placeholder="ابحث في السور..." aria-label="بحث في السور" />
                     </div>
                 </div>
