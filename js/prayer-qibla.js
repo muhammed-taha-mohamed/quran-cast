@@ -50,79 +50,42 @@ document.addEventListener('DOMContentLoaded', function () {
     startCountdown();
 });
 
-// Show location permission popup
-function showLocationPermissionPopup() {
-    return new Promise((resolve) => {
-        // Create popup container
-        const popup = document.createElement('div');
-        popup.className = 'location-permission-popup';
-        popup.innerHTML = `
-            <div class="popup-content">
-                <div class="popup-header">
-                    <h5>طلب إذن الموقع</h5>
-                </div>
-                <div class="popup-body">
-                    <p>نحتاج إلى موقعك لتحديد مواقيت الصلاة واتجاه القبلة بدقة</p>
-                    <div class="popup-actions">
-                        <button class="btn btn-primary" id="allowLocation">
-                            موافق
-                        </button>
-                        <button class="btn btn-outline-secondary" id="denyLocation">
-                            رفض
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        // Add popup to page
-        document.body.appendChild(popup);
-
-        // Add event listeners
-        document.getElementById('allowLocation').addEventListener('click', () => {
-            document.body.removeChild(popup);
-            resolve('allow');
-        });
-
-        document.getElementById('denyLocation').addEventListener('click', () => {
-            document.body.removeChild(popup);
-            resolve('deny');
-        });
-
-        // Don't auto-close, let user decide
-        // User must click one of the buttons to proceed
-    });
-}
-
-// Request location with enhanced error handling
+// Request location directly from browser without popup
 async function requestLocation() {
     try {
-        console.log('Requesting location...');
+        console.log('Requesting location directly from browser...');
 
-        // Show location permission popup
-        const userChoice = await showLocationPermissionPopup();
+        // Check if we have a stored location first
+        const storedLocation = localStorage.getItem('userLocation');
+        if (storedLocation) {
+            try {
+                currentLocation = JSON.parse(storedLocation);
+                console.log('Using stored location:', currentLocation);
 
-        if (userChoice === 'allow') {
-            // User allowed location access
-            console.log('Getting current position...');
-            const position = await getCurrentPosition();
-            console.log('Position received:', position);
-
-            currentLocation = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            };
-
-            console.log('Current location set to:', currentLocation);
-        } else {
-            // User denied location access, use Cairo as default
-            console.log('User denied location access, using Cairo as default');
-            currentLocation = {
-                latitude: 30.0444,
-                longitude: 31.2357
-            };
-            console.log('Default location set to Cairo:', currentLocation);
+                // Load prayer times and qibla direction with stored location
+                await loadPrayerTimes();
+                calculateQiblaDirection();
+                updateHeroStats();
+                return;
+            } catch (error) {
+                console.log('Error parsing stored location, requesting new location...');
+                localStorage.removeItem('userLocation');
+            }
         }
+
+        // Request location directly from browser
+        console.log('Getting current position...');
+        const position = await getCurrentPosition();
+        console.log('Position received:', position);
+
+        currentLocation = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+
+        // Store location in localStorage
+        localStorage.setItem('userLocation', JSON.stringify(currentLocation));
+        console.log('Location stored and current location set to:', currentLocation);
 
         // Load prayer times and qibla direction
         console.log('Loading prayer times...');
@@ -138,6 +101,47 @@ async function requestLocation() {
         console.error('Error getting location:', error);
         handleLocationError(error);
     }
+}
+
+// Update location manually (called from update location button)
+async function updateLocation() {
+    try {
+        console.log('Updating location...');
+
+        // Clear stored location
+        localStorage.removeItem('userLocation');
+
+        // Request new location
+        await requestLocation();
+
+        // Show success message
+        showLocationUpdateMessage('تم تحديث الموقع بنجاح', 'success');
+
+    } catch (error) {
+        console.error('Error updating location:', error);
+        showLocationUpdateMessage('فشل في تحديث الموقع', 'error');
+    }
+}
+
+// Show location update message
+function showLocationUpdateMessage(message, type) {
+    // Create temporary message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    messageDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    messageDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.body.appendChild(messageDiv);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.parentNode.removeChild(messageDiv);
+        }
+    }, 3000);
 }
 
 // Get current position with timeout

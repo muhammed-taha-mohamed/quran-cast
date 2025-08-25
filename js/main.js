@@ -2807,7 +2807,7 @@ function selectReadingMode() {
     if (modal) {
         modal.hide();
     }
-    
+
     // Redirect to reading page
     window.location.href = 'reading.html';
 }
@@ -2819,7 +2819,7 @@ function selectListeningMode() {
     if (modal) {
         modal.hide();
     }
-    
+
     // Redirect to player page
     window.location.href = 'player.html';
 }
