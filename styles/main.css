@@ -255,10 +255,10 @@
 /* Bottom Navigation Bar - Mobile Only */
 .bottom-navbar {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, rgba(23, 163, 184, 0.432), rgba(15, 118, 109, 0.301));
+    bottom: 1%;
+    left: 3%;
+    right: 3%;
+    background: linear-gradient(135deg, rgba(23, 163, 184, 0.507), rgba(15, 118, 109, 0.397));
     border-top: 2px solid var(--primary);
     display: none;
     /* Hidden by default */
@@ -266,9 +266,9 @@
     align-items: center;
     padding: 0.6rem 0;
     z-index: 1000;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(15px);
-    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 20px rgba(49, 48, 48, 0.493);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
 }
 
 /* Show bottom navbar only on mobile */
@@ -306,6 +306,7 @@
 }
 
 .bottom-navbar .nav-item {
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -314,11 +315,10 @@
     padding: 0.5rem;
     border-radius: 15px;
     transition: all 0.3s ease;
-    min-width: 70px;
+    min-width: 18%;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid transparent;
+
 }
 
 .bottom-navbar .nav-item::before {
@@ -348,7 +348,7 @@
 }
 
 .bottom-navbar .nav-item:hover {
-    background: rgba(23, 162, 184, 0.45);
+    background: rgba(23, 163, 184, 0.301);
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
@@ -364,10 +364,10 @@
 }
 
 .bottom-navbar .nav-item.active {
-    background: linear-gradient(135deg, rgba(23, 163, 184, 0.349), rgba(15, 118, 110, 0.6));
+    background: linear-gradient(135deg, rgba(23, 163, 184, 0.082), rgba(15, 118, 110, 0.6));
     box-shadow: 0 4px 20px rgba(23, 162, 184, 0.4);
     border-color: 0 4px 20px rgba(23, 162, 184, 0.4);
-    transform: translateY(-2px);
+    border-radius: 30%;
 }
 
 .bottom-navbar .nav-item.active i,
@@ -625,6 +625,19 @@
     to {
         transform: translateX(100%);
         opacity: 0;
+    }
+}
+
+/* Slide down animation for mobile stats box */
+@keyframes slideDownFromTop {
+    from {
+        transform: translateX(-50%) translateY(-100vh);
+        opacity: 0;
+    }
+    
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
     }
 }
 
@@ -1182,20 +1195,24 @@ a {
     /* Mobile Stats Box - Smaller and positioned below video */
     .mobile-stats-box {
         position: absolute;
-        bottom: 10%;
+        bottom: 15%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 0;
         width: 80%;
-        max-width: 280px;
-        background: rgba(255, 255, 255, 0.05);
+        max-width: 320px;
+        background: rgba(255, 255, 255, 0);
         border-radius: 14px;
         padding: 16px 12px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(8px);
+        backdrop-filter: blur(10px);
         margin-top: 0;
         /* وضع الكارت أسفل أكثر */
+        
+                    /* Slide down animation on page load */
+            animation: slideDownFromTop 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        transform: translateX(-50%) translateY(-100vh);
     }
 
     .stat-item-mobile,
@@ -3236,6 +3253,111 @@ a {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(108, 117, 125, 0.4);
 }
+
+
+
+.quran-popup-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #17a2b8;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 100%;
+    overflow: hidden;
+    animation: slideInUp 0.4s ease;
+    position: relative;
+}
+
+.quran-popup-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+}
+
+.quran-popup-header {
+    background: linear-gradient(135deg, #17a3b894 0%, #0f766e 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.quran-popup-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotateSlow 20s linear infinite;
+}
+
+.quran-popup-header h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.quran-popup-body {
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: white;
+}
+
+.quran-popup-body p {
+    color: var(--text);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.quran-popup-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quran-popup-actions .btn {
+    min-width: 140px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.quran-popup-actions .btn-primary {
+    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
+    border: none;
+    color: white;
+}
+
+.quran-popup-actions .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(23, 162, 184, 0.4);
+}
+
+.quran-popup-actions .btn-outline-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    border: none;
+    color: white;
+}
+
+.quran-popup-actions .btn-outline-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(108, 117, 125, 0.4);
+}
+
 
 @keyframes fadeIn {
     from {
@@ -7773,17 +7895,6 @@ body {
     transform: translateY(-2px);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /* Main Content Layout */
 .main-content {
     margin-top: 80px;
@@ -8278,342 +8389,222 @@ footer a:hover {
     color: #bdc3c7;
 }
 
-/* Quran Mode Selection Modal Styles */
-#quranModeModal .modal-content {
-    border-radius: 25px;
-    border: none;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+/* Simple Quran Mode Modal Styles */
+#quranModeModal .simple-modal {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     position: relative;
 }
 
-#quranModeModal .modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(23, 162, 184, 0.05) 0%, rgba(15, 118, 110, 0.05) 100%);
-    pointer-events: none;
-}
-
-#quranModeModal .modal-header {
-    background: linear-gradient(135deg, #17a2b8 0%, #0f766e 100%);
-    color: white;
-    border-bottom: none;
-    padding: 2rem 2rem 1rem 2rem;
-    position: relative;
-    overflow: hidden;
-}
-
-#quranModeModal .modal-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-    animation: float 6s ease-in-out infinite;
-}
-
-#quranModeModal .modal-body {
-    padding: 2.5rem;
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-}
-
-#quranModeModal .quran-mode-icon {
+#quranModeModal .simple-header {
+    background: rgba(23, 162, 184, 0.1);
     color: #17a2b8;
-    animation: gentlePulse 3s ease-in-out infinite;
+    border-bottom: 1px solid rgba(23, 162, 184, 0.2);
+    padding: 1rem 1.5rem;
     position: relative;
-    z-index: 2;
-    text-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
 }
 
-#quranModeModal .quran-mode-icon::after {
-    content: '';
+#quranModeModal .simple-close {
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.2);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #17a2b8;
+    font-size: 1rem;
+    transition: all 0.3s ease;
     position: absolute;
+    right: 1rem;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, rgba(23, 162, 184, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: -1;
-    animation: gentlePulse 3s ease-in-out infinite reverse;
+    transform: translateY(-50%);
 }
 
-#quranModeModal .quran-mode-icon::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(23, 162, 184, 0.05) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: -2;
-    animation: gentlePulse 4s ease-in-out infinite;
+#quranModeModal .simple-close:hover {
+    background: rgba(23, 162, 184, 0.2);
+    border-color: rgba(23, 162, 184, 0.4);
+    color: #0f766e;
+    transform: translateY(-50%) scale(1.1);
 }
 
-#quranModeModal .quran-mode-option {
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-    border-radius: 24px;
-    padding: 2rem 1.5rem;
+#quranModeModal .simple-body {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#quranModeModal .simple-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#quranModeModal .simple-option {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid #e2e8f0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(23, 162, 184, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
 }
 
-#quranModeModal .quran-mode-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(23, 162, 184, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
-#quranModeModal .quran-mode-option:hover::before {
-    left: 100%;
-}
-
-#quranModeModal .quran-mode-option:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(23, 162, 184, 0.15);
+#quranModeModal .simple-option:hover {
+    transform: translateY(-4px);
     border-color: #17a2b8;
-    background: linear-gradient(145deg, #ffffff, #f0f9ff);
+    box-shadow: 0 8px 24px rgba(23, 162, 184, 0.15);
+    background: rgba(255, 255, 255, 1);
 }
 
-#quranModeModal .quran-mode-option:hover .mode-icon {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
-}
-
-#quranModeModal .quran-mode-option:active {
-    transform: translateY(-4px) scale(1.01);
-}
-
-#quranModeModal .mode-icon {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+#quranModeModal .simple-icon {
+    font-size: 2.5rem;
+    color: #17a2b8;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
     position: relative;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    background: rgba(23, 162, 184, 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(23, 162, 184, 0.2);
 }
 
-#quranModeModal .quran-mode-option:hover .mode-icon {
-    transform: scale(1.15) rotate(5deg);
+#quranModeModal .simple-option:hover .simple-icon {
+    transform: scale(1.05);
+    color: #0f766e;
+    background: rgba(23, 162, 184, 0.15);
+    border-color: rgba(23, 162, 184, 0.4);
 }
 
-#quranModeModal .quran-mode-option:nth-child(1) .mode-icon {
-    color: #10b981;
-}
-
-#quranModeModal .quran-mode-option:nth-child(2) .mode-icon {
-    color: #3b82f6;
-}
-
-#quranModeModal .mode-title {
-    font-weight: 800;
-    margin-bottom: 0.75rem;
-    color: #1e293b;
-    font-size: 1.1rem;
-    letter-spacing: -0.025em;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#quranModeModal .simple-content h6 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #17a2b8;
+    margin-bottom: 0.5rem;
     position: relative;
     z-index: 2;
 }
 
-#quranModeModal .mode-description {
+#quranModeModal .simple-content p {
     font-size: 0.9rem;
-    line-height: 1.5;
-    margin: 0;
     color: #64748b;
-    font-weight: 500;
+    line-height: 1.4;
+    margin: 0;
+    position: relative;
+    z-index: 2;
 }
 
-/* Modal Animation */
-.modal.fade .modal-dialog {
-    transform: scale(0.7) translateY(20px);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* Dark theme support for simple modal */
+[data-theme="dark"] #quranModeModal .simple-modal {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
-.modal.show .modal-dialog {
-    transform: scale(1) translateY(0);
-    opacity: 1;
+[data-theme="dark"] #quranModeModal .simple-header {
+    background: rgba(23, 162, 184, 0.15);
+    border-bottom-color: rgba(23, 162, 184, 0.3);
+    color: #17a2b8;
 }
 
-/* Responsive Design for Modal */
-@media (max-width: 576px) {
-    #quranModeModal .modal-body {
-        padding: 2rem 1.5rem;
-    }
+[data-theme="dark"] #quranModeModal .simple-body {
+    background: rgba(30, 41, 59, 0.8);
+}
 
-    #quranModeModal .modal-header {
-        padding: 1.5rem 1.5rem 1rem 1.5rem;
-    }
+[data-theme="dark"] #quranModeModal .simple-option {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(23, 162, 184, 0.3);
+}
 
-    #quranModeModal .quran-mode-option {
-        padding: 1.5rem 1rem;
-        border-radius: 20px;
-    }
+[data-theme="dark"] #quranModeModal .simple-option:hover {
+    background: rgba(51, 65, 85, 1);
+    border-color: rgba(23, 162, 184, 0.5);
+}
 
-    #quranModeModal .mode-title {
-        font-size: 1rem;
-    }
+[data-theme="dark"] #quranModeModal .simple-icon {
+    background: rgba(23, 162, 184, 0.15);
+    border-color: rgba(23, 162, 184, 0.3);
+}
 
-    #quranModeModal .mode-description {
-        font-size: 0.85rem;
-    }
+[data-theme="dark"] #quranModeModal .simple-option:hover .simple-icon {
+    background: rgba(23, 162, 184, 0.2);
+    border-color: rgba(23, 162, 184, 0.5);
+}
 
-    #quranModeModal .quran-mode-icon {
-        font-size: 3rem !important;
-    }
+[data-theme="dark"] #quranModeModal .simple-content h6 {
+    color: #17a2b8;
+}
 
-    #quranModeModal .mode-icon {
-        font-size: 2.5rem !important;
+[data-theme="dark"] #quranModeModal .simple-content p {
+    color: #cbd5e1;
+}
+
+/* Responsive design for simple modal */
+@media (max-width: 768px) {
+    #quranModeModal .modal-dialog {
+        margin: 1rem;
+    }
+    
+    #quranModeModal .simple-header,
+    #quranModeModal .simple-body {
+        padding: 1rem;
+    }
+    
+    #quranModeModal .simple-options {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    #quranModeModal .simple-option {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    #quranModeModal .simple-icon {
+        font-size: 2rem;
+        width: 70px;
+        height: 70px;
+    }
+    
+    #quranModeModal .simple-content h6 {
+        font-size: 1.1rem;
     }
 }
 
 @media (max-width: 480px) {
-    #quranModeModal .modal-body {
-        padding: 1.5rem 1rem;
+    #quranModeModal .simple-body {
+        padding: 0.75rem;
     }
-
-    #quranModeModal .quran-mode-option {
-        padding: 1.25rem 0.75rem;
+    
+    #quranModeModal .simple-option {
+        padding: 1rem 0.5rem;
     }
-}
-
-/* Close Button Styling */
-#quranModeModal .btn-close {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-#quranModeModal .btn-close:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Dark Theme Support for Modal */
-[data-theme="dark"] #quranModeModal .modal-content {
-    background: linear-gradient(145deg, #1e293b, #334155);
-    color: #e2e8f0;
-}
-
-[data-theme="dark"] #quranModeModal .modal-body {
-    background: linear-gradient(145deg, #1e293b, #334155);
-}
-
-[data-theme="dark"] #quranModeModal .quran-mode-option {
-    background: linear-gradient(145deg, #334155, #475569);
-    color: #e2e8f0;
-    border-color: #475569;
-}
-
-[data-theme="dark"] #quranModeModal .quran-mode-option:hover {
-    background: linear-gradient(145deg, #334155, #3b4a5f);
-    border-color: #17a2b8;
-    box-shadow: 0 20px 40px rgba(23, 162, 184, 0.2);
-}
-
-[data-theme="dark"] #quranModeModal .mode-title {
-    color: #f1f5f9;
-}
-
-[data-theme="dark"] #quranModeModal .mode-description {
-    color: #94a3b8;
-}
-
-[data-theme="dark"] #quranModeModal .quran-mode-icon {
-    color: #17a2b8;
-}
-
-[data-theme="dark"] #quranModeModal .btn-close {
-    background: rgba(255, 255, 255, 0.1);
-    color: #e2e8f0;
-}
-
-[data-theme="dark"] #quranModeModal .btn-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-}
-
-/* Enhanced Animations */
-@keyframes gentlePulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 1;
+    
+    #quranModeModal .simple-icon {
+        font-size: 1.75rem;
+        width: 60px;
+        height: 60px;
     }
-
-    50% {
-        transform: scale(1.08);
-        opacity: 0.9;
+    
+    #quranModeModal .simple-content h6 {
+        font-size: 1rem;
+    }
+    
+    #quranModeModal .simple-content p {
+        font-size: 0.8rem;
     }
 }
 
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    33% {
-        transform: translateY(-10px) rotate(1deg);
-    }
-
-    66% {
-        transform: translateY(10px) rotate(-1deg);
-    }
-}
-
-@keyframes slideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Apply slide-in animation to modal options */
-#quranModeModal .quran-mode-option {
-    animation: slideIn 0.6s ease-out forwards;
-}
-
-#quranModeModal .quran-mode-option:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-#quranModeModal .quran-mode-option:nth-child(2) {
-    animation-delay: 0.2s;
-}

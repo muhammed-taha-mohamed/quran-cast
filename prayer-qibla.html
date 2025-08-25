@@ -46,7 +46,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="player.html">
+                        <a class="nav-link" href="#" onclick="showQuranModeModal(); return false;">
                             <i class="bi me-2"></i>المشغل
                         </a>
                     </li>
@@ -85,7 +85,7 @@
             <span>الصلاة</span>
         </div>
 
-        <div class="nav-item" onclick="window.location.href='player.html'">
+        <div class="nav-item" onclick="showQuranModeModal()">
             <i class="bi bi-book-half"></i>
             <span>القرآن</span>
         </div>
@@ -114,7 +114,7 @@
         <div class="sidebar-content">
             <div class="nav-section mb-4">
                 <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="index.html" class="sidebar-nav-item ">
+                <a href="#" class="sidebar-nav-item " onclick="showQuranModeModal(); return false;">
                     <i class="bi bi-book-open"></i>
                     <span>القرآن الكريم</span>
                     <i class="bi bi-chevron-left"></i>
@@ -530,33 +530,32 @@
     <!-- Quran Mode Selection Modal -->
     <div class="modal fade" id="quranModeModal" tabindex="-1" aria-labelledby="quranModeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content simple-modal">
+                <div class="simple-header">
+                    <h5 class="simple-title">اختر الوضع المناسب</h5>
+                    <button type="button" class="simple-close" onclick="closeQuranModal()">
+                        <i class="bi bi-x"></i>
+                    </button>
                 </div>
-                <div class="modal-body text-center pb-4">
-                    <div class="quran-mode-icon mb-4">
-                        <i class="bi bi-book-open display-1 text-primary"></i>
-                    </div>
-                    <h4 class="modal-title mb-4" id="quranModeModalLabel">اختر وضع القرآن الكريم</h4>
-
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="quran-mode-option" onclick="selectQuranMode('listening')">
-                                <div class="mode-icon mb-3">
-                                    <i class="bi bi-ear display-4 text-success"></i>
-                                </div>
-                                <h5 class="mode-title">الاستماع</h5>
-                                <p class="mode-description text-muted">استمع إلى تلاوات عطرة</p>
+                <div class="simple-body">
+                    <div class="simple-options">
+                        <div class="simple-option" onclick="selectQuranMode('reading')">
+                            <div class="simple-icon">
+                                <i class="bi bi-book-half"></i>
+                            </div>
+                            <div class="simple-content">
+                                <h6 class="simple-title">قراءة</h6>
+                                <p class="simple-description">اقرأ القرآن الكريم مع التفسير والترجمة</p>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="quran-mode-option" onclick="selectQuranMode('reading')">
-                                <div class="mode-icon mb-3">
-                                    <i class="bi bi-book display-4 text-info"></i>
-                                </div>
-                                <h5 class="mode-title">القراءة</h5>
-                                <p class="mode-description text-muted">اقرأ القرآن مع التفسير</p>
+                        
+                        <div class="simple-option" onclick="selectQuranMode('listening')">
+                            <div class="simple-icon">
+                                <i class="bi bi-ear"></i>
+                            </div>
+                            <div class="simple-content">
+                                <h6 class="simple-title">استماع</h6>
+                                <p class="simple-description">استمع للقرآن الكريم بصوت قارئك المفضل</p>
                             </div>
                         </div>
                     </div>
@@ -581,31 +580,18 @@
             modal.show();
         }
 
+        // Close Quran modal
+        function closeQuranModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('quranModeModal'));
+            if (modal) {
+                modal.hide();
+            }
+        }
+
         // Add click event listeners to Quran navigation items
         document.addEventListener('DOMContentLoaded', function () {
-            // Desktop navbar Quran link
-            const desktopQuranLink = document.querySelector('.navbar-nav .nav-item a[href="player.html"]');
-            if (desktopQuranLink) {
-                desktopQuranLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showQuranModeModal();
-                });
-            }
-
-            // Bottom navbar Quran item
-            const bottomQuranItem = document.querySelector('.bottom-navbar .nav-item[onclick*="player.html"]');
-            if (bottomQuranItem) {
-                bottomQuranItem.setAttribute('onclick', 'showQuranModeModal()');
-            }
-
-            // Sidebar Quran link
-            const sidebarQuranLink = document.querySelector('.sidebar .sidebar-nav-item[href="player.html"]');
-            if (sidebarQuranLink) {
-                sidebarQuranLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showQuranModeModal();
-                });
-            }
+            // All Quran navigation items now use showQuranModeModal() directly
+            // No need for additional event listeners
         });
     </script>
 </body>

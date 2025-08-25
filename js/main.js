@@ -2791,3 +2791,43 @@ function handleSidebarClickOutside(event) {
         removeSidebarClickOutsideListener();
     }
 }
+
+// ====== Quran Mode Modal Functions ======
+
+// Show Quran mode selection modal
+function showQuranModeModal() {
+    const modal = new bootstrap.Modal(document.getElementById('quranModeModal'));
+    modal.show();
+}
+
+// Select reading mode
+function selectReadingMode() {
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('quranModeModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    // Redirect to reading page
+    window.location.href = 'reading.html';
+}
+
+// Select listening mode
+function selectListeningMode() {
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('quranModeModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    // Redirect to player page
+    window.location.href = 'player.html';
+}
+
+// Close Quran modal
+function closeQuranModal() {
+    const modal = bootstrap.Modal.getInstance(document.getElementById('quranModeModal'));
+    if (modal) {
+        modal.hide();
+    }
+}
