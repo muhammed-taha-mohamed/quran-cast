@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>المصحف الشريف - Quran Cast</title>
+    <meta name="description" content="المصحف الشريف - عرض صفحات القرآن الكريم">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Almarai:wght@300;400;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        .mushaf-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .mushaf-header {
+            background: linear-gradient(135deg, #2d4a22 0%, #1a2f17 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mushaf-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .mushaf-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .mushaf-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .mushaf-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .page-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .page-input {
+            width: 100px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .page-input:focus {
+            border-color: #2d4a22;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 74, 34, 0.1);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #2d4a22 0%, #1a2f17 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 74, 34, 0.3);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            background: #6c757d;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .page-display {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .page-image-container {
+            position: relative;
+            background: #f8f9fa;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .page-image:hover {
+            transform: scale(1.02);
+        }
+
+        .page-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 3rem;
+        }
+
+        .spinner-border {
+            color: #2d4a22;
+        }
+
+        .page-error {
+            text-align: center;
+            padding: 3rem;
+            color: #dc3545;
+        }
+
+        .page-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .page-number-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d4a22;
+            text-align: center;
+        }
+
+        .page-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: white;
+            color: #2d4a22;
+            border: 2px solid #2d4a22;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: #2d4a22;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 74, 34, 0.3);
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .zoom-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .zoom-btn:hover {
+            background: #495057;
+            transform: scale(1.1);
+        }
+
+        .zoom-level {
+            font-weight: 600;
+            color: #2d4a22;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .quick-nav {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .quick-nav-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d4a22;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-nav-btn {
+            background: #e9ecef;
+            color: #495057;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quick-nav-btn:hover {
+            background: #2d4a22;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .quick-nav-btn.active {
+            background: #2d4a22;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .mushaf-title {
+                font-size: 2rem;
+            }
+
+            .mushaf-stats {
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.75rem;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .page-input {
+                width: 120px;
+            }
+
+            .page-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        [data-theme="dark"] .mushaf-container {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        [data-theme="dark"] .mushaf-header {
+            background: linear-gradient(135deg, #1a2f17 0%, #0f1a0d 100%);
+        }
+
+        [data-theme="dark"] .mushaf-controls,
+        [data-theme="dark"] .page-display,
+        [data-theme="dark"] .quick-nav {
+            background: #2d2d2d;
+            color: #e9ecef;
+        }
+
+        [data-theme="dark"] .page-info {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-top-color: #495057;
+        }
+
+        [data-theme="dark"] .action-btn {
+            background: #2d2d2d;
+            color: #e9ecef;
+            border-color: #495057;
+        }
+
+        [data-theme="dark"] .action-btn:hover {
+            background: #1a2f17;
+            color: white;
+        }
+
+        [data-theme="dark"] .quick-nav-btn {
+            background: #495057;
+            color: #e9ecef;
+        }
+
+        [data-theme="dark"] .quick-nav-btn:hover,
+        [data-theme="dark"] .quick-nav-btn.active {
+            background: #1a2f17;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation - Desktop Only -->
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house me-2"></i> الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prayer-qibla.html">
+                            <i class="bi bi-compass me-2"></i>الصلاة والقبلة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showQuranModeModal(); return false;">
+                            <i class="bi bi-book me-2"></i>القرآن الكريم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hadith.html">
+                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="mushaf.html">
+                            <i class="bi bi-journal-text me-2"></i>المصحف
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Theme Toggle -->
+                <div class="navbar-nav">
+                    <button class="btn theme-toggle" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                        <i class="bi bi-moon-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bottom Navigation - Mobile Only -->
+    <nav class="bottom-navbar d-md-none fixed-bottom">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="bi bi-house"></i>
+            <span>الرئيسية</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
+            <i class="bi bi-compass"></i>
+            <span>الصلاة</span>
+        </div>
+        <div class="nav-item" onclick="showQuranModeModal()">
+            <i class="bi bi-book"></i>
+            <span>القرآن</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='hadith.html'">
+            <i class="bi bi-chat-quote"></i>
+            <span>الأحاديث</span>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='mushaf.html'">
+            <i class="bi bi-journal-text"></i>
+            <span>المصحف</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="mushaf-container" style="margin-top: 80px; margin-bottom: 80px;">
+        <div class="container">
+            <!-- Header -->
+            <div class="mushaf-header text-center">
+                <h1 class="mushaf-title">المصحف الشريف</h1>
+                <p class="mushaf-subtitle">عرض صفحات القرآن الكريم بالخط العثماني</p>
+                <div class="mushaf-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPages">604</span>
+                        <span class="stat-label">صفحة</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">114</span>
+                        <span class="stat-label">سورة</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">30</span>
+                        <span class="stat-label">جزء</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="mushaf-controls">
+                <div class="page-navigation">
+                    <button class="nav-btn" id="firstPageBtn" onclick="goToPage(1)">
+                        <i class="bi bi-skip-backward-fill"></i> الأولى
+                    </button>
+                    <button class="nav-btn" id="prevPageBtn" onclick="previousPage()">
+                        <i class="bi bi-chevron-left"></i> السابقة
+                    </button>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="pageInput" class="mb-0">صفحة:</label>
+                        <input type="number" id="pageInput" class="page-input" min="1" max="604" value="1">
+                        <button class="nav-btn" onclick="goToPageInput()">
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <button class="nav-btn" id="nextPageBtn" onclick="nextPage()">
+                        التالية <i class="bi bi-chevron-right"></i>
+                    </button>
+                    <button class="nav-btn" id="lastPageBtn" onclick="goToPage(604)">
+                        الأخيرة <i class="bi bi-skip-forward-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="quick-nav">
+                <h5 class="quick-nav-title">انتقال سريع</h5>
+                <div class="quick-nav-buttons">
+                    <button class="quick-nav-btn" onclick="goToPage(1)">الفاتحة</button>
+                    <button class="quick-nav-btn" onclick="goToPage(2)">البقرة</button>
+                    <button class="quick-nav-btn" onclick="goToPage(49)">آل عمران</button>
+                    <button class="quick-nav-btn" onclick="goToPage(77)">النساء</button>
+                    <button class="quick-nav-btn" onclick="goToPage(106)">المائدة</button>
+                    <button class="quick-nav-btn" onclick="goToPage(128)">الأنعام</button>
+                    <button class="quick-nav-btn" onclick="goToPage(151)">الأعراف</button>
+                    <button class="quick-nav-btn" onclick="goToPage(177)">الأنفال</button>
+                </div>
+            </div>
+
+            <!-- Page Display -->
+            <div class="page-display">
+                <div class="page-image-container" id="pageImageContainer">
+                    <div class="page-loading" id="pageLoading">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">جاري التحميل...</span>
+                        </div>
+                        <p>جاري تحميل الصفحة...</p>
+                    </div>
+                </div>
+
+                <div class="page-info">
+                    <div class="page-number-display">
+                        صفحة <span id="currentPageNumber">1</span> من 604
+                    </div>
+
+                    <div class="page-actions">
+                        <a href="#" class="action-btn" id="downloadBtn" onclick="downloadPage()">
+                            <i class="bi bi-download"></i>
+                            تحميل الصفحة
+                        </a>
+                        <a href="#" class="action-btn" id="shareBtn" onclick="sharePage()">
+                            <i class="bi bi-share"></i>
+                            مشاركة
+                        </a>
+                        <a href="#" class="action-btn" id="fullscreenBtn" onclick="toggleFullscreen()">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                            ملء الشاشة
+                        </a>
+                    </div>
+
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomOut()">
+                            <i class="bi bi-zoom-out"></i>
+                        </button>
+                        <span class="zoom-level" id="zoomLevel">100%</span>
+                        <button class="zoom-btn" onclick="zoomIn()">
+                            <i class="bi bi-zoom-in"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/mushaf.js"></script>
+</body>
+
+</html>

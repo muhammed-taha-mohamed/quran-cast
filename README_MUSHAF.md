@@ -1,0 +1,1 @@
+https://alquran.vip/api-docs/
