@@ -79,13 +79,13 @@
     <!-- Bottom Navigation Bar - Mobile Only -->
     <nav class="bottom-navbar">
 
-        <div class="nav-item" onclick="window.location.href='index.html'">
+        <div class="nav-item active" onclick="window.location.href='index.html'">
             <i class="bi bi-house-door"></i>
             <span>الرئيسية</span>
         </div>
 
 
-        <div class="nav-item active" onclick="window.location.href='prayer-qibla.html'">
+        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
             <i class="bi bi-clock"></i>
             <span>الصلاة</span>
         </div>
@@ -99,10 +99,6 @@
         <div class="nav-item" onclick="window.location.href='hadith.html'">
             <i class="bi bi-chat-quote"></i>
             <span>الأحاديث</span>
-        </div>
-        <div class="nav-item" onclick="window.location.href='mushaf.html'">
-            <i class="bi bi-journal-text"></i>
-            <span>المصحف</span>
         </div>
 
         <div class="nav-item more-btn" onclick="toggleSidebar()">
@@ -280,24 +276,17 @@
                 <div class="card prayer-times-card enhanced-prayer-times-card">
                     <div class="card-header enhanced-card-header">
                         <div class="d-flex align-items-center">
-
                             <div class="header-content">
-                                <h5 class="mb-0">مواقيت الصلاة اليوم </h5>
+                                <h5 style="color: #0f766e;" class="mb-0">مواقيت الصلاة اليوم </h5>
                             </div>
                         </div>
                         <div class="header-actions">
-                            <button class="btn btn-outline-primary btn-sm me-2" onclick="updateLocation()"
-                                title="تحديث الموقع">
-                                <i class="bi bi-geo-alt"></i>
-                                تحديث الموقع
-                            </button>
                             <span class="prayer-date" id="prayerDate">--</span>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="prayer-times-grid enhanced-prayer-grid" id="prayerTimesGrid">
                             <div class="prayer-time-item fajr enhanced-prayer-item fajr">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">الفجر</div>
                                     <div class="prayer-time" id="fajr">--:--</div>
@@ -305,7 +294,6 @@
                                 </div>
                             </div>
                             <div class="prayer-time-item sunrise enhanced-prayer-item sunrise">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">الشروق</div>
                                     <div class="prayer-time" id="sunrise">--:--</div>
@@ -313,7 +301,6 @@
                                 </div>
                             </div>
                             <div class="prayer-time-item dhuhr enhanced-prayer-item duhr">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">الظهر</div>
                                     <div class="prayer-time" id="dhuhr">--:--</div>
@@ -321,7 +308,6 @@
                                 </div>
                             </div>
                             <div class="prayer-time-item asr enhanced-prayer-item asr">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">العصر</div>
                                     <div class="prayer-time" id="asr">--:--</div>
@@ -329,7 +315,6 @@
                                 </div>
                             </div>
                             <div class="prayer-time-item maghrib enhanced-prayer-item maghrib">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">المغرب</div>
                                     <div class="prayer-time" id="maghrib">--:--</div>
@@ -337,7 +322,6 @@
                                 </div>
                             </div>
                             <div class="prayer-time-item isha enhanced-prayer-item ishaa">
-
                                 <div class="prayer-info">
                                     <div class="prayer-name">العشاء</div>
                                     <div class="prayer-time" id="isha">--:--</div>
@@ -349,120 +333,233 @@
                 </div>
             </div>
 
-            <!-- Qibla Section -->
+            <!-- Prayer Adhkar Section -->
             <div class="col-12">
-                <div class="card prayer-times-card enhanced-prayer-times-card">
-
-
+                <div class="card prayer-adhkar-card">
                     <div class="card-header enhanced-card-header">
                         <div class="d-flex align-items-center">
-
                             <div class="header-content">
-                                <h5 class="mb-0"> اتجاه القبلة </h5>
+                                <h5 style="color: #0f766e;" class="mb-0">
+                                    <i class="bi bi-chat-heart text-success me-2"></i>
+                                    أذكار الصلاة
+                                </h5>
                             </div>
                         </div>
                         <div class="header-actions">
-                            <button class="btn btn-outline-primary btn-sm me-2" onclick="updateLocation()"
-                                title="تحديث الموقع">
-                                <i class="bi bi-geo-alt"></i>
-                                تحديث الموقع
-                            </button>
-                            <button class="btn btn-outline-light btn-sm calibrate-btn" onclick="calibrateCompass()">
-                                <i class="bi bi-arrow-clockwise me-2"></i>معايرة
+                            <button class="btn btn-outline-success btn-sm" onclick="toggleAdhkarSection()">
+                                <i class="bi bi-chevron-down"></i>
+                                عرض/إخفاء
                             </button>
                         </div>
                     </div>
+                    <div class="card-body" id="adhkarSection">
+                        <div class="row g-3">
+                            <!-- Fajr Adhkar -->
+                            <div class="col-md-6">
+                                <div class="adhkar-group">
+                                    <h6 class="adhkar-title text-success">
+                                        <i class="bi bi-sunrise me-2"></i>
+                                        أذكار الفجر
+                                    </h6>
+                                    <div class="adhkar-list">
+                                        <div class="adhkar-item">
+                                            <div class="adhkar-text">
+                                                <strong>سبحان الله</strong> - 33 مرة
+                                            </div>
+                                            <div class="adhkar-count">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('سبحان الله', 33)">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                    ربط مع السبحة
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <div class="adhkar-text">
+                                                <strong>الحمد لله</strong> - 33 مرة
+                                            </div>
+                                            <div class="adhkar-count">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('الحمد لله', 33)">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                    ربط مع السبحة
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <div class="adhkar-text">
+                                                <strong>الله أكبر</strong> - 34 مرة
+                                            </div>
+                                            <div class="adhkar-count">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('الله أكبر', 34)">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                    ربط مع السبحة
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <div class="adhkar-text">
+                                                <strong>لا إله إلا الله</strong> - 100 مرة
+                                            </div>
+                                            <div class="adhkar-count">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('لا إله إلا الله', 100)">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                    ربط مع السبحة
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <div class="adhkar-text">
+                                                <strong>لا حول ولا قوة إلا بالله</strong> - 100 مرة
+                                            </div>
+                                            <div class="adhkar-count">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('لا حول ولا قوة إلا بالله', 100)">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                    ربط مع السبحة
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- General Prayer Adhkar -->
+                            <div class="col-md-6">
+                                <div class="adhkar-group">
+                                    <h6 class="adhkar-title text-primary">
+                                        <i class="bi bi-pray me-2"></i>
+                                        أذكار عامة
+                                    </h6>
+                                    <div class="adhkar-list">
+                                        <div class="adhkar-item">
+                                            <span class="adhkar-text">اللهم صل على محمد</span>
+                                            <span class="adhkar-count">10 مرات</span>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <span class="adhkar-text">أستغفر الله</span>
+                                            <span class="adhkar-count">3 مرات</span>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <span class="adhkar-text">سبحان الله وبحمده</span>
+                                            <span class="adhkar-count">3 مرات</span>
+                                        </div>
+                                        <div class="adhkar-item">
+                                            <span class="adhkar-text">لا حول ولا قوة إلا بالله</span>
+                                            <span class="adhkar-count">مرة واحدة</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
+            <!-- Tasbih Section -->
+            <div class="col-12">
+                <div class="card tasbih-card">
+                    <div class="card-header enhanced-card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="header-content">
+                                <h5 style="color: #0f766e;" class="mb-0">
+                                    <i class="bi bi-123 text-primary me-2"></i>
+                                    عداد التسبيح
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline-primary btn-sm" onclick="showCustomDhikrModal()">
+                                <i class="bi bi-plus-circle"></i>
+                                ذكر مخصص
+                            </button>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6 text-center">
-                                <div class="qibla-compass-enhanced google-style-compass">
-                                    <div class="compass-container google-compass-container">
-                                        <div class="compass-ring google-compass-ring">
-                                            <!-- Compass Background -->
-                                            <div class="compass-background">
-                                                <div class="compass-grid">
-                                                    <div class="grid-line grid-line-vertical"></div>
-                                                    <div class="grid-line grid-line-horizontal"></div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Direction Labels -->
-                                            <div class="direction-labels">
-                                                <div class="direction-label direction-north">شمال</div>
-                                                <div class="direction-label direction-east">شرق</div>
-                                                <div class="direction-label direction-south">جنوب</div>
-                                                <div class="direction-label direction-west">غرب</div>
-                                            </div>
-
-                                            <!-- Qibla Arrow -->
-                                            <div class="qibla-arrow google-qibla-arrow" id="qiblaArrow">
-                                                <div class="arrow-head"></div>
-                                                <div class="arrow-shaft"></div>
-                                                <div class="arrow-label">القبلة</div>
-                                            </div>
-
-                                            <!-- Compass Center -->
-                                            <div class="compass-center google-compass-center">
-                                                <div class="center-icon">
-                                                    <i class="bi bi-geo-alt-fill"></i>
-                                                </div>
-                                            </div>
-
-                                            <!-- Degree Markers -->
-                                            <div class="degree-markers">
-                                                <div class="degree-marker" style="transform: rotate(0deg)">0°</div>
-                                                <div class="degree-marker" style="transform: rotate(90deg)">90°
-                                                </div>
-                                                <div class="degree-marker" style="transform: rotate(180deg)">180°
-                                                </div>
-                                                <div class="degree-marker" style="transform: rotate(270deg)">270°
-                                                </div>
-                                            </div>
+                        <div class="row g-3">
+                            <div class="col-md-4 text-center">
+                                <div class="tasbih-counter">
+                                    <div class="counter-display" id="tasbihCounter">0</div>
+                                    <div class="counter-label">عدد التسبيحات</div>
+                                    <div class="current-dhikr" id="currentDhikr">اختر ذكراً للبدء</div>
+                                    <div class="counter-progress" id="counterProgress" style="display: none;">
+                                        <div class="progress-text">
+                                            <span id="currentCount">0</span>
+                                            <span class="separator">/</span>
+                                            <span id="targetCount">0</span>
                                         </div>
-                                    </div>
-
-                                    <!-- Compass Instructions -->
-                                    <div class="compass-instructions">
-                                        <p class="instruction-text">
-                                            <i class="bi bi-info-circle me-2"></i>
-                                            وجه هاتفك نحو الاتجاه المشار إليه بالسهم
-                                        </p>
+                                        <div class="progress-percentage" id="progressPercentage">0%</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="qibla-info enhanced-qibla-info">
-                                    <div class="info-item enhanced-info-item">
-                                        <div class="info-icon">
-                                            <i class="bi bi-arrow-up-circle"></i>
-                                        </div>
-                                        <div class="info-content">
-                                            <div class="info-label">الاتجاه:</div>
-                                            <div class="info-value" id="qiblaDirection">--</div>
-                                        </div>
-                                    </div>
-                                    <div class="info-item enhanced-info-item">
-                                        <div class="info-icon">
-                                            <i class="bi bi-rulers"></i>
-                                        </div>
-                                        <div class="info-content">
-                                            <div class="info-label">المسافة:</div>
-                                            <div class="info-value" id="qiblaDistance">--</div>
-                                        </div>
-                                    </div>
-                                    <div class="info-item enhanced-info-item">
-                                        <div class="info-icon">
-                                            <i class="bi bi-protractor"></i>
-                                        </div>
-                                        <div class="info-content">
-                                            <div class="info-label">الزاوية:</div>
-                                            <div class="info-value" id="qiblaAngle">--</div>
-                                        </div>
+                            <div class="col-md-4 text-center">
+                                <div class="tasbih-controls">
+                                    <button class="btn btn-success btn-lg mb-2 w-100" onclick="incrementTasbih()">
+                                        <i class="bi bi-plus-circle"></i>
+                                        زائد
+                                    </button>
+                                    <button class="btn btn-warning btn-lg mb-2 w-100" onclick="decrementTasbih()">
+                                        <i class="bi bi-dash-circle"></i>
+                                        ناقص
+                                    </button>
+                                    <button class="btn btn-danger btn-lg w-100" onclick="resetTasbih()">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                        إعادة تعيين
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="tasbih-presets">
+                                    <h6 class="text-center mb-3">تسبيحات سريعة</h6>
+                                    <div class="preset-buttons">
+                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(33, 'سبحان الله')">
+                                            <i class="bi bi-1-circle"></i>
+                                            سبحان الله (33)
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(33, 'الحمد لله')">
+                                            <i class="bi bi-2-circle"></i>
+                                            الحمد لله (33)
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(34, 'الله أكبر')">
+                                            <i class="bi bi-3-circle"></i>
+                                            الله أكبر (34)
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(100, 'لا إله إلا الله')">
+                                            <i class="bi bi-4-circle"></i>
+                                            لا إله إلا الله (100)
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Dhikr Modal -->
+            <div class="modal fade" id="customDhikrModal" tabindex="-1" aria-labelledby="customDhikrModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="customDhikrModalLabel">
+                                <i class="bi bi-plus-circle text-primary me-2"></i>
+                                إضافة ذكر مخصص
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="customDhikrText" class="form-label">نص الذكر</label>
+                                <input type="text" class="form-control" id="customDhikrText" placeholder="مثال: لا حول ولا قوة إلا بالله">
+                            </div>
+                            <div class="mb-3">
+                                <label for="customDhikrCount" class="form-label">عدد مرات التكرار</label>
+                                <input type="number" class="form-control" id="customDhikrCount" placeholder="مثال: 99" min="1" max="999">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="button" class="btn btn-primary" onclick="addCustomDhikr()">
+                                <i class="bi bi-check-circle"></i>
+                                إضافة
+                            </button>
                         </div>
                     </div>
                 </div>

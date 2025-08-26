@@ -1,5 +1,4 @@
 // Prayer Times and Qibla Combined JavaScript
-// يجمع بين وظائف مواقيت الصلاة واتجاه القبلة
 
 // Global variables
 let currentLocation = null;
@@ -22,14 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
         'nextPrayerName',
         'prayerDate',
         'fajr',
-        'sunrise',
         'dhuhr',
         'asr',
         'maghrib',
-        'isha',
-        'qiblaDirection',
-        'qiblaDistance',
-        'qiblaAngle'
+        'isha'
     ];
 
     const missingElements = requiredElements.filter(id => !document.getElementById(id));
@@ -40,14 +35,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('All required elements found, proceeding with initialization...');
 
-    // Request location only when needed
-    requestLocation();
+    // Initialize enhanced prayer times with table support
+    initializeEnhancedPrayerTimes();
 
     // Update prayer date
     updatePrayerDate();
 
     // Start countdown timer
     startCountdown();
+    
+    // Start auto-refresh for prayer times
+    startAutoRefresh();
+    
+    // Load tasbih state
+    loadTasbihState();
 });
 
 // Request location directly from browser without popup
@@ -114,35 +115,15 @@ async function updateLocation() {
         // Request new location
         await requestLocation();
 
-        // Show success message
-        showLocationUpdateMessage('تم تحديث الموقع بنجاح', 'success');
+
 
     } catch (error) {
         console.error('Error updating location:', error);
-        showLocationUpdateMessage('فشل في تحديث الموقع', 'error');
+
     }
 }
 
-// Show location update message
-function showLocationUpdateMessage(message, type) {
-    // Create temporary message element
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
-    messageDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    messageDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
 
-    document.body.appendChild(messageDiv);
-
-    // Auto-remove after 3 seconds
-    setTimeout(() => {
-        if (messageDiv.parentNode) {
-            messageDiv.parentNode.removeChild(messageDiv);
-        }
-    }, 3000);
-}
 
 // Get current position with timeout
 function getCurrentPosition() {
@@ -286,6 +267,10 @@ function showPrayerTimesError() {
     `;
 }
 
+
+
+
+
 // Load prayer times from API
 async function loadPrayerTimes() {
     if (!currentLocation) {
@@ -370,6 +355,7 @@ async function loadPrayerTimes() {
             console.log('Prayer times set to:', prayerTimes);
             displayPrayerTimes();
             calculateNextPrayer();
+            updateHeroStats();
         } else {
             throw new Error('Invalid API response format');
         }
@@ -392,65 +378,8 @@ function displayPrayerTimes() {
 
     console.log('Displaying prayer times:', prayerTimes);
 
-    // Map different possible prayer time keys
-    const prayerMappings = {
-        'fajr': ['Fajr', 'fajr', 'الفجر'],
-        'sunrise': ['Sunrise', 'sunrise', 'الشروق'],
-        'dhuhr': ['Dhuhr', 'dhuhr', 'الظهر'],
-        'asr': ['Asr', 'asr', 'العصر'],
-        'maghrib': ['Maghrib', 'maghrib', 'المغرب'],
-        'isha': ['Isha', 'isha', 'العشاء']
-    };
-
-    let updatedCount = 0;
-
-    // Find and display prayer times
-    Object.keys(prayerMappings).forEach(prayerId => {
-        let element = document.getElementById(prayerId);
-
-        // If element doesn't exist, try to create it
-        if (!element) {
-            console.warn(`⚠️ Element '${prayerId}' not found, attempting to create it...`);
-            element = createPrayerTimeElement(prayerId);
-        }
-
-        if (element) {
-            // Try to find the prayer time using different possible keys
-            let prayerTime = null;
-            let usedKey = null;
-
-            for (let key of prayerMappings[prayerId]) {
-                if (prayerTimes[key]) {
-                    prayerTime = prayerTimes[key];
-                    usedKey = key;
-                    break;
-                }
-            }
-
-            if (prayerTime) {
-                const formattedTime = formatTime12Hour(prayerTime);
-                element.textContent = formattedTime;
-                element.style.color = 'white';
-                element.style.fontWeight = '600';
-                updatedCount++;
-                console.log(`✅ Updated ${prayerId} to: ${formattedTime} (from key: ${usedKey})`);
-            } else {
-                element.textContent = '--:--';
-                element.style.color = 'var(--text-muted)';
-                element.style.fontWeight = '400';
-                console.log(`❌ No time found for ${prayerId}`);
-            }
-        } else {
-            console.error(`❌ Failed to create element with id '${prayerId}'`);
-        }
-    });
-
-    console.log(`Prayer times display completed. Updated: ${updatedCount}/5 times`);
-
-
-
-    // Update prayer status based on current time
-    updatePrayerStatus();
+    // Use enhanced display function for cards
+    displayPrayerTimesEnhanced();
 }
 
 // Helper function to create prayer time element if missing
@@ -551,7 +480,7 @@ function updatePrayerStatus() {
                     return;
                 }
 
-                const prayerItem = timeElement.closest('.enhanced-prayer-item');
+                const prayerItem = timeElement.closest('.prayer-time-item, .enhanced-prayer-item');
                 if (!prayerItem) {
                     console.warn(`Prayer item not found for ${prayerId}`);
                     return;
@@ -595,7 +524,11 @@ function updatePrayerStatus() {
 
 // Calculate next prayer
 function calculateNextPrayer() {
-    if (!prayerTimes) return;
+    console.log('🔍 calculateNextPrayer called with prayerTimes:', prayerTimes);
+    if (!prayerTimes) {
+        console.log('❌ No prayer times available for next prayer calculation');
+        return;
+    }
 
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -663,25 +596,37 @@ function calculateNextPrayer() {
 
 // Start countdown timer
 function startCountdown() {
+    console.log('🔍 startCountdown called with nextPrayer:', nextPrayer);
+    
     if (countdownInterval) {
         clearInterval(countdownInterval);
+        console.log('🔄 Cleared existing countdown interval');
     }
 
     countdownInterval = setInterval(updateCountdown, 1000);
+    console.log('✅ Countdown interval started, updating every 1 second');
 
     // Initial update of mobile stats
     if (nextPrayer) {
+        console.log('📱 Updating mobile stats...');
         updateMobileStats();
+    } else {
+        console.log('⚠️ No nextPrayer available for mobile stats update');
     }
 
     // Initial update of prayer status
+    console.log('📊 Updating prayer status...');
     updatePrayerStatus();
 }
 
 // Update countdown display
 function updateCountdown() {
     try {
-        if (!nextPrayer || !prayerTimes) return;
+        console.log('🔍 updateCountdown called with nextPrayer:', nextPrayer, 'prayerTimes:', prayerTimes);
+        if (!nextPrayer || !prayerTimes) {
+            console.log('❌ Missing data for countdown update - nextPrayer:', !!nextPrayer, 'prayerTimes:', !!prayerTimes);
+            return;
+        }
 
         const now = new Date();
         let targetTime = new Date();
@@ -708,12 +653,44 @@ function updateCountdown() {
 
         const countdownString = `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
 
-        // countdownDisplay1 now contains SVG loader, don't update with text
+        // Update next prayer name display
+        const nextPrayerName = document.getElementById('nextPrayerName');
+        const nextPrayerNameMobile = document.getElementById('nextPrayerNameMobile');
+        if (nextPrayerName && nextPrayer) {
+            // Check if it contains SVG loader (initial state)
+            const svgLoader = nextPrayerName.querySelector('svg');
+            if (svgLoader) {
+                // Replace SVG loader with prayer name
+                nextPrayerName.innerHTML = nextPrayer.name;
+            } else {
+                // Update existing text
+                nextPrayerName.textContent = nextPrayer.name;
+            }
+        }
+        if (nextPrayerNameMobile && nextPrayer) {
+            nextPrayerNameMobile.textContent = nextPrayer.name;
+        }
 
+        // Update next prayer time display
+        const nextPrayerTimeMobile = document.getElementById('nextPrayerTimeMobile');
+        if (nextPrayerTimeMobile && nextPrayer) {
+            nextPrayerTimeMobile.textContent = nextPrayer.time;
+        }
+
+        // Update hero countdown display
         const heroPrayerCountdown = document.getElementById('heroPrayerCountdown');
         if (heroPrayerCountdown) {
-            heroPrayerCountdown.textContent = countdownString;
-            console.log('Web countdown 2 updated:', countdownString);
+            // Check if it contains SVG loader (initial state)
+            const svgLoader = heroPrayerCountdown.querySelector('svg');
+            if (svgLoader) {
+                // Replace SVG loader with countdown text
+                heroPrayerCountdown.innerHTML = countdownString;
+                console.log('Hero countdown updated:', countdownString);
+            } else {
+                // Update existing countdown text
+                heroPrayerCountdown.textContent = countdownString;
+                console.log('Hero countdown updated:', countdownString);
+            }
         }
 
         // Update mobile stats with current countdown
@@ -914,8 +891,7 @@ function showCalibrationError(message) {
             compassRing.classList.remove('calibrating');
         }
 
-        // Show error toast or notification
-        showNotification('خطأ في المعايرة', message, 'error');
+
 
     } catch (error) {
         console.error('Error showing calibration error:', error);
@@ -927,8 +903,7 @@ function showCalibrationSuccess() {
     try {
         console.log('Calibration success');
 
-        // Show success notification
-        showNotification('تمت المعايرة', 'البوصلة جاهزة للاستخدام', 'success');
+
 
         // Update direction display if needed
         const qiblaDirection = document.getElementById('qiblaDirection');
@@ -946,37 +921,7 @@ function showCalibrationSuccess() {
     }
 }
 
-// Show notification
-function showNotification(title, message, type = 'info') {
-    try {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-header">
-                <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'}"></i>
-                <span>${title}</span>
-                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
-            </div>
-            <div class="notification-body">
-                ${message}
-            </div>
-        `;
 
-        // Add to page
-        document.body.appendChild(notification);
-
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 5000);
-
-    } catch (error) {
-        console.error('Error showing notification:', error);
-    }
-}
 
 // Enhanced qibla direction calculation
 function calculateQiblaDirection() {
@@ -1050,8 +995,7 @@ function showQiblaError() {
         if (distanceText) distanceText.textContent = '--';
         if (angleText) angleText.textContent = '--';
 
-        // Show error notification
-        showNotification('خطأ في القبلة', 'تعذر حساب اتجاه القبلة', 'error');
+
 
     } catch (error) {
         console.error('Error showing qibla error:', error);
@@ -1515,12 +1459,12 @@ function updatePrayerInfoCard() {
     }
 
     const nextPrayerNameElement = document.getElementById('nextPrayerName');
-    const countdownDisplayElement = document.getElementById('countdownDisplay');
+    const heroPrayerCountdownElement = document.getElementById('heroPrayerCountdown');
     const quranQuoteElement = document.querySelector('.quran-quote');
 
     console.log('Elements found:', {
         nextPrayerNameElement: !!nextPrayerNameElement,
-        countdownDisplayElement: !!countdownDisplayElement,
+        heroPrayerCountdownElement: !!heroPrayerCountdownElement,
         quranQuoteElement: !!quranQuoteElement
     });
 
@@ -1531,29 +1475,57 @@ function updatePrayerInfoCard() {
     }
 
     if (nextPrayerNameElement) {
-        const prayerNames = {
-            'الفجر': 'الفجر',
-            'الظهر': 'الظهر',
-            'العصر': 'العصر',
-            'المغرب': 'المغرب',
-            'العشاء': 'العشاء'
-        };
-        const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
-        console.log('Setting prayer name:', displayName);
-        nextPrayerNameElement.textContent = displayName;
+        // Find the text span inside the element
+        const prayerNameText = nextPrayerNameElement.querySelector('.prayer-name-text');
+        const prayerLoader = nextPrayerNameElement.querySelector('.prayer-loader');
+        
+        if (prayerNameText) {
+            const prayerNames = {
+                'الفجر': 'الفجر',
+                'الظهر': 'الظهر',
+                'العصر': 'العصر',
+                'المغرب': 'المغرب',
+                'العشاء': 'العشاء',
+                'Fajr': 'الفجر',
+                'Sunrise': 'الشروق',
+                'Dhuhr': 'الظهر',
+                'Asr': 'العصر',
+                'Maghrib': 'المغرب',
+                'Isha': 'العشاء'
+            };
+            const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
+            console.log('Setting prayer name:', displayName);
+            prayerNameText.textContent = displayName;
+            
+            // Hide the loader when we have data
+            if (prayerLoader) {
+                prayerLoader.style.display = 'none';
+            }
+        }
     }
 
-    if (countdownDisplayElement) {
-        // Show actual prayer time instead of countdown
-        if (nextPrayer.time) {
-            console.log('Processing prayer time:', nextPrayer.time);
-            const [hours, minutes] = nextPrayer.time.split(':');
-            const timeString = `${hours}:${minutes}`;
-            console.log('Setting time display:', timeString);
-            countdownDisplayElement.textContent = timeString;
-        } else {
-            console.log('No prayer time available, showing --:--');
-            countdownDisplayElement.textContent = '--:--';
+    if (heroPrayerCountdownElement) {
+        // Find the text span inside the element
+        const countdownText = heroPrayerCountdownElement.querySelector('.countdown-text');
+        const countdownLoader = heroPrayerCountdownElement.querySelector('.countdown-loader');
+        
+        if (countdownText) {
+            // Show actual prayer time instead of countdown
+            if (nextPrayer.time) {
+                console.log('Processing prayer time:', nextPrayer.time);
+                const [hours, minutes] = nextPrayer.time.split(':');
+                const timeString = `${hours}:${minutes}`;
+                console.log('Setting time display:', timeString);
+                countdownText.textContent = timeString;
+                
+                // Hide the loader when we have data
+                if (countdownLoader) {
+                    countdownLoader.style.display = 'none';
+                }
+            } else {
+                console.log('No prayer time available, showing --:--');
+                countdownText.textContent = '--:--';
+            }
         }
     }
 }
@@ -1676,6 +1648,170 @@ function updatePrayerDate() {
     }
 }
 
+// ====== API-Based Prayer Times (No Location Required) ======
+
+// Get prayer times from alquran.vip API without location
+async function getPrayerTimesFromAPI() {
+    try {
+        console.log('Getting prayer times from alquran.vip API...');
+        
+        const response = await fetch('https://alquran.vip/APIs/getPrayerTimes');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Prayer times API response:', data);
+        
+        if (data.prayer_times && data.date) {
+            // Extract prayer times
+            const times = data.prayer_times;
+            const dateInfo = data.date;
+            
+            // Convert to our format
+            prayerTimes = {
+                Fajr: times.Fajr,
+                Sunrise: times.Sunrise,
+                Dhuhr: times.Dhuhr,
+                Asr: times.Asr,
+                Maghrib: times.Maghrib,
+                Isha: times.Isha
+            };
+            
+            // Update prayer times display
+            displayPrayerTimes();
+            
+            // Calculate next prayer
+            calculateNextPrayer();
+            
+            // Start countdown
+            startCountdown();
+            
+            // Update hero stats
+            updateHeroStats();
+            
+            // Update date display
+            updatePrayerDateFromAPI(dateInfo);
+            
+
+            
+
+            
+            return true;
+        } else {
+            throw new Error('Invalid API response format');
+        }
+        
+    } catch (error) {
+        console.error('Error getting prayer times from API:', error);
+
+        return false;
+    }
+}
+
+// Update prayer date from API response
+function updatePrayerDateFromAPI(dateInfo) {
+    try {
+        // Update Gregorian date
+        const gregorianDate = document.getElementById('gregorianDate');
+        if (gregorianDate && dateInfo.date_en) {
+            gregorianDate.textContent = dateInfo.date_en;
+        }
+        
+        // Update Hijri date
+        if (dateInfo.date_hijri) {
+            const hijriDate = document.getElementById('hijriDate');
+            if (hijriDate) {
+                const hijri = dateInfo.date_hijri;
+                hijriDate.innerHTML = `
+                    <span class="hijri-day">${hijri.day}</span>
+                    <span class="hijri-month">${hijri.month.ar}</span>
+                    <span class="hijri-year">${hijri.year} هـ</span>
+                `;
+            }
+            
+            // Update weekday
+            const weekdayElement = document.getElementById('weekday');
+            if (weekdayElement && dateInfo.date_hijri.weekday) {
+                weekdayElement.textContent = dateInfo.date_hijri.weekday.ar;
+            }
+        }
+        
+        // Update timezone info
+        const timezoneElement = document.getElementById('timezone');
+        if (timezoneElement && dateInfo.meta && dateInfo.meta.timezone) {
+            timezoneElement.textContent = dateInfo.meta.timezone;
+        }
+        
+    } catch (error) {
+        console.error('Error updating prayer date from API:', error);
+    }
+}
+
+// Enhanced prayer times initialization that tries API first
+async function initializePrayerTimesSmart() {
+    try {
+        console.log('Initializing prayer times with smart approach...');
+        
+        // First, try to get prayer times from API (no location needed)
+        const apiSuccess = await getPrayerTimesFromAPI();
+        
+        if (apiSuccess) {
+            console.log('Prayer times loaded successfully from API');
+            return true;
+        }
+        
+        // If API fails, fall back to location-based approach
+        console.log('API failed, falling back to location-based prayer times...');
+        
+        if (currentLocation) {
+            await loadPrayerTimes();
+            return true;
+        } else {
+            // Try to get location from IP first
+            const ipLocation = await getLocationFromIP();
+            if (ipLocation) {
+                currentLocation = {
+                    lat: ipLocation.lat,
+                    lng: ipLocation.lng,
+                    source: 'ip'
+                };
+                await loadPrayerTimes();
+                return true;
+            }
+        }
+        
+        return false;
+        
+    } catch (error) {
+        console.error('Error in smart prayer times initialization:', error);
+        return false;
+    }
+}
+
+// Enhanced refresh function that tries API first
+async function refreshPrayerTimesSmart() {
+    try {
+        console.log('Refreshing prayer times with smart approach...');
+        
+
+        
+        // Try API first
+        const apiSuccess = await getPrayerTimesFromAPI();
+        
+        if (apiSuccess) {
+            return true;
+        }
+        
+
+        return await refreshPrayerTimes();
+        
+    } catch (error) {
+        console.error('Error in smart prayer times refresh:', error);
+        return false;
+    }
+}
+
 // Close mode selection popup
 function closeModePopup() {
     const popup = document.getElementById('modeSelectionPopup');
@@ -1713,3 +1849,587 @@ function toggleSidebar() {
         }
     }
 }
+
+
+
+// Auto-refresh prayer times every hour if using API
+function startAutoRefresh() {
+    // Refresh every hour (3600000 ms)
+    setInterval(async () => {
+        console.log('Auto-refreshing prayer times...');
+        await refreshPrayerTimesSmart();
+    }, 3600000);
+}
+
+// ====== Enhanced Prayer Times Table Functions ======
+
+// Update prayer status for table rows
+function updatePrayerStatusForTable() {
+    const now = new Date();
+    const currentTime = now.getTime();
+
+    const prayers = [
+        { key: 'Fajr', element: 'fajrStatus', countdown: 'fajrCountdown' },
+        { key: 'Sunrise', element: 'sunriseStatus', countdown: 'sunriseCountdown' },
+        { key: 'Dhuhr', element: 'dhuhrStatus', countdown: 'dhuhrCountdown' },
+        { key: 'Asr', element: 'asrStatus', countdown: 'asrCountdown' },
+        { key: 'Maghrib', element: 'maghribStatus', countdown: 'maghribCountdown' },
+        { key: 'Isha', element: 'ishaStatus', countdown: 'ishaCountdown' }
+    ];
+
+    prayers.forEach(prayer => {
+        const statusElement = document.getElementById(prayer.element);
+        const countdownElement = document.getElementById(prayer.countdown);
+        
+        if (statusElement && prayerTimes[prayer.key]) {
+            const prayerTime = new Date();
+            const [hours, minutes] = prayerTimes[prayer.key].split(':');
+            prayerTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            const timeDiff = prayerTime.getTime() - currentTime;
+            const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+            
+            // Update status
+            if (timeDiff < 0) {
+                // Prayer time has passed
+                statusElement.textContent = 'مضت';
+                statusElement.className = 'prayer-status past';
+                if (countdownElement) countdownElement.textContent = '--:--';
+            } else if (timeDiff < 300000) { // Less than 5 minutes
+                // Prayer time is now
+                statusElement.textContent = 'الآن';
+                statusElement.className = 'prayer-status current';
+                if (countdownElement) countdownElement.textContent = 'الآن';
+            } else {
+                // Prayer time is upcoming
+                statusElement.textContent = 'قادمة';
+                statusElement.className = 'prayer-status upcoming';
+                
+                // Update countdown
+                if (countdownElement) {
+                    const hours = Math.floor(minutesDiff / 60);
+                    const mins = minutesDiff % 60;
+                    countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+                }
+            }
+        }
+    });
+}
+
+// Set prayer reminder
+function setPrayerReminder(prayerType) {
+    const prayerNames = {
+        'fajr': 'الفجر',
+        'sunrise': 'الشروق',
+        'dhuhr': 'الظهر',
+        'asr': 'العصر',
+        'maghrib': 'المغرب',
+        'isha': 'العشاء'
+    };
+    
+    const prayerName = prayerNames[prayerType];
+    
+    if ('Notification' in window && Notification.permission === 'granted') {
+        // Set notification for 5 minutes before prayer
+        const prayerTime = prayerTimes[prayerType.charAt(0).toUpperCase() + prayerType.slice(1)];
+        if (prayerTime) {
+            const [hours, minutes] = prayerTime.split(':');
+            const prayerDate = new Date();
+            prayerDate.setHours(parseInt(hours), parseInt(minutes) - 5, 0, 0);
+            
+            const timeUntilReminder = prayerDate.getTime() - Date.now();
+            
+            if (timeUntilReminder > 0) {
+                setTimeout(() => {
+                    new Notification('تذكير بالصلاة', {
+                        body: `حان وقت صلاة ${prayerName} بعد 5 دقائق`,
+                        icon: '/media/images/prayer-icon.svg'
+                    });
+                }, timeUntilReminder);
+                
+                showNotification(`تم تعيين تذكير لصلاة ${prayerName}`, 'success');
+            } else {
+                showNotification('وقت الصلاة قريب جداً', 'warning');
+            }
+        }
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                setPrayerReminder(prayerType);
+            }
+        });
+    } else {
+        showNotification('التطبيق لا يدعم الإشعارات', 'info');
+    }
+}
+
+// ====== Prayer Adhkar Functions ======
+
+// Toggle adhkar section
+function toggleAdhkarSection() {
+    const adhkarSection = document.getElementById('adhkarSection');
+    if (adhkarSection) {
+        const isVisible = adhkarSection.style.display !== 'none';
+        adhkarSection.style.display = isVisible ? 'none' : 'block';
+        
+        const toggleBtn = document.querySelector('.prayer-adhkar-card .header-actions .btn');
+        if (toggleBtn) {
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                icon.className = isVisible ? 'bi bi-chevron-down' : 'bi bi-chevron-up';
+            }
+        }
+    }
+}
+
+// ====== Enhanced Tasbih System ======
+
+let tasbihCount = 0;
+let currentDhikr = null;
+let targetCount = 0;
+let customDhikrs = [];
+
+// Show custom dhikr modal
+function showCustomDhikrModal() {
+    const modal = new bootstrap.Modal(document.getElementById('customDhikrModal'));
+    modal.show();
+}
+
+// Add custom dhikr
+function addCustomDhikr() {
+    const text = document.getElementById('customDhikrText').value.trim();
+    const count = parseInt(document.getElementById('customDhikrCount').value);
+
+    if (!text || !count || count < 1) {
+        showEnhancedNotification('يرجى إدخال نص الذكر وعدد صحيح', 'warning');
+        return;
+    }
+
+    // Add to custom dhikrs list
+    customDhikrs.push({ text, count });
+    
+    // Set as current dhikr
+    setCustomDhikr(text, count);
+    
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('customDhikrModal'));
+    modal.hide();
+    
+    // Clear inputs
+    document.getElementById('customDhikrText').value = '';
+    document.getElementById('customDhikrCount').value = '';
+    
+    showEnhancedNotification(`تم إضافة الذكر: ${text} (${count} مرة)`, 'success');
+}
+
+// Set custom dhikr
+function setCustomDhikr(text, count) {
+    currentDhikr = { text, count };
+    targetCount = count;
+    tasbihCount = 0;
+    
+    updateTasbihDisplay();
+    updateCurrentDhikrDisplay();
+    
+    // Save to localStorage
+    saveTasbihState();
+}
+
+// Enhanced increment function
+function incrementTasbih() {
+    tasbihCount++;
+    
+    // Check if target reached
+    if (currentDhikr && tasbihCount >= targetCount) {
+        showCompletionCelebration();
+    }
+    
+    updateTasbihDisplay();
+    saveTasbihState();
+    
+    // Haptic feedback
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+}
+
+// Enhanced decrement function
+function decrementTasbih() {
+    if (tasbihCount > 0) {
+        tasbihCount--;
+        updateTasbihDisplay();
+        saveTasbihState();
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(100);
+        }
+    }
+}
+
+// Enhanced reset function
+function resetTasbih() {
+    tasbihCount = 0;
+    currentDhikr = null;
+    targetCount = 0;
+    
+    updateTasbihDisplay();
+    updateCurrentDhikrDisplay();
+    saveTasbihState();
+    
+    showEnhancedNotification('تم إعادة تعيين العداد', 'info');
+    
+    // Haptic feedback
+    if (navigator.vibrate) {
+        navigator.vibrate(200);
+    }
+}
+
+// Enhanced preset function
+function setTasbihPreset(count, text) {
+    tasbihCount = 0;
+    currentDhikr = { text, count };
+    targetCount = count;
+    
+    updateTasbihDisplay();
+    updateCurrentDhikrDisplay();
+    saveTasbihState();
+    
+    showEnhancedNotification(`تم تعيين: ${text} (${count} مرة)`, 'success');
+    
+    // Haptic feedback
+    if (navigator.vibrate) {
+        navigator.vibrate(100);
+    }
+}
+
+// Update tasbih display
+function updateTasbihDisplay() {
+    const counter = document.getElementById('tasbihCounter');
+    if (!counter) return;
+    
+    counter.textContent = tasbihCount;
+    
+    // Add completion class if target reached
+    if (currentDhikr && tasbihCount >= targetCount) {
+        counter.classList.add('completed');
+    } else {
+        counter.classList.remove('completed');
+    }
+    
+    // Add scale animation
+    counter.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+        counter.style.transform = 'scale(1)';
+    }, 150);
+}
+
+// Update current dhikr display
+function updateCurrentDhikrDisplay() {
+    const dhikrElement = document.getElementById('currentDhikr');
+    if (!dhikrElement) return;
+    
+    if (currentDhikr) {
+        dhikrElement.textContent = `${currentDhikr.text} (${tasbihCount}/${targetCount})`;
+        dhikrElement.classList.add('active');
+        
+        // Update progress bar
+        updateTasbihProgress();
+    } else {
+        dhikrElement.textContent = 'اختر ذكراً للبدء';
+        dhikrElement.classList.remove('active');
+        
+        // Hide progress bar
+        hideTasbihProgress();
+    }
+}
+
+// Update tasbih progress bar
+function updateTasbihProgress() {
+    let progressBar = document.querySelector('.tasbih-progress');
+    
+    if (!progressBar) {
+        // Create progress bar if it doesn't exist
+        const counter = document.getElementById('currentDhikr');
+        if (counter) {
+            progressBar = document.createElement('div');
+            progressBar.className = 'tasbih-progress';
+            progressBar.innerHTML = '<div class="tasbih-progress-bar"></div>';
+            counter.parentNode.insertBefore(progressBar, counter.nextSibling);
+        }
+    }
+    
+    if (progressBar && targetCount > 0) {
+        const progress = (tasbihCount / targetCount) * 100;
+        const progressBarInner = progressBar.querySelector('.tasbih-progress-bar');
+        if (progressBarInner) {
+            progressBarInner.style.width = `${Math.min(progress, 100)}%`;
+        }
+    }
+}
+
+// Hide tasbih progress bar
+function hideTasbihProgress() {
+    const progressBar = document.querySelector('.tasbih-progress');
+    if (progressBar) {
+        progressBar.remove();
+    }
+}
+
+// Show completion celebration
+function showCompletionCelebration() {
+    // Show celebration notification
+    showEnhancedNotification(`🎉 تم إكمال الذكر: ${currentDhikr.text}!`, 'success', 5000);
+    
+    // Play celebration sound if available
+    playCelebrationSound();
+    
+    // Add celebration animation to counter
+    const counter = document.getElementById('tasbihCounter');
+    if (counter) {
+        counter.style.animation = 'celebration 1s ease-in-out';
+        setTimeout(() => {
+            counter.style.animation = '';
+        }, 1000);
+    }
+}
+
+// Play celebration sound
+function playCelebrationSound() {
+    // Create a simple beep sound
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
+    
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+}
+
+// Save tasbih state to localStorage
+function saveTasbihState() {
+    const state = {
+        count: tasbihCount,
+        currentDhikr,
+        targetCount,
+        customDhikrs
+    };
+    localStorage.setItem('tasbihState', JSON.stringify(state));
+}
+
+// Load tasbih state from localStorage
+function loadTasbihState() {
+    try {
+        const saved = localStorage.getItem('tasbihState');
+        if (saved) {
+            const state = JSON.parse(saved);
+            tasbihCount = state.count || 0;
+            currentDhikr = state.currentDhikr || null;
+            targetCount = state.targetCount || 0;
+            customDhikrs = state.customDhikrs || [];
+            
+            updateTasbihDisplay();
+            updateCurrentDhikrDisplay();
+        }
+    } catch (error) {
+        console.error('Error loading tasbih state:', error);
+    }
+}
+
+// Make functions available globally
+window.showCustomDhikrModal = showCustomDhikrModal;
+window.addCustomDhikr = addCustomDhikr;
+window.setTasbihPreset = setTasbihPreset;
+
+// Function to link adhkar with tasbih
+function linkAdhkarWithTasbih(dhikrText, count) {
+    // Set the selected dhikr in tasbih
+    setCustomDhikr(dhikrText, count);
+    
+    // Show success message
+    showEnhancedNotification(`تم ربط الذكر: ${dhikrText} مع السبحة`, 'success');
+    
+    // Scroll to tasbih section
+    const tasbihSection = document.querySelector('.tasbih-card');
+    if (tasbihSection) {
+        tasbihSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// ====== Enhanced Prayer Times Display ======
+
+// Enhanced function to display prayer times in card format
+function displayPrayerTimesEnhanced() {
+    if (!prayerTimes || Object.keys(prayerTimes).length === 0) {
+        return;
+    }
+
+    // Update prayer times in cards
+    const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    prayers.forEach(prayer => {
+        const element = document.getElementById(prayer.toLowerCase());
+        if (element && prayerTimes[prayer]) {
+            element.textContent = formatTime(prayerTimes[prayer]);
+        }
+    });
+
+    // Calculate next prayer before starting countdown
+    calculateNextPrayer();
+    
+    // Update prayer status for cards
+    updatePrayerStatus();
+    
+    // Update prayer date
+    updatePrayerDate();
+    
+    // Start countdown for cards
+    startCountdown();
+}
+
+// Start countdown for card display
+function startTableCountdown() {
+    if (prayerCountdownInterval) {
+        clearInterval(prayerCountdownInterval);
+    }
+
+    prayerCountdownInterval = setInterval(() => {
+        updatePrayerStatus();
+        updateCountdown();
+    }, 1000);
+}
+
+// ====== Initialize Enhanced Features ======
+
+// Initialize enhanced prayer times features
+function initializeEnhancedFeatures() {
+    // Load tasbih count
+    loadTasbihState();
+    
+    // Add keyboard shortcuts for tasbih
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+            e.preventDefault();
+            incrementTasbih();
+        } else if (e.code === 'Backspace') {
+            e.preventDefault();
+            decrementTasbih();
+        } else if (e.code === 'KeyR') {
+            e.preventDefault();
+            resetTasbih();
+        }
+    });
+}
+
+// ====== Enhanced Notification System ======
+
+// Basic notification function (fallback)
+function showNotification(message, type = 'info') {
+    // Use enhanced notification if available
+    if (typeof showEnhancedNotification === 'function') {
+        showEnhancedNotification(message, type);
+        return;
+    }
+    
+    // Fallback to simple alert
+    console.log(`${type.toUpperCase()}: ${message}`);
+}
+
+// Enhanced notification function
+function showEnhancedNotification(message, type = 'info', duration = 3000) {
+    const notification = document.createElement('div');
+    notification.className = `enhanced-notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="bi ${getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">
+            <i class="bi bi-x"></i>
+        </button>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Add entrance animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+
+    // Auto remove after duration
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+    }, duration);
+}
+
+// Get notification icon based on type
+function getNotificationIcon(type) {
+    const icons = {
+        'success': 'bi-check-circle-fill',
+        'error': 'bi-exclamation-circle-fill',
+        'warning': 'bi-exclamation-triangle-fill',
+        'info': 'bi-info-circle-fill'
+    };
+    return icons[type] || icons.info;
+}
+
+// ====== Enhanced Prayer Times Grid Update ======
+
+// Update the existing prayer times grid to work with cards
+function updatePrayerTimesGridForTable() {
+    const grid = document.getElementById('prayerTimesGrid');
+    if (!grid) return;
+
+    // Show the grid since we're using cards now
+    grid.style.display = 'grid';
+}
+
+// ====== Enhanced Initialization ======
+
+// Enhanced initialization function
+function initializeEnhancedPrayerTimes() {
+    // Initialize basic prayer times
+    initializePrayerTimesSmart();
+    
+    // Initialize enhanced features
+    initializeEnhancedFeatures();
+    
+    // Update prayer times grid for card compatibility
+    updatePrayerTimesGridForTable();
+    
+    // Display prayer times with enhanced function
+    if (prayerTimes && Object.keys(prayerTimes).length > 0) {
+        displayPrayerTimesEnhanced();
+    }
+    
+    // Start enhanced countdown
+    startTableCountdown();
+}
+
+// ====== Export Enhanced Functions ======
+
+// Make enhanced functions available globally
+window.setPrayerReminder = setPrayerReminder;
+window.toggleAdhkarSection = toggleAdhkarSection;
+window.incrementTasbih = incrementTasbih;
+window.decrementTasbih = decrementTasbih;
+window.resetTasbih = resetTasbih;
+window.setTasbihPreset = setTasbihPreset;
+window.displayPrayerTimesEnhanced = displayPrayerTimesEnhanced;
+window.initializeEnhancedPrayerTimes = initializeEnhancedPrayerTimes;
+window.linkAdhkarWithTasbih = linkAdhkarWithTasbih;

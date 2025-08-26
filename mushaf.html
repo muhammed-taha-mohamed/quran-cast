@@ -138,8 +138,8 @@
         }
 
         .page-image-container {
-            position: relative;
-            background: #f8f9fa;
+            background: white;
+            background: #ffffff;
             min-height: 400px;
             display: flex;
             align-items: center;
@@ -150,7 +150,6 @@
             max-width: 100%;
             height: auto;
             border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
 
@@ -365,6 +364,468 @@
             background: #1a2f17;
             color: white;
         }
+
+        /* Enhanced Notifications */
+        .mushaf-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 350px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #2d4a22;
+            animation: slideInRight 0.3s ease-out;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .mushaf-notification-success {
+            border-left-color: #28a745;
+        }
+
+        .mushaf-notification-error {
+            border-left-color: #dc3545;
+        }
+
+        .mushaf-notification-info {
+            border-left-color: #17a2b8;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+        }
+
+        .notification-content i {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .mushaf-notification-success i {
+            color: #28a745;
+        }
+
+        .mushaf-notification-error i {
+            color: #dc3545;
+        }
+
+        .mushaf-notification-info i {
+            color: #17a2b8;
+        }
+
+        .notification-content span {
+            flex: 1;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .notification-close:hover {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        /* Dark theme notifications */
+        [data-theme="dark"] .mushaf-notification {
+            background: #2d2d2d;
+            border-left-color: #4a6741;
+        }
+
+        [data-theme="dark"] .notification-content span {
+            color: #e9ecef;
+        }
+
+        [data-theme="dark"] .notification-close {
+            color: #adb5bd;
+        }
+
+        [data-theme="dark"] .notification-close:hover {
+            background: #495057;
+            color: #e9ecef;
+        }
+
+        /* Enhanced page loading */
+        .page-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .page-loading .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.25rem;
+        }
+
+        .page-loading p {
+            font-size: 1.1rem;
+            margin: 0;
+            color: #6c757d;
+        }
+
+        /* Enhanced page error */
+        .page-error {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .page-error i {
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-error h5 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .page-error p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced page image */
+        .page-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .page-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Enhanced controls */
+        .mushaf-controls {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .page-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #2d4a22 0%, #1a2f17 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            min-width: 120px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(45, 74, 34, 0.3);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            background: #6c757d;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .page-input {
+            width: 120px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .page-input:focus {
+            border-color: #2d4a22;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(45, 74, 34, 0.1);
+        }
+
+        /* Enhanced quick navigation */
+        .quick-nav {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-nav-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d4a22;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Surah Selector Styles */
+        .surah-selector-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Selection Row */
+        .selection-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .surah-selector,
+        .juz-selector {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .selector-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d4a22;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+
+        .surah-dropdown,
+        .juz-dropdown {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d4a22;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .surah-dropdown:focus,
+        .juz-dropdown:focus {
+            outline: none;
+            border-color: #2d4a22;
+            box-shadow: 0 0 0 4px rgba(45, 74, 34, 0.1);
+            background: white;
+        }
+
+        .surah-dropdown:hover,
+        .juz-dropdown:hover {
+            border-color: #2d4a22;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 74, 34, 0.15);
+        }
+
+        .surah-selector-icon,
+        .juz-selector-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2d4a22;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .surah-selector:hover .surah-selector-icon,
+        .juz-selector:hover .juz-selector-icon {
+            color: #1a2f17;
+        }
+
+        .surah-dropdown:focus+.surah-selector-icon,
+        .juz-dropdown:focus+.juz-selector-icon {
+            color: #1a2f17;
+        }
+
+        /* Quick Page Navigation */
+        .quick-page-nav {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .quick-page-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d4a22;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-page-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-page-btn {
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            min-width: 50px;
+            cursor: pointer;
+        }
+
+        .quick-page-btn:hover {
+            background: #2d4a22;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(45, 74, 34, 0.2);
+        }
+
+        .quick-page-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Dark theme styles */
+        [data-theme="dark"] .quick-nav {
+            background: #2d2d2d;
+            border-color: #495057;
+        }
+
+        [data-theme="dark"] .surah-dropdown,
+        [data-theme="dark"] .juz-dropdown {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-color: #495057;
+            color: #e9ecef;
+        }
+
+        [data-theme="dark"] .surah-dropdown:focus,
+        [data-theme="dark"] .juz-dropdown:focus,
+        [data-theme="dark"] .surah-dropdown:hover,
+        [data-theme="dark"] .juz-dropdown:hover {
+            background: #1a1a1a;
+            border-color: #4a6741;
+        }
+
+        [data-theme="dark"] .surah-selector-icon,
+        [data-theme="dark"] .juz-selector-icon {
+            color: #4a6741;
+        }
+
+        [data-theme="dark"] .selector-label {
+            color: #4a6741;
+        }
+
+        [data-theme="dark"] .quick-page-btn {
+            background: #495057;
+            color: #e9ecef;
+        }
+
+        [data-theme="dark"] .quick-page-btn:hover {
+            background: #1a2f17;
+            color: white;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .selection-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .surah-selector,
+            .juz-selector {
+                min-width: 100%;
+            }
+
+            .surah-dropdown,
+            .juz-dropdown {
+                font-size: 1rem;
+                padding: 0.875rem 2.5rem 0.875rem 1.25rem;
+            }
+
+            .surah-selector-icon,
+            .juz-selector-icon {
+                right: 1.25rem;
+            }
+
+            .quick-page-buttons {
+                gap: 0.5rem;
+            }
+
+            .quick-page-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+                min-width: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick-nav {
+                padding: 1.5rem;
+            }
+
+            .quick-nav-title {
+                font-size: 1.2rem;
+            }
+
+            .surah-dropdown,
+            .juz-dropdown {
+                font-size: 0.95rem;
+                padding: 0.75rem 2.25rem 0.75rem 1rem;
+            }
+
+            .surah-selector-icon,
+            .juz-selector-icon {
+                right: 1rem;
+            }
+
+            .quick-page-buttons {
+                gap: 0.4rem;
+            }
+
+            .quick-page-btn {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.8rem;
+                min-width: 40px;
+            }
+        }
     </style>
 </head>
 
@@ -416,92 +877,234 @@
         </div>
     </nav>
 
-    <!-- Bottom Navigation - Mobile Only -->
-    <nav class="bottom-navbar d-md-none fixed-bottom">
-        <div class="nav-item" onclick="window.location.href='index.html'">
-            <i class="bi bi-house"></i>
-            <span>الرئيسية</span>
-        </div>
-        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
-            <i class="bi bi-compass"></i>
-            <span>الصلاة</span>
-        </div>
-        <div class="nav-item" onclick="showQuranModeModal()">
-            <i class="bi bi-book"></i>
-            <span>القرآن</span>
-        </div>
-        <div class="nav-item" onclick="window.location.href='hadith.html'">
-            <i class="bi bi-chat-quote"></i>
-            <span>الأحاديث</span>
-        </div>
-        <div class="nav-item active" onclick="window.location.href='mushaf.html'">
-            <i class="bi bi-journal-text"></i>
-            <span>المصحف</span>
-        </div>
-    </nav>
+ <!-- Bottom Navigation Bar - Mobile Only -->
+ <nav class="bottom-navbar">
+
+    <div class="nav-item active" onclick="window.location.href='index.html'">
+        <i class="bi bi-house-door"></i>
+        <span>الرئيسية</span>
+    </div>
+
+
+    <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
+        <i class="bi bi-clock"></i>
+        <span>الصلاة</span>
+    </div>
+
+    <div class="nav-item" onclick="showQuranModeModal()">
+        <i class="bi bi-book-half"></i>
+        <span>القرآن</span>
+    </div>
+
+
+    <div class="nav-item" onclick="window.location.href='hadith.html'">
+        <i class="bi bi-chat-quote"></i>
+        <span>الأحاديث</span>
+    </div>
+
+    <div class="nav-item more-btn" onclick="toggleSidebar()">
+        <i class="bi bi-three-dots"></i>
+        <span>المزيد</span>
+    </div>
+</nav>
 
     <!-- Main Content -->
-    <div class="mushaf-container" style="margin-top: 80px; margin-bottom: 80px;">
+    <div class="mushaf-container" style="margin-top: 80px; margin-bottom: 80px">
         <div class="container">
-            <!-- Header -->
-            <div class="mushaf-header text-center">
-                <h1 class="mushaf-title">المصحف الشريف</h1>
-                <p class="mushaf-subtitle">عرض صفحات القرآن الكريم بالخط العثماني</p>
-                <div class="mushaf-stats">
-                    <div class="stat-item">
-                        <span class="stat-number" id="totalPages">604</span>
-                        <span class="stat-label">صفحة</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">114</span>
-                        <span class="stat-label">سورة</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">30</span>
-                        <span class="stat-label">جزء</span>
-                    </div>
-                </div>
-            </div>
 
             <!-- Controls -->
             <div class="mushaf-controls">
+               
                 <div class="page-navigation">
-                    <button class="nav-btn" id="firstPageBtn" onclick="goToPage(1)">
-                        <i class="bi bi-skip-backward-fill"></i> الأولى
-                    </button>
+                   
                     <button class="nav-btn" id="prevPageBtn" onclick="previousPage()">
-                        <i class="bi bi-chevron-left"></i> السابقة
+                        <i class="bi bi-arrow-right"></i>
                     </button>
 
                     <div class="d-flex align-items-center gap-2">
                         <label for="pageInput" class="mb-0">صفحة:</label>
                         <input type="number" id="pageInput" class="page-input" min="1" max="604" value="1">
                         <button class="nav-btn" onclick="goToPageInput()">
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-search"></i>
                         </button>
                     </div>
 
-                    <button class="nav-btn" id="nextPageBtn" onclick="nextPage()">
-                        التالية <i class="bi bi-chevron-right"></i>
+                    <button class="nav-btn" id="nextPageBtn" onclick="nextPage()"><i class="bi bi-arrow-left"></i>
                     </button>
-                    <button class="nav-btn" id="lastPageBtn" onclick="goToPage(604)">
-                        الأخيرة <i class="bi bi-skip-forward-fill"></i>
-                    </button>
+                    
                 </div>
             </div>
 
             <!-- Quick Navigation -->
             <div class="quick-nav">
-                <h5 class="quick-nav-title">انتقال سريع</h5>
-                <div class="quick-nav-buttons">
-                    <button class="quick-nav-btn" onclick="goToPage(1)">الفاتحة</button>
-                    <button class="quick-nav-btn" onclick="goToPage(2)">البقرة</button>
-                    <button class="quick-nav-btn" onclick="goToPage(49)">آل عمران</button>
-                    <button class="quick-nav-btn" onclick="goToPage(77)">النساء</button>
-                    <button class="quick-nav-btn" onclick="goToPage(106)">المائدة</button>
-                    <button class="quick-nav-btn" onclick="goToPage(128)">الأنعام</button>
-                    <button class="quick-nav-btn" onclick="goToPage(151)">الأعراف</button>
-                    <button class="quick-nav-btn" onclick="goToPage(177)">الأنفال</button>
+                <h5 class="quick-nav-title">اختيار السورة أو الجزء</h5>
+                <div class="surah-selector-container">
+                    <!-- Surah and Juz Selection Row -->
+                    <div class="selection-row">
+                        <div class="surah-selector">
+                            <select id="surahSelector" class="surah-dropdown" onchange="goToSurah(this.value)">
+                                <option value="">اختر السورة...</option>
+                                <option value="1">1 - الفاتحة</option>
+                                <option value="2">2 - البقرة</option>
+                                <option value="3">3 - آل عمران</option>
+                                <option value="4">4 - النساء</option>
+                                <option value="5">5 - المائدة</option>
+                                <option value="6">6 - الأنعام</option>
+                                <option value="7">7 - الأعراف</option>
+                                <option value="8">8 - الأنفال</option>
+                                <option value="9">9 - التوبة</option>
+                                <option value="10">10 - يونس</option>
+                                <option value="11">11 - هود</option>
+                                <option value="12">12 - يوسف</option>
+                                <option value="13">13 - الرعد</option>
+                                <option value="14">14 - إبراهيم</option>
+                                <option value="15">15 - الحجر</option>
+                                <option value="16">16 - النحل</option>
+                                <option value="17">17 - الإسراء</option>
+                                <option value="18">18 - الكهف</option>
+                                <option value="19">19 - مريم</option>
+                                <option value="20">20 - طه</option>
+                                <option value="21">21 - الأنبياء</option>
+                                <option value="22">22 - الحج</option>
+                                <option value="23">23 - المؤمنون</option>
+                                <option value="24">24 - النور</option>
+                                <option value="25">25 - الفرقان</option>
+                                <option value="26">26 - الشعراء</option>
+                                <option value="27">27 - النمل</option>
+                                <option value="28">28 - القصص</option>
+                                <option value="29">29 - العنكبوت</option>
+                                <option value="30">30 - الروم</option>
+                                <option value="31">31 - لقمان</option>
+                                <option value="32">32 - السجدة</option>
+                                <option value="33">33 - الأحزاب</option>
+                                <option value="34">34 - سبأ</option>
+                                <option value="35">35 - فاطر</option>
+                                <option value="36">36 - يس</option>
+                                <option value="37">37 - الصافات</option>
+                                <option value="38">38 - ص</option>
+                                <option value="39">39 - الزمر</option>
+                                <option value="40">40 - غافر</option>
+                                <option value="41">41 - فصلت</option>
+                                <option value="42">42 - الشورى</option>
+                                <option value="43">43 - الزخرف</option>
+                                <option value="44">44 - الدخان</option>
+                                <option value="45">45 - الجاثية</option>
+                                <option value="46">46 - الأحقاف</option>
+                                <option value="47">47 - محمد</option>
+                                <option value="48">48 - الفتح</option>
+                                <option value="49">49 - الحجرات</option>
+                                <option value="50">50 - ق</option>
+                                <option value="51">51 - الذاريات</option>
+                                <option value="52">52 - الطور</option>
+                                <option value="53">53 - النجم</option>
+                                <option value="54">54 - القمر</option>
+                                <option value="55">55 - الرحمن</option>
+                                <option value="56">56 - الواقعة</option>
+                                <option value="57">57 - الحديد</option>
+                                <option value="58">58 - المجادلة</option>
+                                <option value="59">59 - الحشر</option>
+                                <option value="60">60 - الممتحنة</option>
+                                <option value="61">61 - الصف</option>
+                                <option value="62">62 - الجمعة</option>
+                                <option value="63">63 - المنافقون</option>
+                                <option value="64">64 - التغابن</option>
+                                <option value="65">65 - الطلاق</option>
+                                <option value="66">66 - التحريم</option>
+                                <option value="67">67 - الملك</option>
+                                <option value="68">68 - القلم</option>
+                                <option value="69">69 - الحاقة</option>
+                                <option value="70">70 - المعارج</option>
+                                <option value="71">71 - نوح</option>
+                                <option value="72">72 - الجن</option>
+                                <option value="73">73 - المزمل</option>
+                                <option value="74">74 - المدثر</option>
+                                <option value="75">75 - القيامة</option>
+                                <option value="76">76 - الإنسان</option>
+                                <option value="77">77 - المرسلات</option>
+                                <option value="78">78 - النبأ</option>
+                                <option value="79">79 - النازعات</option>
+                                <option value="80">80 - عبس</option>
+                                <option value="81">81 - التكوير</option>
+                                <option value="82">82 - الانفطار</option>
+                                <option value="83">83 - المطففين</option>
+                                <option value="84">84 - الانشقاق</option>
+                                <option value="85">85 - البروج</option>
+                                <option value="86">86 - الطارق</option>
+                                <option value="87">87 - الأعلى</option>
+                                <option value="88">88 - الغاشية</option>
+                                <option value="89">89 - الفجر</option>
+                                <option value="90">90 - البلد</option>
+                                <option value="91">91 - الشمس</option>
+                                <option value="92">92 - الليل</option>
+                                <option value="93">93 - الضحى</option>
+                                <option value="94">94 - الشرح</option>
+                                <option value="95">95 - التين</option>
+                                <option value="96">96 - العلق</option>
+                                <option value="97">97 - القدر</option>
+                                <option value="98">98 - البينة</option>
+                                <option value="99">99 - الزلزلة</option>
+                                <option value="100">100 - العاديات</option>
+                                <option value="101">101 - القارعة</option>
+                                <option value="102">102 - التكاثر</option>
+                                <option value="103">103 - العصر</option>
+                                <option value="104">104 - الهمزة</option>
+                                <option value="105">105 - الفيل</option>
+                                <option value="106">106 - قريش</option>
+                                <option value="107">107 - الماعون</option>
+                                <option value="108">108 - الكوثر</option>
+                                <option value="109">109 - الكافرون</option>
+                                <option value="110">110 - النصر</option>
+                                <option value="111">111 - المسد</option>
+                                <option value="112">112 - الإخلاص</option>
+                                <option value="113">113 - الفلق</option>
+                                <option value="114">114 - الناس</option>
+                            </select>
+                            <div class="surah-selector-icon">
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="juz-selector">
+                            <select id="juzSelector" class="juz-dropdown" onchange="goToJuz(this.value)">
+                                <option value="">اختر الجزء...</option>
+                                <option value="1">الجزء 1</option>
+                                <option value="2">الجزء 2</option>
+                                <option value="3">الجزء 3</option>
+                                <option value="4">الجزء 4</option>
+                                <option value="5">الجزء 5</option>
+                                <option value="6">الجزء 6</option>
+                                <option value="7">الجزء 7</option>
+                                <option value="8">الجزء 8</option>
+                                <option value="9">الجزء 9</option>
+                                <option value="10">الجزء 10</option>
+                                <option value="11">الجزء 11</option>
+                                <option value="12">الجزء 12</option>
+                                <option value="13">الجزء 13</option>
+                                <option value="14">الجزء 14</option>
+                                <option value="15">الجزء 15</option>
+                                <option value="16">الجزء 16</option>
+                                <option value="17">الجزء 17</option>
+                                <option value="18">الجزء 18</option>
+                                <option value="19">الجزء 19</option>
+                                <option value="20">الجزء 20</option>
+                                <option value="21">الجزء 21</option>
+                                <option value="22">الجزء 22</option>
+                                <option value="23">الجزء 23</option>
+                                <option value="24">الجزء 24</option>
+                                <option value="25">الجزء 25</option>
+                                <option value="26">الجزء 26</option>
+                                <option value="27">الجزء 27</option>
+                                <option value="28">الجزء 28</option>
+                                <option value="29">الجزء 29</option>
+                                <option value="30">الجزء 30</option>
+                            </select>
+                            <div class="juz-selector-icon">
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -519,6 +1122,36 @@
                 <div class="page-info">
                     <div class="page-number-display">
                         صفحة <span id="currentPageNumber">1</span> من 604
+                    </div>
+
+                    <!-- Page Information -->
+                    <div class="page-details text-center mb-3">
+                        <div class="row justify-content-center">
+                            <div class="col-md-3 col-6">
+                                <div class="detail-item">
+                                    <i class="bi bi-book text-primary"></i>
+                                    <span id="pageSurah">الفاتحة</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="detail-item">
+                                    <i class="bi bi-hash text-success"></i>
+                                    <span id="pageJuz">الجزء 1</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="detail-item">
+                                    <i class="bi bi-calendar text-info"></i>
+                                    <span id="pageRevelation">مكية</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="detail-item">
+                                    <i class="bi bi-clock text-warning"></i>
+                                    <span id="pageAyahs">7 آيات</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="page-actions">
@@ -543,6 +1176,9 @@
                         <span class="zoom-level" id="zoomLevel">100%</span>
                         <button class="zoom-btn" onclick="zoomIn()">
                             <i class="bi bi-zoom-in"></i>
+                        </button>
+                        <button class="zoom-btn" onclick="resetZoom()" title="إعادة تعيين التكبير">
+                            <i class="bi bi-arrow-clockwise"></i>
                         </button>
                     </div>
                 </div>
