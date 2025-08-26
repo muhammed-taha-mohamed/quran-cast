@@ -8719,12 +8719,31 @@ footer a:hover {
 }
 
 .adhkar-count {
-    background: linear-gradient(135deg, #0f766e, #14b8a6);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/* Adhkar Items - Smaller Font */
+.adhkar-item .adhkar-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.adhkar-item .adhkar-text strong {
+    font-size: 0.95rem;
+}
+
+.adhkar-item .adhkar-count .btn {
     font-size: 0.8rem;
-    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+}
+
+.adhkar-item .adhkar-count .btn i {
+    font-size: 0.75rem;
 }
 
 /* Tasbih Counter Styles */
