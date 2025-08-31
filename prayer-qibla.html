@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quran Cast - مواقيت الصلاة واتجاه القبلة</title>
-    <meta name="description" content="مواقيت الصلاة مع العد التنازلي واتجاه القبلة مع بوصلة تفاعلية">
+    <title>Quran Cast</title>
+    <meta name="description" content="Quran Cast">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Almarai:wght@300;400;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Bootstrap CSS -->
@@ -33,21 +33,21 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link active" href="index.html">
                             <i class="bi me-2"></i> الرئيسية
                         </a>
                     </li>
 
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="prayer-qibla.html">
+                        <a class="nav-link" href="prayer-qibla.html">
                             <i class="bi me-2"></i>الصلاة والقبلة
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="showQuranModeModal(); return false;">
-                            <i class="bi me-2"></i>المشغل
+                            <i class="bi me-2"></i>القرآن الكريم
                         </a>
                     </li>
 
@@ -55,11 +55,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="hadith.html">
                             <i class="bi me-2"></i>الأحاديث
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="mushaf.html">
-                            <i class="bi bi-journal-text me-2"></i>المصحف
                         </a>
                     </li>
                 </ul>
@@ -74,6 +69,115 @@
             </div>
         </div>
     </nav>
+
+
+    <!-- body -->
+    <main class="container" style="margin-top: 10px;">
+        <!-- Hero Section -->
+        <div style="border-radius: 0%; width: 100%;" class="hero-section quran-hero bg-image text-center mb-5">
+            <!-- Mobile Video Background -->
+            <video style="border-radius: 0" autoplay muted loop playsinline class="d-md-none">
+                <source src="media/vedios/quran_page_mobile.mp4" type="video/mp4">
+            </video>
+
+            <!-- Mobile Stats (Top Position) -->
+            <div class="mobile-stats-box d-md-none">
+                <div class="quran-info-card-mobile">
+                    <div class="quran-stats-row-mobile">
+                        <div class="quran-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">عدد السور</div>
+                                <div class="stat-value">114</div>
+                            </div>
+                        </div>
+                        <div class="quran-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">عدد الآيات</div>
+                                <div class="stat-value">6236</div>
+                            </div>
+                        </div>
+                        <div class="quran-stat-item-mobile">
+                            <div class="stat-content">
+                                <div class="stat-label">القراءات</div>
+                                <div class="stat-value">7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Stats (Center Position) -->
+            <div class="hero-content d-none d-md-block">
+                <div class="row justify-content-center">
+                    <div>
+                        <!-- Enhanced Quran Info Card -->
+                        <div class="quran-info-card enhanced-prayer-card">
+                            <div class="quran-info-content">
+                                <div class="quran-stats-row prayer-stats-row">
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">عدد السور</div>
+                                            <div class="stat-value">114</div>
+                                        </div>
+                                    </div>
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">عدد الآيات</div>
+                                            <div class="stat-value">6236</div>
+                                        </div>
+                                    </div>
+                                    <div class="quran-stat-item prayer-stat-item">
+                                        <div class="stat-content">
+                                            <div class="stat-label">القراءات</div>
+                                            <div class="stat-value">7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Mode Selection Modal -->
+        <div id="modeSelection" class="modal fade" tabindex="-1" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" onclick="closeModeModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mode-buttons">
+                            <div class="mode-btn" onclick="selectReadingMode()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-book" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                                </svg>
+                                <span style="font-size: 16px;">قراءة</span>
+                                <small style="font-size: 12px;">قراءة الآيات مع التفسير</small>
+                            </div>
+                            <div class="mode-btn" onclick="selectListeningMode()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-ear" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.5 1A4.5 4.5 0 0 0 4 5.5v7.047a2.453 2.453 0 0 0 4.75.861l.512-1.363a5.6 5.6 0 0 1 .816-1.46l2.008-2.581A4.34 4.34 0 0 0 8.66 1zM3 5.5A5.5 5.5 0 0 1 8.5 0h.16a5.34 5.34 0 0 1 4.215 8.618l-2.008 2.581a4.6 4.6 0 0 0-.67 1.197l-.51 1.363A3.453 3.453 0 0 1 3 12.547zM8.5 4A1.5 1.5 0 0 0 7 5.5v2.695q.168-.09.332-.192c.327-.208.577-.44.72-.727a.5.5 0 1 1 .895.448c-.256.513-.673.865-1.079 1.123A9 9 0 0 1 7 9.313V11.5a.5.5 0 0 1-1 0v-6a2.5 2.5 0 0 1 5 0V6a.5.5 0 0 1-1 0v-.5A1.5 1.5 0 0 0 8.5 4" />
+                                </svg>
+                                <span style="font-size: 16px;">استماع</span>
+                                <small style="font-size: 12px;">الاستماع للآيات مع مشغل صوتي</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
 
 
     <!-- Bottom Navigation Bar - Mobile Only -->
@@ -107,6 +211,7 @@
         </div>
     </nav>
 
+
     <!-- Enhanced Sidebar (Hidden by default) -->
     <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
         <div class="sidebar-header">
@@ -119,12 +224,13 @@
         <div class="sidebar-content">
             <div class="nav-section mb-4">
                 <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="#" class="sidebar-nav-item " onclick="showQuranModeModal(); return false;">
+
+                <a href="#" class="sidebar-nav-item active" onclick="showQuranModeModal(); return false;">
                     <i class="bi bi-book-open"></i>
                     <span>القرآن الكريم</span>
                     <i class="bi bi-chevron-left"></i>
                 </a>
-                <a href="prayer-qibla.html" class="sidebar-nav-item active">
+                <a href="prayer-qibla.html" class="sidebar-nav-item">
                     <i class="bi bi-clock"></i>
                     <span>الصلاة والقبلة</span>
                     <i class="bi bi-chevron-left"></i>
@@ -169,471 +275,6 @@
 
         </div>
     </div>
-
-
-    <main class="container" style="margin-top: 10px;">
-
-        <!-- Hero Section -->
-        <div style="border-radius: 0%; width: 100%;" class="hero-section prayer-hero bg-image text-center py-5 mb-5">
-            <!-- Desktop Image Background -->
-            <div class="d-none d-md-block">
-                <img src="media/images/azan_header.jpg" alt="" class="hero-bg-image">
-            </div>
-
-            <!-- Mobile Video Background -->
-            <video autoplay muted loop playsinline class="d-md-none hero-video">
-                <source src="media/vedios/azan_page_mobile.mp4" type="video/mp4">
-            </video>
-
-            <!-- Mobile Stats (Top Position) -->
-            <div class="mobile-stats-box d-md-none">
-                <div class="prayer-info-card-mobile">
-                    <div class="prayer-stats-row-mobile">
-                        <div class="prayer-stat-item-mobile">
-                            <div class="stat-content">
-                                <div class="stat-label">الصلاة القادمة</div>
-                                <div class="stat-value" id="nextPrayerNameMobile">--</div>
-                            </div>
-                        </div>
-                        <div class="prayer-stat-item-mobile">
-                            <div class="stat-content">
-                                <div class="stat-label">وقتها</div>
-                                <div class="stat-value" id="nextPrayerTimeMobile">--:--</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="prayer-stat-item-mobile countdown-stat">
-                        <div class="stat-content">
-                            <div class="stat-label">المؤقت</div>
-                            <div class="stat-value" id="prayerCountdownMobile">--:--:--</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-content d-none d-md-block">
-                <div class="row justify-content-center">
-                    <div>
-                        <!-- Enhanced Prayer Info Card -->
-                        <div class="prayer-info-card enhanced-prayer-card">
-                            <div class="prayer-info-content">
-
-                                <div class="prayer-stats-row">
-                                    <div class="prayer-stat-item">
-
-                                        <div class="stat-content">
-                                            <div class="stat-label">الصلاة القادمة</div>
-
-                                            <div class="stat-value" id="nextPrayerName">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
-                                                    <path fill="none" stroke="#FFFFFF" stroke-width="3"
-                                                        stroke-linecap="round" stroke-dasharray="300 385"
-                                                        stroke-dashoffset="0"
-                                                        d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
-                                                        <animate attributeName="stroke-dashoffset" calcMode="spline"
-                                                            dur="5" values="685;-685" keySplines="0 0 1 1"
-                                                            repeatCount="indefinite"></animate>
-                                                    </path>
-                                                </svg>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="prayer-stat-item">
-
-                                        <div class="stat-content">
-                                            <div class="stat-label">الوقت المتبقي</div>
-                                            <div class="stat-value" id="heroPrayerCountdown">
-
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
-                                                    <path fill="none" stroke="#FFFFFF" stroke-width="3"
-                                                        stroke-linecap="round" stroke-dasharray="300 385"
-                                                        stroke-dashoffset="0"
-                                                        d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
-                                                        <animate attributeName="stroke-dashoffset" calcMode="spline"
-                                                            dur="5" values="685;-685" keySplines="0 0 1 1"
-                                                            repeatCount="indefinite"></animate>
-                                                    </path>
-                                                </svg>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content Grid -->
-        <div class="row g-4">
-
-            <!-- Prayer Times Section -->
-            <div class="col-12">
-                <div class="card prayer-times-card enhanced-prayer-times-card">
-                    <div class="card-header enhanced-card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="header-content">
-                                <h5 style="color: #0f766e;" class="mb-0">مواقيت الصلاة اليوم </h5>
-                            </div>
-                        </div>
-                        <div class="header-actions">
-                            <span class="prayer-date" id="prayerDate">--</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="prayer-times-grid enhanced-prayer-grid" id="prayerTimesGrid">
-                            <div class="prayer-time-item fajr enhanced-prayer-item fajr">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">الفجر</div>
-                                    <div class="prayer-time" id="fajr">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                            <div class="prayer-time-item sunrise enhanced-prayer-item sunrise">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">الشروق</div>
-                                    <div class="prayer-time" id="sunrise">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                            <div class="prayer-time-item dhuhr enhanced-prayer-item duhr">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">الظهر</div>
-                                    <div class="prayer-time" id="dhuhr">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                            <div class="prayer-time-item asr enhanced-prayer-item asr">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">العصر</div>
-                                    <div class="prayer-time" id="asr">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                            <div class="prayer-time-item maghrib enhanced-prayer-item maghrib">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">المغرب</div>
-                                    <div class="prayer-time" id="maghrib">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                            <div class="prayer-time-item isha enhanced-prayer-item ishaa">
-                                <div class="prayer-info">
-                                    <div class="prayer-name">العشاء</div>
-                                    <div class="prayer-time" id="isha">--:--</div>
-                                    <div class="prayer-status"> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Prayer Adhkar Section -->
-            <div class="col-12">
-                <div class="card prayer-adhkar-card">
-                    <div class="card-header enhanced-card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="header-content">
-                                <h5 style="color: #0f766e;" class="mb-0">
-                                    <i class="bi bi-chat-heart text-success me-2"></i>
-                                    أذكار الصلاة
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn btn-outline-success btn-sm" onclick="toggleAdhkarSection()">
-                                <i class="bi bi-chevron-down"></i>
-                                عرض/إخفاء
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body" id="adhkarSection">
-                        <div class="row g-3">
-                            <!-- Fajr Adhkar -->
-                            <div class="col-md-6">
-                                <div class="adhkar-group">
-                                    <h6 class="adhkar-title text-success">
-                                        <i class="bi bi-sunrise me-2"></i>
-                                        أذكار الفجر
-                                    </h6>
-                                    <div class="adhkar-list">
-                                        <div class="adhkar-item">
-                                            <div class="adhkar-text">
-                                                <strong>سبحان الله</strong> - 33 مرة
-                                            </div>
-                                            <div class="adhkar-count">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('سبحان الله', 33)">
-                                                    <i class="bi bi-arrow-repeat"></i>
-                                                    كرر
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <div class="adhkar-text">
-                                                <strong>الحمد لله</strong> - 33 مرة
-                                            </div>
-                                            <div class="adhkar-count">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('الحمد لله', 33)">
-                                                    <i class="bi bi-arrow-repeat"></i>
-                                                    كرر
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <div class="adhkar-text">
-                                                <strong>الله أكبر</strong> - 34 مرة
-                                            </div>
-                                            <div class="adhkar-count">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('الله أكبر', 34)">
-                                                    <i class="bi bi-arrow-repeat"></i>
-                                                    كرر
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <div class="adhkar-text">
-                                                <strong>لا إله إلا الله</strong> - 100 مرة
-                                            </div>
-                                            <div class="adhkar-count">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('لا إله إلا الله', 100)">
-                                                    <i class="bi bi-arrow-repeat"></i>
-                                                    كرر
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <div class="adhkar-text">
-                                                <strong>لا حول ولا قوة إلا بالله</strong> - 100 مرة
-                                            </div>
-                                            <div class="adhkar-count">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="linkAdhkarWithTasbih('لا حول ولا قوة إلا بالله', 100)">
-                                                    <i class="bi bi-arrow-repeat"></i>
-                                                    كرر
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- General Prayer Adhkar -->
-                            <div class="col-md-6">
-                                <div class="adhkar-group">
-                                    <h6 class="adhkar-title text-primary">
-                                        <i class="bi bi-pray me-2"></i>
-                                        أذكار عامة
-                                    </h6>
-                                    <div class="adhkar-list">
-                                        <div class="adhkar-item">
-                                            <span class="adhkar-text">اللهم صل على محمد</span>
-                                            <span class="adhkar-count">10 مرات</span>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <span class="adhkar-text">أستغفر الله</span>
-                                            <span class="adhkar-count">3 مرات</span>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <span class="adhkar-text">سبحان الله وبحمده</span>
-                                            <span class="adhkar-count">3 مرات</span>
-                                        </div>
-                                        <div class="adhkar-item">
-                                            <span class="adhkar-text">لا حول ولا قوة إلا بالله</span>
-                                            <span class="adhkar-count">مرة واحدة</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tasbih Section -->
-            <div class="col-12">
-                <div class="card tasbih-card">
-                    <div class="card-header enhanced-card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="header-content">
-                                <h5 style="color: #0f766e;" class="mb-0">
-                                    <i class="bi bi-123 text-primary me-2"></i>
-                                    عداد التسبيح
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn btn-outline-primary btn-sm" onclick="showCustomDhikrModal()">
-                                <i class="bi bi-plus-circle"></i>
-                                ذكر مخصص
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-4 text-center">
-                                <div class="tasbih-counter">
-                                    <div class="counter-display" id="tasbihCounter">0</div>
-                                    <div class="counter-label">عدد التسبيحات</div>
-                                    <div class="current-dhikr" id="currentDhikr">اختر ذكراً للبدء</div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <div class="tasbih-controls">
-                                    <button class="btn btn-success btn-lg mb-2 w-100" onclick="incrementTasbih()">
-                                        <i class="bi bi-plus-circle"></i>
-                                        زائد
-                                    </button>
-                                    <button class="btn btn-warning btn-lg mb-2 w-100" onclick="decrementTasbih()">
-                                        <i class="bi bi-dash-circle"></i>
-                                        ناقص
-                                    </button>
-                                    <button class="btn btn-danger btn-lg w-100" onclick="resetTasbih()">
-                                        <i class="bi bi-arrow-clockwise"></i>
-                                        إعادة تعيين
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="tasbih-presets">
-                                    <h6 class="text-center mb-3">تسبيحات سريعة</h6>
-                                    <div class="preset-buttons">
-                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(33, 'سبحان الله')">
-                                            <i class="bi bi-1-circle"></i>
-                                            سبحان الله (33)
-                                        </button>
-                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(33, 'الحمد لله')">
-                                            <i class="bi bi-2-circle"></i>
-                                            الحمد لله (33)
-                                        </button>
-                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(34, 'الله أكبر')">
-                                            <i class="bi bi-3-circle"></i>
-                                            الله أكبر (34)
-                                        </button>
-                                        <button class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="setTasbihPreset(100, 'لا إله إلا الله')">
-                                            <i class="bi bi-4-circle"></i>
-                                            لا إله إلا الله (100)
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Custom Dhikr Modal -->
-            <div class="modal fade" id="customDhikrModal" tabindex="-1" aria-labelledby="customDhikrModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="customDhikrModalLabel">
-                                <i class="bi bi-plus-circle text-primary me-2"></i>
-                                إضافة ذكر مخصص
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="customDhikrText" class="form-label">نص الذكر</label>
-                                <input type="text" class="form-control" id="customDhikrText" placeholder="مثال: لا حول ولا قوة إلا بالله">
-                            </div>
-                            <div class="mb-3">
-                                <label for="customDhikrCount" class="form-label">عدد مرات التكرار</label>
-                                <input type="number" class="form-control" id="customDhikrCount" placeholder="مثال: 99" min="1" max="999">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                            <button type="button" class="btn btn-primary" onclick="addCustomDhikr()">
-                                <i class="bi bi-check-circle"></i>
-                                إضافة
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </main>
-
-    <!-- Enhanced Footer -->
-    <footer class="mt-5">
-        <div class="text-center text-muted">
-            <small>Quran Cast - تطبيق إسلامي شامل للمسلمين</small>
-        </div>
-    </footer>
-
-    <!-- Enhanced Sidebar (Hidden by default) -->
-    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
-        <div class="sidebar-header">
-            <div class="logo-section">
-
-                <h4 class="app-name">Quran Cast</h4>
-            </div>
-
-        </div>
-        <div class="sidebar-content">
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="index.html" class="sidebar-nav-item">
-                    <i class="bi bi-book-open"></i>
-                    <span>القرآن الكريم</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="prayer-qibla.html" class="sidebar-nav-item active">
-                    <i class="bi bi-clock"></i>
-                    <span>الصلاة والقبلة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="hadith.html" class="sidebar-nav-item">
-                    <i class="bi bi-chat-quote"></i>
-                    <span>الأحاديث</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="reading.html" class="sidebar-nav-item">
-                    <i class="bi bi-book"></i>
-                    <span>القراءة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="player.html" class="sidebar-nav-item">
-                    <i class="bi bi-ear"></i>
-                    <span>المشغل</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </div>
-
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">إعدادات سريعة</h6>
-                <button class="sidebar-nav-item" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                    <span>تبديل الوضع</span>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </div>
-
-
-            <div class="nav-section mb-4">
-
-                <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
-                    onclick="toggleSidebar()">
-                    <span> اغلاق</span>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="js/prayer-qibla.js"></script>
 
     <!-- Quran Mode Selection Modal -->
     <div class="modal fade" id="quranModeModal" tabindex="-1" aria-labelledby="quranModeModalLabel" aria-hidden="true">
@@ -647,7 +288,7 @@
                 </div>
                 <div class="simple-body">
                     <div class="simple-options">
-                        <div class="simple-option" onclick="selectQuranMode('reading')">
+                        <div class="simple-option" onclick="selectReadingMode()">
                             <div class="simple-icon">
                                 <i class="bi bi-book-half"></i>
                             </div>
@@ -657,7 +298,7 @@
                             </div>
                         </div>
 
-                        <div class="simple-option" onclick="selectQuranMode('listening')">
+                        <div class="simple-option" onclick="selectListeningMode()">
                             <div class="simple-icon">
                                 <i class="bi bi-ear"></i>
                             </div>
@@ -672,36 +313,9 @@
         </div>
     </div>
 
-    <script>
-        // Quran Mode Selection Functions
-        function selectQuranMode(mode) {
-            if (mode === 'listening') {
-                window.location.href = 'player.html';
-            } else if (mode === 'reading') {
-                window.location.href = 'reading.html';
-            }
-        }
-
-        // Show Quran Mode Modal for Quran-related navigation items
-        function showQuranModeModal() {
-            const modal = new bootstrap.Modal(document.getElementById('quranModeModal'));
-            modal.show();
-        }
-
-        // Close Quran modal
-        function closeQuranModal() {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('quranModeModal'));
-            if (modal) {
-                modal.hide();
-            }
-        }
-
-        // Add click event listeners to Quran navigation items
-        document.addEventListener('DOMContentLoaded', function () {
-            // All Quran navigation items now use showQuranModeModal() directly
-            // No need for additional event listeners
-        });
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

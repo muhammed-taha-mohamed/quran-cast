@@ -376,32 +376,6 @@
             }
         }
 
-        // إظهار إشعار التشغيل التلقائي
-        function showAutoPlayNotification() {
-            // إزالة الإشعارات السابقة
-            const existingNotification = document.querySelector('.auto-play-notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-
-            const notification = document.createElement('div');
-            notification.className = 'auto-play-notification';
-            notification.innerHTML = `
-                <i class="bi bi-play-circle me-2"></i>
-                تم تشغيل السورة تلقائياً
-            `;
-
-            // إدراج الإشعار في بداية المحتوى الرئيسي
-            const mainContent = document.querySelector('.main-content');
-            mainContent.insertBefore(notification, mainContent.firstChild);
-
-            // إزالة الإشعار بعد 3 ثوان
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 3000);
-        }
 
         // إظهار إشعار الانتقال التلقائي للسورة التالية
         function showNextSurahNotification(surahNumber, surahName) {

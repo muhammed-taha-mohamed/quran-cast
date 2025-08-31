@@ -2698,13 +2698,18 @@ document.addEventListener('DOMContentLoaded', function () {
 // Toggle sidebar function
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
-    if (sidebar) {
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (sidebar && overlay) {
         if (sidebar.style.display === 'none' || sidebar.style.display === '') {
             // Show sidebar with animation
             sidebar.style.display = 'block';
             // Force reflow to ensure display change takes effect
             sidebar.offsetHeight;
             sidebar.classList.add('show');
+
+            // Show overlay
+            overlay.classList.add('show');
 
             // Add click outside listener when sidebar is shown
             addSidebarClickOutsideListener();
@@ -2716,6 +2721,9 @@ function toggleSidebar() {
                 sidebar.style.display = 'none';
                 sidebar.style.animation = '';
             }, 400);
+
+            // Hide overlay
+            overlay.classList.remove('show');
 
             // Remove click outside listener when sidebar is hidden
             removeSidebarClickOutsideListener();
@@ -2740,9 +2748,10 @@ function removeSidebarClickOutsideListener() {
 // Function to handle clicks outside sidebar
 function handleSidebarClickOutside(event) {
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
     const moreBtn = document.querySelector('.more-btn');
 
-    if (!sidebar || !moreBtn) return;
+    if (!sidebar || !overlay || !moreBtn) return;
 
     // Check if click is outside sidebar and not on the more button
     if (!sidebar.contains(event.target) && !moreBtn.contains(event.target)) {
@@ -2753,6 +2762,9 @@ function handleSidebarClickOutside(event) {
             sidebar.style.display = 'none';
             sidebar.style.animation = '';
         }, 400);
+
+        // Hide overlay
+        overlay.classList.remove('show');
 
         // Remove click outside listener
         removeSidebarClickOutsideListener();
@@ -2798,3 +2810,284 @@ function closeQuranModal() {
         modal.hide();
     }
 }
+
+// ====== Advanced Adhkar System Functions ======
+
+// Global variables for adhkar system
+let currentAdhkarCategory = 0;
+let adhkarProgress = 0;
+let completedAdhkars = new Set();
+
+// Adhkar categories data
+const adhkarCategories = [
+    {
+        id: 'prayer',
+        name: 'أذكار الصلاة',
+        icon: 'bi-sunrise',
+        color: 'text-success'
+    },
+    {
+        id: 'morning',
+        name: 'أذكار الصباح',
+        icon: 'bi-sun',
+        color: 'text-warning'
+    },
+    {
+        id: 'evening',
+        name: 'أذكار المساء',
+        icon: 'bi-moon',
+        color: 'text-info'
+    },
+    {
+        id: 'daily',
+        name: 'أذكار يومية',
+        icon: 'bi-calendar-day',
+        color: 'text-primary'
+    }
+];
+
+// Initialize adhkar system
+function initializeAdhkarSystem() {
+    console.log('🚀 Initializing Advanced Adhkar System...');
+
+    // Load saved progress
+    loadAdhkarProgress();
+
+    // Set up event listeners
+    setupAdhkarEventListeners();
+
+    // Update progress display
+    updateAdhkarProgressDisplay();
+
+    console.log('✅ Adhkar System initialized successfully');
+}
+
+// Setup event listeners for adhkar
+function setupAdhkarEventListeners() {
+    // Tab navigation
+    const tabs = document.querySelectorAll('#adhkarTabs .nav-link');
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            currentAdhkarCategory = index;
+            updateAdhkarCategoryDisplay();
+        });
+    });
+
+    // Adhkar item clicks
+    const adhkarItems = document.querySelectorAll('.adhkar-item');
+    adhkarItems.forEach(item => {
+        item.addEventListener('click', handleAdhkarItemClick);
+    });
+}
+
+// Handle adhkar item click
+function handleAdhkarItemClick(event) {
+    const item = event.currentTarget;
+    const dhikrText = item.querySelector('strong').textContent;
+    const countText = item.querySelector('small').textContent;
+
+    // Extract count from text
+    let count = 1;
+    if (countText.includes('مرة')) {
+        const match = countText.match(/(\d+)/);
+        if (match) count = parseInt(match[1]);
+    }
+
+    // Mark as completed
+    markAdhkarAsCompleted(dhikrText);
+
+    // Link with tasbih
+    if (typeof linkAdhkarWithTasbih === 'function') {
+        linkAdhkarWithTasbih(dhikrText, count);
+    }
+
+    // Show completion animation
+    showAdhkarCompletionAnimation(item);
+
+    // Update progress
+    updateAdhkarProgress();
+}
+
+// Mark adhkar as completed
+function markAdhkarAsCompleted(dhikrText) {
+    completedAdhkars.add(dhikrText);
+    saveAdhkarProgress();
+}
+
+// Show completion animation
+function showAdhkarCompletionAnimation(item) {
+    // Add completion class
+    item.classList.add('completed');
+
+    // Add checkmark
+    const checkmark = document.createElement('div');
+    checkmark.className = 'adhkar-completion-check';
+    checkmark.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i>';
+    item.appendChild(checkmark);
+
+    // Remove after animation
+    setTimeout(() => {
+        item.classList.remove('completed');
+        if (checkmark.parentNode) {
+            checkmark.remove();
+        }
+    }, 2000);
+}
+
+// Update adhkar progress
+function updateAdhkarProgress() {
+    const totalAdhkars = document.querySelectorAll('.adhkar-item').length;
+    const completedCount = completedAdhkars.size;
+
+    adhkarProgress = Math.round((completedCount / totalAdhkars) * 100);
+
+    // Update progress bar
+    const progressBar = document.getElementById('adhkarProgress');
+    if (progressBar) {
+        progressBar.style.width = `${adhkarProgress}%`;
+        progressBar.setAttribute('aria-valuenow', adhkarProgress);
+    }
+
+    // Save progress
+    saveAdhkarProgress();
+}
+
+// Update adhkar progress display
+function updateAdhkarProgressDisplay() {
+    const progressBar = document.getElementById('adhkarProgress');
+    if (progressBar) {
+        progressBar.style.width = `${adhkarProgress}%`;
+        progressBar.setAttribute('aria-valuenow', adhkarProgress);
+    }
+}
+
+// Save adhkar progress to localStorage
+function saveAdhkarProgress() {
+    try {
+        const progressData = {
+            completed: Array.from(completedAdhkars),
+            progress: adhkarProgress,
+            lastUpdated: new Date().toISOString()
+        };
+        localStorage.setItem('qc-adhkar-progress', JSON.stringify(progressData));
+    } catch (error) {
+        console.error('Error saving adhkar progress:', error);
+    }
+}
+
+// Load adhkar progress from localStorage
+function loadAdhkarProgress() {
+    try {
+        const savedProgress = localStorage.getItem('qc-adhkar-progress');
+        if (savedProgress) {
+            const progressData = JSON.parse(savedProgress);
+            completedAdhkars = new Set(progressData.completed || []);
+            adhkarProgress = progressData.progress || 0;
+
+            // Check if progress is from today
+            const lastUpdated = new Date(progressData.lastUpdated);
+            const today = new Date();
+            if (lastUpdated.toDateString() !== today.toDateString()) {
+                // Reset progress for new day
+                completedAdhkars.clear();
+                adhkarProgress = 0;
+                saveAdhkarProgress();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading adhkar progress:', error);
+    }
+}
+
+// Navigate to next adhkar category
+function nextAdhkarCategory() {
+    const tabs = document.querySelectorAll('#adhkarTabs .nav-link');
+    currentAdhkarCategory = (currentAdhkarCategory + 1) % tabs.length;
+
+    // Activate the tab
+    const targetTab = tabs[currentAdhkarCategory];
+    const tabInstance = new bootstrap.Tab(targetTab);
+    tabInstance.show();
+
+    updateAdhkarCategoryDisplay();
+}
+
+// Navigate to previous adhkar category
+function previousAdhkarCategory() {
+    const tabs = document.querySelectorAll('#adhkarTabs .nav-link');
+    currentAdhkarCategory = (currentAdhkarCategory - 1 + tabs.length) % tabs.length;
+
+    // Activate the tab
+    const targetTab = tabs[currentAdhkarCategory];
+    const tabInstance = new bootstrap.Tab(targetTab);
+    tabInstance.show();
+
+    updateAdhkarCategoryDisplay();
+}
+
+// Update adhkar category display
+function updateAdhkarCategoryDisplay() {
+    const tabs = document.querySelectorAll('#adhkarTabs .nav-link');
+    tabs.forEach((tab, index) => {
+        if (index === currentAdhkarCategory) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+}
+
+// Reset adhkar progress
+function resetAdhkarProgress() {
+    if (confirm('هل تريد إعادة تعيين تقدم الأذكار؟')) {
+        completedAdhkars.clear();
+        adhkarProgress = 0;
+        saveAdhkarProgress();
+        updateAdhkarProgressDisplay();
+
+        // Remove completion marks from UI
+        const completedItems = document.querySelectorAll('.adhkar-item.completed');
+        completedItems.forEach(item => {
+            item.classList.remove('completed');
+        });
+
+        // Show success message
+        showNotification('تم إعادة تعيين تقدم الأذكار بنجاح', 'success');
+    }
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    // Add to page
+    document.body.appendChild(notification);
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize adhkar system if on home page
+    if (document.getElementById('adhkarTabs')) {
+        initializeAdhkarSystem();
+    }
+});
+
+// Make functions available globally
+window.nextAdhkarCategory = nextAdhkarCategory;
+window.previousAdhkarCategory = previousAdhkarCategory;
+window.resetAdhkarProgress = resetAdhkarProgress;
+window.showNotification = showNotification;

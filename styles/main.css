@@ -363,18 +363,14 @@
     color: var(--primary);
 }
 
-.bottom-navbar .nav-item.active {
-    
-}
+.bottom-navbar .nav-item.active {}
 
 .bottom-navbar .nav-item.active i,
 .bottom-navbar .nav-item.active span {
     color: rgba(14, 16, 17, 0.829);
 }
 
-.bottom-navbar .nav-item.active::before {
-
-}
+.bottom-navbar .nav-item.active::before {}
 
 .bottom-navbar .nav-item i,
 .bottom-navbar .nav-item span {
@@ -383,6 +379,23 @@
 }
 
 
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1999;
+    display: none;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.show {
+    display: block;
+}
 
 /* Enhanced Sidebar (Hidden by default) */
 .sidebar.enhanced-sidebar {
@@ -397,17 +410,42 @@
     z-index: 2000;
     transform: translateX(100%);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: hidden;
+    overflow-y: auto;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.sidebar.enhanced-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar.enhanced-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar.enhanced-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar.enhanced-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* Sidebar content styles */
 .sidebar-header {
     background: linear-gradient(135deg, #17a3b86e 0%, #0f766e 100%);
     color: white;
-    padding: 1.5rem;
+    padding: 1.25rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
+}
+
+.sidebar-header h3,
+.sidebar-header .sidebar-title {
+    font-size: 1.1rem;
+    margin: 0;
 }
 
 .logo-section {
@@ -459,6 +497,26 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .nav-section {
@@ -475,12 +533,37 @@
     border-bottom: 1px solid var(--border-light);
 }
 
+.sidebar-nav {
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
 .sidebar-nav-item {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
+    padding: 0.75rem;
     color: var(--text);
+    font-size: 0.875rem;
     text-decoration: none;
     border-radius: 10px;
     transition: all 0.3s ease;
@@ -1138,6 +1221,18 @@ a {
     z-index: -1;
 }
 
+/* Logo behind header */
+.hero-section .hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: 0.8;
+}
+
 /* Quran page hero */
 .hero-section.quran-hero::before {
     background: url('../media/images/landscape_1.jpg') center/cover no-repeat;
@@ -1372,6 +1467,51 @@ a {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+    }
+
+    /* Combined prayer name and time styling */
+    .prayer-name-time-row {
+        margin-bottom: 15px;
+    }
+
+    .prayer-name-time-item {
+        width: 100%;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 16px 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+    }
+
+    .prayer-name-time-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: white !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-bottom: 8px;
+    }
+
+    .prayer-name-time-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: white !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .time-separator {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+        font-size: 1.4rem;
     }
 }
 
@@ -5154,6 +5294,26 @@ body {
 
 .sidebar-nav {
     height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .nav-section {
@@ -5175,7 +5335,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1rem;
     background: var(--bg-elevated);
     border: 1px solid var(--border-light);
     border-radius: 12px;
@@ -5187,6 +5347,7 @@ body {
     border: none;
     width: 100%;
     text-align: right;
+    font-size: 0.875rem;
 }
 
 .sidebar-nav-item:hover {
@@ -5203,7 +5364,7 @@ body {
 }
 
 .sidebar-nav-item i:first-child {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     margin-left: 0.75rem;
     color: var(--text-muted);
 }
@@ -5218,7 +5379,7 @@ body {
 }
 
 .sidebar-nav-item i:last-child {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     transition: transform 0.3s ease;
 }
@@ -5634,8 +5795,8 @@ body {
 
 /* Mobile Prayer Stats */
 .prayer-hero .mobile-stats-box {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
+    background: rgba(15, 15, 15, 0.442);
+    backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 2rem;
@@ -8749,135 +8910,645 @@ footer a:hover {
 /* Tasbih Counter Styles */
 .tasbih-card {
     border: none;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    transition: all 0.4s ease;
+}
+
+.tasbih-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 .tasbih-counter {
     text-align: center;
-    padding: 20px;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
+    margin: 10px;
+    border: 2px solid rgba(59, 130, 246, 0.1);
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .counter-display {
-    font-size: 4rem;
-    font-weight: 700;
-    color: #0f766e;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    font-size: 5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0f766e 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    margin-bottom: 15px;
     font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.counter-display::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #0f766e, #0891b2);
+    border-radius: 2px;
+}
+
+.counter-display:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.counter-display:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .counter-label {
-    font-size: 1.1rem;
-    color: #6c757d;
-    font-weight: 500;
-}
-
-.tasbih-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-}
-
-.tasbih-controls .btn {
-    min-width: 120px;
-    padding: 12px 20px;
+    font-size: 1.2rem;
+    color: #374151;
     font-weight: 600;
-    border-radius: 25px;
-    transition: all 0.3s ease;
+    margin-bottom: 15px;
 }
 
-.tasbih-controls .btn:hover {
-    transform: translateY(-3px);
+/* Circular Control Buttons */
+.tasbih-controls-circular {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.tasbih-btn-circular {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.tasbih-presets {
+.tasbih-btn-circular::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.tasbih-btn-circular:hover::before {
+    left: 100%;
+}
+
+.tasbih-btn-circular:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.tasbih-btn-circular:active {
+    transform: translateY(-2px) scale(1.05);
+}
+
+.tasbih-btn-circular i {
+    font-size: 2rem;
+    color: white;
+    z-index: 1;
+    position: relative;
+}
+
+/* Increment Button */
+.tasbih-btn-circular.increment-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.tasbih-btn-circular.increment-btn:hover {
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+}
+
+/* Decrement Button */
+.tasbih-btn-circular.decrement-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+.tasbih-btn-circular.decrement-btn:hover {
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+}
+
+/* Reset Button */
+.tasbih-btn-circular.reset-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
+.tasbih-btn-circular.reset-btn:hover {
+    box-shadow: 0 15px 35px rgba(239, 68, 68, 0.4);
+}
+
+/* Responsive adjustments for circular buttons */
+@media (max-width: 768px) {
+    .tasbih-controls-circular {
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .tasbih-btn-circular {
+        width: 70px;
+        height: 70px;
+        font-size: 1.3rem;
+    }
+
+    .tasbih-btn-circular i {
+        font-size: 1.7rem;
+    }
+}
+
+/* Enhanced hover effects */
+.tasbih-btn-circular:hover {
+    transform: translateY(-8px) scale(1.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Pulse animation for increment button */
+@keyframes incrementPulse {
+    0% {
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6), 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+}
+
+.tasbih-btn-circular.increment-btn:hover {
+    animation: incrementPulse 1.5s ease-in-out infinite;
+}
+
+/* Shake animation for decrement button */
+@keyframes decrementShake {
+
+    0%,
+    100% {
+        transform: translateY(-5px) scale(1.1) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-5px) scale(1.1) rotate(-2deg);
+    }
+
+    75% {
+        transform: translateY(-5px) scale(1.1) rotate(2deg);
+    }
+}
+
+.tasbih-btn-circular.decrement-btn:hover {
+    animation: decrementShake 0.5s ease-in-out infinite;
+}
+
+/* Rotate animation for reset button */
+@keyframes resetRotate {
+    0% {
+        transform: translateY(-5px) scale(1.1) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-5px) scale(1.1) rotate(360deg);
+    }
+}
+
+.tasbih-btn-circular.reset-btn:hover {
+    animation: resetRotate 1s ease-in-out infinite;
+}
+
+@media (max-width: 480px) {
+    .tasbih-controls-circular {
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .tasbih-btn-circular {
+        width: 60px;
+        height: 60px;
+        font-size: 1.1rem;
+    }
+
+    .tasbih-btn-circular i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Old controls - keeping for backward compatibility */
+.tasbih-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
     padding: 20px;
+}
+
+.tasbih-btn {
+    min-width: 140px;
+    padding: 16px 24px;
+    font-weight: 700;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.tasbih-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.tasbih-btn:hover::before {
+    left: 100%;
+}
+
+.tasbih-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.tasbih-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Increment Button */
+.increment-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.increment-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+}
+
+/* Decrement Button */
+.decrement-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+.decrement-btn:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+}
+
+/* Reset Button */
+.reset-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    box-shadow: 0 15px 35px rgba(239, 68, 68, 0.4);
+}
+
+.tasbih-presets {
+    padding: 25px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 16px;
+    margin: 10px;
+    border: 2px solid rgba(245, 158, 11, 0.2);
+}
+
+.tasbih-presets h6 {
+    color: #92400e;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
 }
 
 .preset-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .preset-buttons .btn {
-    border-radius: 12px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    border-radius: 15px;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    color: #1e40af;
+    padding: 12px 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.preset-buttons .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.preset-buttons .btn:hover::before {
+    left: 100%;
 }
 
 .preset-buttons .btn:hover {
-    transform: translateX(5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.preset-buttons .btn:active {
+    transform: translateX(4px) scale(1.01);
 }
 
 /* Enhanced Tasbih Styles */
 .current-dhikr {
-    font-size: 1.2rem;
-    color: var(--primary);
+    font-size: 1.3rem;
+    color: #0f766e;
     font-weight: 700;
-    padding: 0.5rem 1rem;
-    background: rgba(145, 85, 253, 0.1);
-    border-radius: 15px;
-    border: 2px solid rgba(145, 85, 253, 0.3);
-    transition: all 0.3s ease;
-    margin-top: 1rem;
-}
+    padding: 12px 20px;
 
-.current-dhikr.active {
-    background: rgba(145, 85, 253, 0.2);
-    border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(145, 85, 253, 0.3);
-}
-
-.counter-display.completed {
-    animation: celebration 1s ease-in-out;
-    color: var(--success);
-}
-
-/* Celebration Animation */
-@keyframes celebration {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2) rotate(5deg); }
-    100% { transform: scale(1); }
-}
-
-/* Progress Bar for Tasbih */
-.tasbih-progress {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    margin: 1rem 0;
-}
-
-.tasbih-progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), #8b5cf6);
-    border-radius: 4px;
-    transition: width 0.3s ease;
+    transition: all 0.4s ease;
+    margin-top: 20px;
     position: relative;
+    overflow: hidden;
 }
 
-.tasbih-progress-bar::after {
+.current-dhikr::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    animation: shimmer 2s infinite;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.8s ease;
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+.current-dhikr:hover::before {
+    left: 100%;
+}
+
+.current-dhikr.active {
+
+    transform: scale(1.05);
+}
+
+.counter-display.completed {
+    animation: celebration 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Enhanced Celebration Animation */
+@keyframes celebration {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(1.3) rotate(5deg);
+    }
+
+    75% {
+        transform: scale(1.1) rotate(-3deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Circular Progress Ring for Tasbih */
+.tasbih-progress-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    z-index: 1;
+}
+
+/* Multiple rings positioning */
+.tasbih-progress-ring+.tasbih-progress-ring {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.9;
+}
+
+.tasbih-progress-ring+.tasbih-progress-ring+.tasbih-progress-ring {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+}
+
+/* Define gradient for progress ring */
+.tasbih-progress-ring svg {
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.3));
+}
+
+.progress-ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-linecap: round;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: url(#progressGradient);
+    stroke-linecap: round;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+}
+
+.progress-ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--primary);
+    font-weight: bold;
+    z-index: 2;
+}
+
+.progress-current {
+    font-size: 1.2rem;
+    color: var(--success);
+}
+
+.progress-separator {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0 4px;
+}
+
+.progress-target {
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+/* Animation for progress ring */
+@keyframes progressRingGlow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.9));
+    }
+}
+
+.progress-ring-circle {
+    animation: progressRingGlow 2s ease-in-out infinite;
+}
+
+/* Completion animation for progress ring */
+@keyframes ringCompletion {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Completed progress ring styles */
+.tasbih-progress-ring.completed {
+    z-index: 0;
+}
+
+.tasbih-progress-ring.completed .progress-ring-circle {
+    animation: none;
+    filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.8));
+}
+
+/* New progress ring styles */
+.tasbih-progress-ring.new-ring {
+    z-index: 2;
+}
+
+/* Completion text styles */
+.completion-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: #10b981;
+    font-weight: bold;
+}
+
+.completion-text i {
+    font-size: 1.5rem;
+    color: #10b981;
+}
+
+.completion-text span {
+    font-size: 1rem;
+    color: #10b981;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tasbih-progress-ring {
+        width: 100px;
+        height: 100px;
+    }
+
+    .progress-ring-text {
+        font-size: 0.9rem;
+    }
+
+    .progress-current {
+        font-size: 1rem;
+    }
+
+    .progress-target {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tasbih-progress-ring {
+        width: 80px;
+        height: 80px;
+    }
+
+    .progress-ring-text {
+        font-size: 0.8rem;
+    }
+
+    .progress-current {
+        font-size: 0.9rem;
+    }
+
+    .progress-target {
+        font-size: 0.8rem;
+    }
 }
 
 /* Custom Dhikr Modal */
@@ -8947,35 +9618,35 @@ footer a:hover {
     .prayer-times-table {
         font-size: 0.9rem;
     }
-    
+
     .prayer-times-table thead th {
         padding: 10px 5px;
         font-size: 0.8rem;
     }
-    
+
     .prayer-times-table tbody tr td {
         padding: 10px 5px;
     }
-    
+
     .prayer-name-cell {
         flex-direction: column;
         gap: 5px;
     }
-    
+
     .prayer-name-cell i {
         font-size: 1.2rem;
     }
-    
+
     .counter-display {
         font-size: 3rem;
     }
-    
+
     .tasbih-controls .btn {
         min-width: 100px;
         padding: 10px 15px;
         font-size: 0.9rem;
     }
-    
+
     .adhkar-group {
         margin-bottom: 20px;
     }
@@ -8985,20 +9656,20 @@ footer a:hover {
     .prayer-times-table {
         font-size: 0.8rem;
     }
-    
+
     .prayer-times-table thead th {
         padding: 8px 3px;
         font-size: 0.7rem;
     }
-    
+
     .prayer-times-table tbody tr td {
         padding: 8px 3px;
     }
-    
+
     .counter-display {
         font-size: 2.5rem;
     }
-    
+
     .tasbih-controls .btn {
         min-width: 80px;
         padding: 8px 12px;
@@ -9011,9 +9682,11 @@ footer a:hover {
     0% {
         box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
     }
+
     70% {
         box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
     }
+
     100% {
         box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
     }
@@ -9199,7 +9872,7 @@ footer a:hover {
         min-width: auto;
         transform: translateY(-100px);
     }
-    
+
     .enhanced-notification.show {
         transform: translateY(0);
     }
@@ -9210,12 +9883,1327 @@ footer a:hover {
         padding: 12px 16px;
         font-size: 0.9rem;
     }
-    
+
     .notification-content {
         gap: 8px;
     }
-    
+
     .notification-content i {
         font-size: 1rem;
+    }
+}
+
+/* Circular Progress Bar for Tasbih */
+.tasbih-progress-circle {
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    position: relative;
+    margin: 20px auto;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.tasbih-progress-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.tasbih-progress-circle circle {
+    stroke-width: 8;
+    stroke: rgba(255, 255, 255, 0.2);
+    fill: none;
+}
+
+.tasbih-progress-circle circle.progress {
+    stroke: #10b981;
+    stroke-linecap: round;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.tasbih-progress-circle text {
+    font-size: 2rem;
+    font-weight: 700;
+    fill: #10b981;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+/* Dark theme support for circular progress bar */
+[data-theme="dark"] .tasbih-progress-circle {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .tasbih-progress-circle circle {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .tasbih-progress-circle circle.progress {
+    stroke: #20c997;
+}
+
+[data-theme="dark"] .tasbih-progress-circle text {
+    fill: #20c997;
+}
+
+/* Responsive design for circular progress bar */
+@media (max-width: 768px) {
+    .tasbih-progress-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .tasbih-progress-circle text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tasbih-progress-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .tasbih-progress-circle text {
+        font-size: 1.2rem;
+    }
+}
+
+/* ====== Advanced Adhkar Slider Styles ====== */
+
+.adhkar-slider-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.adhkar-slider-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Return to adhkar animation */
+.adhkar-slider-card.return-highlight {
+    animation: returnHighlight 2s ease-in-out;
+}
+
+@keyframes returnHighlight {
+    0% {
+        box-shadow: 0 0 30px rgba(23, 162, 184, 0.5);
+        transform: scale(1.02);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(23, 162, 184, 0.7);
+        transform: scale(1.03);
+    }
+
+    100% {
+        box-shadow: var(--shadow-card);
+        transform: scale(1);
+    }
+}
+
+.adhkar-category-tabs {
+    border-bottom: 2px solid var(--border-light);
+    position: relative;
+}
+
+.adhkar-category-tabs::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+}
+
+.adhkar-tabs-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* iOS smooth scrolling */
+    position: relative;
+}
+
+.adhkar-tabs-scroll::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, var(--bg-card));
+    pointer-events: none;
+    z-index: 1;
+}
+
+.adhkar-tabs-scroll::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, var(--bg-card), transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.adhkar-tabs-scroll::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.adhkar-category-tabs .nav {
+    flex-wrap: nowrap;
+    min-width: max-content;
+    position: relative;
+    z-index: 2;
+}
+
+.adhkar-category-tabs .nav-link {
+    border: none;
+    border-radius: 15px 15px 0 0;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 12px 20px;
+    margin: 0 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.adhkar-category-tabs .nav-link:hover {
+    color: var(--primary-dark);
+    background: var(--bg-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 4;
+}
+
+.adhkar-category-tabs .nav-link.active {
+    color: white !important;
+    background: var(--primary);
+    font-weight: 600;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+    z-index: 5;
+}
+
+.adhkar-category-tabs .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    animation: activeTabGlow 2s ease-in-out infinite alternate;
+    z-index: 6;
+}
+
+.adhkar-category-tabs .nav-link:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+}
+
+@keyframes activeTabGlow {
+    0% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Dark theme specific styles for tabs */
+[data-theme="dark"] .adhkar-tabs-scroll::after {
+    background: linear-gradient(90deg, transparent, var(--bg-card));
+}
+
+[data-theme="dark"] .adhkar-tabs-scroll::before {
+    background: linear-gradient(90deg, var(--bg-card), transparent);
+}
+
+.adhkar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.adhkar-item {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 15px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    animation: adhkarSlideIn 0.5s ease forwards;
+}
+
+.adhkar-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.adhkar-item:hover::before {
+    left: 100%;
+}
+
+.adhkar-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.adhkar-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+/* Circle icon variants */
+.adhkar-icon-success {
+    background: linear-gradient(135deg, rgba(86, 202, 0, 0.2), rgba(86, 202, 0, 0.1));
+    border: 2px solid rgba(86, 202, 0, 0.3);
+}
+
+.adhkar-icon-primary {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.2), rgba(23, 162, 184, 0.1));
+    border: 2px solid rgba(23, 162, 184, 0.3);
+}
+
+.adhkar-icon-warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+    border: 2px solid rgba(255, 193, 7, 0.3);
+}
+
+.adhkar-icon-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.2), rgba(220, 53, 69, 0.1));
+    border: 2px solid rgba(220, 53, 69, 0.3);
+}
+
+.adhkar-icon-info {
+    background: linear-gradient(135deg, rgba(13, 202, 240, 0.2), rgba(13, 202, 240, 0.1));
+    border: 2px solid rgba(13, 202, 240, 0.3);
+}
+
+/* Hover effects for circle icons */
+.adhkar-item:hover .adhkar-icon-success {
+    background: linear-gradient(135deg, rgba(86, 202, 0, 0.3), rgba(86, 202, 0, 0.2));
+    border: 2px solid rgba(86, 202, 0, 0.5);
+}
+
+.adhkar-item:hover .adhkar-icon-primary {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.3), rgba(23, 162, 184, 0.2));
+    border: 2px solid rgba(23, 162, 184, 0.5);
+}
+
+.adhkar-item:hover .adhkar-icon-warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.2));
+    border: 2px solid rgba(255, 193, 7, 0.5);
+}
+
+.adhkar-item:hover .adhkar-icon-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.3), rgba(220, 53, 69, 0.2));
+    border: 2px solid rgba(220, 53, 69, 0.5);
+}
+
+.adhkar-item:hover .adhkar-icon-info {
+    background: linear-gradient(135deg, rgba(13, 202, 240, 0.3), rgba(13, 202, 240, 0.2));
+    border: 2px solid rgba(13, 202, 240, 0.5);
+}
+
+.adhkar-item:hover .adhkar-icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.adhkar-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.adhkar-text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--text);
+}
+
+.adhkar-text small {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.adhkar-action {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.adhkar-item:hover .adhkar-action {
+    color: var(--primary);
+    opacity: 1;
+    transform: translateX(-5px);
+}
+
+.adhkar-progress {
+    background: var(--bg-elevated);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.adhkar-progress .progress {
+    background: var(--border-light);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.adhkar-progress .progress-bar {
+    background: var(--primary);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.adhkar-nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.adhkar-nav-buttons .btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.adhkar-nav-buttons .btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Return to adhkar button styles */
+.header-actions .btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.header-actions .btn-outline-primary:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+}
+
+.header-actions .btn-outline-primary:active {
+    transform: translateY(0);
+}
+
+/* Dark theme support for adhkar */
+[data-theme="dark"] .adhkar-item {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .header-actions .btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+[data-theme="dark"] .header-actions .btn-outline-primary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+[data-theme="dark"] .adhkar-item:hover {
+    border-color: var(--primary);
+    background: var(--bg-elevated);
+}
+
+[data-theme="dark"] .adhkar-icon {
+    background: var(--bg-elevated);
+}
+
+[data-theme="dark"] .adhkar-category-tabs .nav-link {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .adhkar-category-tabs .nav-link:hover {
+    background: var(--bg-hover);
+}
+
+[data-theme="dark"] .adhkar-category-tabs .nav-link.active {
+    background: var(--primary);
+}
+
+/* Responsive design for adhkar */
+@media (max-width: 768px) {
+    .adhkar-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .adhkar-item {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .adhkar-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .adhkar-text strong {
+        font-size: 1rem;
+    }
+
+    .adhkar-category-tabs .nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        margin: 0 2px;
+    }
+
+    .adhkar-nav-buttons .btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .adhkar-tabs-scroll {
+        scroll-snap-type: x mandatory;
+    }
+
+    .adhkar-category-tabs .nav-link {
+        scroll-snap-align: start;
+    }
+}
+
+@media (max-width: 480px) {
+    .adhkar-category-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        margin: 0 1px;
+        min-width: auto;
+    }
+
+    .adhkar-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .adhkar-item {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .adhkar-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .adhkar-text strong {
+        font-size: 0.9rem;
+    }
+
+    .adhkar-text small {
+        font-size: 0.8rem;
+    }
+
+    .adhkar-tabs-scroll {
+        scroll-snap-type: x proximity;
+    }
+}
+
+/* Adhkar animations */
+@keyframes adhkarSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.adhkar-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.adhkar-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.adhkar-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.adhkar-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Tab content animations */
+.tab-pane.fade {
+    transition: opacity 0.3s ease;
+}
+
+.tab-pane.fade.show {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Adhkar completion styles */
+.adhkar-item.completed {
+    border-color: var(--success);
+    background: linear-gradient(135deg, var(--bg-card), rgba(86, 202, 0, 0.1));
+    position: relative;
+}
+
+.adhkar-item.completed::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(86, 202, 0, 0.1) 50%, transparent 70%);
+    animation: completionShine 2s ease-in-out;
+}
+
+@keyframes completionShine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.adhkar-completion-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    animation: checkmarkPop 0.5s ease-out;
+    z-index: 10;
+}
+
+@keyframes checkmarkPop {
+    0% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(90deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Adhkar progress indicator */
+.adhkar-item.completed .adhkar-icon {
+    background: var(--success);
+    color: white;
+}
+
+.adhkar-item.completed .adhkar-text strong {
+    color: var(--success);
+}
+
+/* Hover effects for completed items */
+.adhkar-item.completed:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(86, 202, 0, 0.3);
+}
+
+/* Responsive completion check */
+@media (max-width: 768px) {
+    .adhkar-completion-check {
+        width: 20px;
+        height: 20px;
+        font-size: 0.9rem;
+        top: 6px;
+        right: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .adhkar-completion-check {
+        width: 18px;
+        height: 18px;
+        font-size: 0.8rem;
+        top: 5px;
+        right: 5px;
+    }
+}
+
+/* Islamic Celebration Styles */
+.celebration-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.islamic-celebration {
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), transparent);
+}
+
+.celebration-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+    animation: celebrationTextGlow 2s ease-in-out infinite;
+    z-index: 10000;
+    position: relative;
+}
+
+.celebration-patterns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-patterns::before,
+.celebration-patterns::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #4CAF50;
+    border-radius: 50%;
+    animation: patternRotate 4s linear infinite;
+}
+
+.celebration-patterns::before {
+    left: 15%;
+    top: 20%;
+    animation-delay: 0s;
+}
+
+.celebration-patterns::after {
+    right: 15%;
+    bottom: 20%;
+    animation-delay: 2s;
+}
+
+.celebration-geometric {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-geometric::before,
+.celebration-geometric::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #4CAF50, #8BC34A);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: geometricFloat 3s ease-in-out infinite;
+}
+
+.celebration-geometric::before {
+    left: 25%;
+    top: 40%;
+    animation-delay: 0s;
+}
+
+.celebration-geometric::after {
+    right: 25%;
+    top: 60%;
+    animation-delay: 1.5s;
+}
+
+.celebration-ornaments {
+    position: absolute;
+    bottom: 30%;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.celebration-ornaments::before,
+.celebration-ornaments::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, #FF9800, #FFC107);
+    border-radius: 8px;
+    transform: rotate(45deg);
+    animation: ornamentPulse 2.5s ease-in-out infinite;
+}
+
+.celebration-ornaments::before {
+    left: 35%;
+    animation-delay: 0s;
+}
+
+.celebration-ornaments::after {
+    right: 35%;
+    animation-delay: 1.2s;
+}
+
+.celebration-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-glow::before,
+.celebration-glow::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.3), transparent);
+    border-radius: 50%;
+    animation: glowExpand 4s ease-in-out infinite;
+}
+
+.celebration-glow::before {
+    left: 10%;
+    top: 30%;
+    animation-delay: 0s;
+}
+
+.celebration-glow::after {
+    right: 10%;
+    top: 50%;
+    animation-delay: 2s;
+}
+
+.celebration-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-dots::before,
+.celebration-dots::after,
+.celebration-dots::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: dotBounce 2s ease-in-out infinite;
+}
+
+.celebration-dots::before {
+    left: 20%;
+    top: 25%;
+    animation-delay: 0s;
+}
+
+.celebration-dots::after {
+    right: 20%;
+    top: 35%;
+    animation-delay: 0.7s;
+}
+
+.celebration-dots::after {
+    left: 50%;
+    top: 70%;
+    animation-delay: 1.4s;
+}
+
+.celebration-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-lines::before,
+.celebration-lines::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #8BC34A, #4CAF50);
+    border-radius: 2px;
+    animation: lineSlide 3s ease-in-out infinite;
+}
+
+.celebration-lines::before {
+    left: 10%;
+    top: 45%;
+    animation-delay: 0s;
+}
+
+.celebration-lines::after {
+    right: 10%;
+    top: 55%;
+    animation-delay: 1.5s;
+}
+
+.celebration-circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-circles::before,
+.celebration-circles::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 2px dashed #FF9800;
+    border-radius: 50%;
+    animation: circleSpin 4s linear infinite;
+}
+
+.celebration-circles::before {
+    left: 25%;
+    top: 15%;
+    animation-delay: 0s;
+}
+
+.celebration-circles::after {
+    right: 25%;
+    bottom: 25%;
+    animation-delay: 2s;
+}
+
+.celebration-squares {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-squares::before,
+.celebration-squares::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #9C27B0, #E91E63);
+    border-radius: 4px;
+    animation: squareRotate 3.5s ease-in-out infinite;
+}
+
+.celebration-squares::before {
+    left: 40%;
+    top: 30%;
+    animation-delay: 0s;
+}
+
+.celebration-squares::after {
+    right: 40%;
+    top: 65%;
+    animation-delay: 1.8s;
+}
+
+.celebration-triangles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.celebration-triangles::before,
+.celebration-triangles::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #00BCD4;
+    animation: triangleFloat 2.8s ease-in-out infinite;
+}
+
+.celebration-triangles::before {
+    left: 60%;
+    top: 20%;
+    animation-delay: 0s;
+}
+
+.celebration-triangles::after {
+    right: 60%;
+    top: 40%;
+    animation-delay: 1.4s;
+}
+
+/* Celebration Animations */
+@keyframes celebrationTextGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+        transform: scale(1);
+    }
+
+    50% {
+        text-shadow: 0 0 40px rgba(76, 175, 80, 1), 0 0 60px rgba(76, 175, 80, 0.6);
+        transform: scale(1.1);
+    }
+}
+
+@keyframes patternRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes geometricFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@keyframes ornamentPulse {
+
+    0%,
+    100% {
+        transform: rotate(45deg) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: rotate(45deg) scale(1.2);
+        opacity: 1;
+    }
+}
+
+@keyframes glowExpand {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(0.8);
+        opacity: 0.2;
+    }
+}
+
+@keyframes dotBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.2);
+        opacity: 1;
+    }
+}
+
+@keyframes lineSlide {
+
+    0%,
+    100% {
+        transform: translateX(-20px);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(20px);
+        opacity: 1;
+    }
+}
+
+@keyframes circleSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes squareRotate {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes triangleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+/* Responsive celebration */
+@media (max-width: 768px) {
+    .celebration-text {
+        font-size: 2.5rem;
+    }
+
+    .celebration-patterns::before,
+    .celebration-patterns::after {
+        width: 50px;
+        height: 50px;
+    }
+
+    .celebration-geometric::before,
+    .celebration-geometric::after {
+        width: 35px;
+        height: 35px;
+    }
+
+    .celebration-ornaments::before,
+    .celebration-ornaments::after {
+        width: 40px;
+        height: 40px;
+    }
+
+    .celebration-glow::before,
+    .celebration-glow::after {
+        width: 80px;
+        height: 80px;
+    }
+
+    .celebration-dots::before,
+    .celebration-dots::after {
+        width: 6px;
+        height: 6px;
+    }
+
+    .celebration-lines::before,
+    .celebration-lines::after {
+        width: 25px;
+        height: 2px;
+    }
+
+    .celebration-circles::before,
+    .celebration-circles::after {
+        width: 20px;
+        height: 20px;
+    }
+
+    .celebration-squares::before,
+    .celebration-squares::after {
+        width: 16px;
+        height: 16px;
+    }
+
+    .celebration-triangles::before,
+    .celebration-triangles::after {
+        border-left-width: 12px;
+        border-right-width: 12px;
+        border-bottom-width: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .celebration-text {
+        font-size: 2rem;
+    }
+
+    .celebration-patterns::before,
+    .celebration-patterns::after {
+        width: 40px;
+        height: 40px;
+    }
+
+    .celebration-geometric::before,
+    .celebration-geometric::after {
+        width: 30px;
+        height: 30px;
+    }
+
+    .celebration-ornaments::before,
+    .celebration-ornaments::after {
+        width: 35px;
+        height: 35px;
+    }
+
+    .celebration-glow::before,
+    .celebration-glow::after {
+        width: 60px;
+        height: 60px;
+    }
+
+    .celebration-dots::before,
+    .celebration-dots::after {
+        width: 5px;
+        height: 5px;
+    }
+
+    .celebration-lines::before,
+    .celebration-lines::after {
+        width: 20px;
+        height: 2px;
+    }
+
+    .celebration-circles::before,
+    .celebration-circles::after {
+        width: 18px;
+        height: 18px;
+    }
+
+    .celebration-squares::before,
+    .celebration-squares::after {
+        width: 14px;
+        height: 14px;
+    }
+
+    .celebration-triangles::before,
+    .celebration-triangles::after {
+        border-left-width: 10px;
+        border-right-width: 10px;
+        border-bottom-width: 18px;
     }
 }

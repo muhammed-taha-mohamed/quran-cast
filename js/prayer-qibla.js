@@ -7,6 +7,12 @@ let nextPrayer = null;
 let countdownInterval = null;
 let qiblaAngle = 0;
 
+// Tasbih and Dhikr variables
+let tasbihCount = 0;
+let currentDhikr = null;
+let targetCount = 0;
+let customDhikrs = [];
+
 // Kaaba coordinates (Makkah)
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
@@ -43,10 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Start countdown timer
     startCountdown();
-    
+
     // Start auto-refresh for prayer times
     startAutoRefresh();
-    
+
     // Load tasbih state
     loadTasbihState();
 });
@@ -320,7 +326,7 @@ async function loadPrayerTimes() {
         if (!data || data.status !== 'OK') {
             console.log('First API failed, trying alternative...');
             try {
-                const response2 = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent('Mecca')}&country=${encodeURIComponent('Saudi Arabia')}&method=4`);
+                const response2 = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent('cairo')}&country=${encodeURIComponent('Egypta')}&method=4`);
                 if (response2.ok) {
                     data = await response2.json();
                     console.log('Alternative API response:', data);
@@ -597,7 +603,7 @@ function calculateNextPrayer() {
 // Start countdown timer
 function startCountdown() {
     console.log('🔍 startCountdown called with nextPrayer:', nextPrayer);
-    
+
     if (countdownInterval) {
         clearInterval(countdownInterval);
         console.log('🔄 Cleared existing countdown interval');
@@ -1478,7 +1484,7 @@ function updatePrayerInfoCard() {
         // Find the text span inside the element
         const prayerNameText = nextPrayerNameElement.querySelector('.prayer-name-text');
         const prayerLoader = nextPrayerNameElement.querySelector('.prayer-loader');
-        
+
         if (prayerNameText) {
             const prayerNames = {
                 'الفجر': 'الفجر',
@@ -1496,7 +1502,7 @@ function updatePrayerInfoCard() {
             const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
             console.log('Setting prayer name:', displayName);
             prayerNameText.textContent = displayName;
-            
+
             // Hide the loader when we have data
             if (prayerLoader) {
                 prayerLoader.style.display = 'none';
@@ -1508,7 +1514,7 @@ function updatePrayerInfoCard() {
         // Find the text span inside the element
         const countdownText = heroPrayerCountdownElement.querySelector('.countdown-text');
         const countdownLoader = heroPrayerCountdownElement.querySelector('.countdown-loader');
-        
+
         if (countdownText) {
             // Show actual prayer time instead of countdown
             if (nextPrayer.time) {
@@ -1517,7 +1523,7 @@ function updatePrayerInfoCard() {
                 const timeString = `${hours}:${minutes}`;
                 console.log('Setting time display:', timeString);
                 countdownText.textContent = timeString;
-                
+
                 // Hide the loader when we have data
                 if (countdownLoader) {
                     countdownLoader.style.display = 'none';
@@ -1648,26 +1654,666 @@ function updatePrayerDate() {
     }
 }
 
+// ====== Traditional Cities for Prayer Times ======
+
+// Traditional cities for prayer times
+const TRADITIONAL_CITIES = [
+    { name: 'مكة المكرمة', city: 'Mecca', country: 'Saudi Arabia', lat: 21.4225, lng: 39.8262, method: 4 },
+    { name: 'المدينة المنورة', city: 'Medina', country: 'Saudi Arabia', lat: 24.5247, lng: 39.5692, method: 4 },
+    { name: 'القاهرة', city: 'Cairo', country: 'Egypt', lat: 30.0444, lng: 31.2357, method: 5 },
+    { name: 'الرياض', city: 'Riyadh', country: 'Saudi Arabia', lat: 24.7136, lng: 46.6753, method: 4 },
+    { name: 'جدة', city: 'Jeddah', country: 'Saudi Arabia', lat: 21.4858, lng: 39.1925, method: 4 },
+    { name: 'الإسكندرية', city: 'Alexandria', country: 'Egypt', lat: 31.2001, lng: 29.9187, method: 5 },
+    { name: 'أبو ظبي', city: 'Abu Dhabi', country: 'UAE', lat: 24.4539, lng: 54.3773, method: 4 },
+    { name: 'دبي', city: 'Dubai', country: 'UAE', lat: 25.2048, lng: 55.2708, method: 4 },
+    { name: 'عمّان', city: 'Amman', country: 'Jordan', lat: 31.9454, lng: 35.9284, method: 4 },
+    { name: 'بيروت', city: 'Beirut', country: 'Lebanon', lat: 33.8935, lng: 35.5018, method: 4 },
+    { name: 'دمشق', city: 'Damascus', country: 'Syria', lat: 33.5138, lng: 36.2765, method: 4 },
+    { name: 'بغداد', city: 'Baghdad', country: 'Iraq', lat: 33.3152, lng: 44.3661, method: 4 },
+    { name: 'طهران', city: 'Tehran', country: 'Iran', lat: 35.6892, lng: 51.3890, method: 4 },
+    { name: 'إسطنبول', city: 'Istanbul', country: 'Turkey', lat: 41.0082, lng: 28.9784, method: 13 },
+    { name: 'كراتشي', city: 'Karachi', country: 'Pakistan', lat: 24.8607, lng: 67.0011, method: 4 },
+    { name: 'نيودلهي', city: 'New Delhi', country: 'India', lat: 28.6139, lng: 77.2090, method: 4 },
+    { name: 'جاكرتا', city: 'Jakarta', country: 'Indonesia', lat: -6.2088, lng: 106.8456, method: 8 },
+    { name: 'كوالالمبور', city: 'Kuala Lumpur', country: 'Malaysia', lat: 3.1390, lng: 101.6869, method: 8 },
+    { name: 'مانيلا', city: 'Manila', country: 'Philippines', lat: 14.5995, lng: 120.9842, method: 8 }
+];
+
+// Current selected city (default to Cairo as requested)
+let currentCityIndex = 2; // Cairo is at index 2
+
+// Function to change city
+async function changeCity() {
+    currentCityIndex = (currentCityIndex + 1) % TRADITIONAL_CITIES.length;
+    const selectedCity = TRADITIONAL_CITIES[currentCityIndex];
+
+    console.log('Changed to city:', selectedCity.name);
+
+    // Update city display
+    updateCityDisplay();
+
+    // Save selection to localStorage
+    localStorage.setItem('selectedCityIndex', currentCityIndex);
+
+    // Show notification
+    if (typeof showEnhancedNotification === 'function') {
+        showEnhancedNotification(`تم التبديل إلى ${selectedCity.name}`, 'success');
+    }
+
+    // Clear current prayer times
+    clearPrayerTimes();
+
+    // Get new prayer times for the selected city
+    try {
+        await getPrayerTimesFromAPI();
+
+        // Update the display with new times
+        if (prayerTimes && Object.keys(prayerTimes).length > 0) {
+            displayPrayerTimesEnhanced();
+            startTableCountdown();
+        }
+    } catch (error) {
+        console.error('Error getting prayer times for new city:', error);
+        if (typeof showEnhancedNotification === 'function') {
+            showEnhancedNotification('حدث خطأ في جلب مواقيت الصلاة', 'error');
+        }
+    }
+}
+
+// Function to update city display
+function updateCityDisplay() {
+    const selectedCity = TRADITIONAL_CITIES[currentCityIndex];
+
+    // Update city name in UI if element exists
+    const cityNameElement = document.getElementById('cityName');
+    if (cityNameElement) {
+        cityNameElement.textContent = selectedCity.name;
+    }
+
+    // Update city display text
+    const cityDisplayElement = document.getElementById('currentCityName');
+    if (cityDisplayElement) {
+        cityDisplayElement.textContent = selectedCity.name;
+    }
+
+    // Update prayer date with city info
+    const prayerDateElement = document.getElementById('prayerDate');
+    if (prayerDateElement) {
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('ar-SA');
+        prayerDateElement.innerHTML = `
+            <span class="city-info">${selectedCity.name}</span><br>
+            <small>${dateStr}</small>
+        `;
+    }
+}
+
+// Function to clear prayer times display
+function clearPrayerTimes() {
+    // Clear prayer times in the grid
+    const prayerTimeElements = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    prayerTimeElements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = '--:--';
+        }
+    });
+
+    // Clear prayer date
+    const prayerDateElement = document.getElementById('prayerDate');
+    if (prayerDateElement) {
+        prayerDateElement.textContent = '--';
+    }
+
+    // Clear countdown
+    const countdownElement = document.getElementById('nextPrayerCountdown');
+    if (countdownElement) {
+        countdownElement.textContent = '';
+    }
+}
+
+// Function to get user's country and set appropriate city automatically using GPS
+async function getUserCountryAndSetCity() {
+    try {
+        // Show loading state
+        const cityNameElement = document.getElementById('currentCityName');
+        if (cityNameElement) {
+            cityNameElement.textContent = 'جاري التحميل...';
+        }
+
+        // Get user's GPS location
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 60000
+            });
+        });
+
+        const { latitude, longitude } = position.coords;
+        console.log('GPS coordinates:', { latitude, longitude });
+
+        // Use reverse geocoding to get country and city
+        let country = null;
+        let city = null;
+
+        try {
+            console.log('Trying bigdatacloud API...');
+            const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=ar`);
+            console.log('Bigdatacloud response status:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Reverse geocoding response:', data);
+                console.log('🔍 Full API response keys:', Object.keys(data));
+
+                country = data.countryName;
+                city = data.city;
+
+                console.log('Extracted country:', country);
+                console.log('Extracted city:', city);
+                console.log('🔍 Country type:', typeof country, 'Value:', country);
+
+                if (!country) {
+                    console.log('No country found in response, trying alternative...');
+                }
+            } else {
+                console.log('Bigdatacloud API failed with status:', response.status);
+            }
+        } catch (error) {
+            console.log('Reverse geocoding failed with error:', error);
+        }
+
+        // If first API failed or no country, try OpenStreetMap Nominatim
+        if (!country) {
+            try {
+                console.log('Trying Nominatim API...');
+                const response2 = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=ar`);
+                console.log('Nominatim response status:', response2.status);
+
+                if (response2.ok) {
+                    const data = await response2.json();
+                    console.log('Nominatim response:', data);
+                    console.log('🔍 Nominatim response keys:', Object.keys(data));
+                    console.log('🔍 Nominatim address keys:', data.address ? Object.keys(data.address) : 'No address');
+
+                    country = data.address?.country;
+                    city = data.address?.city || data.address?.town || data.address?.village;
+
+                    console.log('Nominatim extracted country:', country);
+                    console.log('Nominatim extracted city:', city);
+                    console.log('🔍 Nominatim country type:', typeof country, 'Value:', country);
+                } else {
+                    console.log('Nominatim API failed with status:', response2.status);
+                }
+            } catch (error2) {
+                console.log('Nominatim also failed with error:', error2);
+            }
+        }
+
+        // If still no country, try a third API (using IP-based geolocation as fallback)
+        if (!country) {
+            try {
+                console.log('Trying third API (ipapi.co IP-based)...');
+                const response3 = await fetch(`https://ipapi.co/json/`);
+                console.log('Third API response status:', response3.status);
+
+                if (response3.ok) {
+                    const data = await response3.json();
+                    console.log('Third API response:', data);
+                    console.log('🔍 Third API response keys:', Object.keys(data));
+
+                    country = data.country_name;
+                    city = data.city;
+
+                    console.log('Third API extracted country:', country);
+                    console.log('Third API extracted city:', city);
+                    console.log('🔍 Third API country type:', typeof country, 'Value:', country);
+                } else {
+                    console.log('Third API failed with status:', response3.status);
+                }
+            } catch (error3) {
+                console.log('Third API also failed with error:', error3);
+            }
+        }
+
+        if (country) {
+            console.log('✅ SUCCESS: User location by GPS:', { country, city, lat: latitude, lng: longitude });
+            console.log('🔍 Country value analysis:');
+            console.log('  - Raw value:', country);
+            console.log('  - Type:', typeof country);
+            console.log('  - Length:', country.length);
+            console.log('  - Trimmed:', country.trim());
+            console.log('  - Lowercase:', country.toLowerCase());
+            console.log('  - Without quotes:', country.replace(/['"]/g, ''));
+
+            // Find capital city of user's country
+            let bestMatch = null;
+
+            // First, try to find exact country match
+            console.log('🔍 Looking for country:', country);
+            console.log('📋 Available countries in list:', TRADITIONAL_CITIES.map(c => c.country));
+            console.log('🔍 Country comparison details:');
+            TRADITIONAL_CITIES.forEach((cityData, index) => {
+                console.log(`  ${cityData.country} === ${country} = ${cityData.country === country}`);
+            });
+
+            TRADITIONAL_CITIES.forEach((cityData, index) => {
+                console.log(`🔍 Checking city ${cityData.name} with country ${cityData.country} against ${country}`);
+                console.log(`  - List country: "${cityData.country}" (type: ${typeof cityData.country}, length: ${cityData.country.length})`);
+                console.log(`  - API country: "${country}" (type: ${typeof country}, length: ${country.length})`);
+
+                // Try exact match first
+                if (cityData.country === country) {
+                    console.log(`✅ Exact match found! City: ${cityData.name}, Index: ${index}`);
+                    // Prefer capital cities (usually first in list for each country)
+                    if (!bestMatch || index < bestMatch.index) {
+                        bestMatch = { index, cityData };
+                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
+                    }
+                }
+                // Try partial match (in case of slight differences)
+                else if (cityData.country.toLowerCase().includes(country.toLowerCase()) ||
+                    country.toLowerCase().includes(cityData.country.toLowerCase())) {
+                    console.log(`✅ Partial match found! City: ${cityData.name}, Index: ${index}`);
+                    if (!bestMatch || index < bestMatch.index) {
+                        bestMatch = { index, cityData };
+                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
+                    }
+                }
+                // Try normalized comparison (remove extra spaces, quotes, etc.)
+                else if (cityData.country.toLowerCase().trim().replace(/['"]/g, '') ===
+                    country.toLowerCase().trim().replace(/['"]/g, '')) {
+                    console.log(`✅ Normalized match found! City: ${cityData.name}, Index: ${index}`);
+                    if (!bestMatch || index < bestMatch.index) {
+                        bestMatch = { index, cityData };
+                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
+                    }
+                }
+
+                // Log comparison details for debugging
+                console.log(`  - Exact match: ${cityData.country === country}`);
+                console.log(`  - Partial match: ${cityData.country.toLowerCase().includes(country.toLowerCase()) || country.toLowerCase().includes(cityData.country.toLowerCase())}`);
+                console.log(`  - Normalized match: ${cityData.country.toLowerCase().trim().replace(/['"]/g, '') === country.toLowerCase().trim().replace(/['"]/g, '')}`);
+            });
+
+            // If no exact country match, find closest city by distance (if we have coordinates)
+            if (!bestMatch && latitude && longitude) {
+                console.log('🌍 No exact country match, finding closest city by distance...');
+                let bestScore = 0;
+                TRADITIONAL_CITIES.forEach((cityData, index) => {
+                    const distance = calculateDistance(latitude, longitude, cityData.lat, cityData.lng);
+                    const score = 1 / (1 + distance); // Higher score for closer cities
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMatch = { index, cityData };
+                        console.log(`🌍 Closest city found: ${cityData.name} at distance ${distance.toFixed(2)}km`);
+                    }
+                });
+            }
+
+            if (bestMatch) {
+                currentCityIndex = bestMatch.index;
+                console.log('🎯 SUCCESS: Auto-selected city:', bestMatch.cityData.name, 'for country:', country);
+                console.log('📍 City index set to:', currentCityIndex);
+
+                // Update display
+                updateCityDisplay();
+
+                // Save selection
+                localStorage.setItem('selectedCityIndex', currentCityIndex);
+
+                // Clear current prayer times and get new ones
+                clearPrayerTimes();
+                await getPrayerTimesFromAPI();
+
+                // Update the display with new times
+                if (prayerTimes && Object.keys(prayerTimes).length > 0) {
+                    displayPrayerTimesEnhanced();
+                    startTableCountdown();
+                }
+
+                // Show success notification
+                if (typeof showEnhancedNotification === 'function') {
+                    showEnhancedNotification(`تم تحديد ${bestMatch.cityData.name} (${country}) تلقائياً`, 'success');
+                }
+            } else {
+                console.log('❌ ERROR: No matching city found for country:', country);
+                console.log('📋 Available cities:', TRADITIONAL_CITIES.map(c => `${c.name} (${c.country})`));
+                throw new Error('No matching city found');
+            }
+
+        } else {
+            console.log('❌ ERROR: Could not get country from any API');
+            console.log('🔍 Final check - country:', country, 'city:', city);
+            throw new Error('Could not get location from GPS');
+        }
+
+    } catch (error) {
+        console.error('Error getting user location by GPS:', error);
+
+        // Fallback to default city (Cairo)
+        currentCityIndex = 2;
+
+        updateCityDisplay();
+
+        if (typeof showEnhancedNotification === 'function') {
+            showEnhancedNotification('تعذر تحديد الموقع', 'warning');
+        }
+    }
+}
+
+// Function to calculate distance between two coordinates
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// Function to load saved city selection
+function loadSavedCity() {
+    const savedCityIndex = localStorage.getItem('selectedCityIndex');
+    if (savedCityIndex !== null) {
+        currentCityIndex = parseInt(savedCityIndex);
+        if (currentCityIndex >= 0 && currentCityIndex < TRADITIONAL_CITIES.length) {
+            console.log('Loaded saved city:', TRADITIONAL_CITIES[currentCityIndex].name);
+            updateCityDisplay();
+        }
+    }
+}
+
 // ====== API-Based Prayer Times (No Location Required) ======
 
-// Get prayer times from alquran.vip API without location
+// Get prayer times from coordinates-based APIs
 async function getPrayerTimesFromAPI() {
     try {
-        console.log('Getting prayer times from alquran.vip API...');
-        
-        const response = await fetch('https://alquran.vip/APIs/getPrayerTimes');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        console.log('Getting prayer times from coordinates-based APIs...');
+
+        // Get selected city coordinates
+        const selectedCity = TRADITIONAL_CITIES[currentCityIndex];
+        console.log('Selected city for prayer times:', selectedCity.name, 'at coordinates:', selectedCity.lat, selectedCity.lng);
+
+        // Try multiple API endpoints for better reliability
+        let response = null;
+        let data = null;
+
+        // Try first API: aladhan.com with coordinates
+        try {
+            const today = new Date();
+            const timestamp = Math.floor(today.getTime() / 1000);
+            const url = `https://api.aladhan.com/v1/timings/${timestamp}?latitude=${selectedCity.lat}&longitude=${selectedCity.lng}&method=${selectedCity.method}`;
+            console.log('Trying aladhan.com API with coordinates:', url);
+
+            response = await fetch(url);
+            if (response.ok) {
+                const altData = await response.json();
+                if (altData.status === 'OK' && altData.data && altData.data.timings) {
+                    data = {
+                        prayer_times: altData.data.timings,
+                        date: {
+                            date_en: new Date().toLocaleDateString('en-US'),
+                            date_hijri: {
+                                day: new Date().getDate(),
+                                month: { ar: 'رمضان' },
+                                year: 1445,
+                                weekday: { ar: 'الأحد' }
+                            }
+                        }
+                    };
+                    console.log('✅ aladhan.com API success for', selectedCity.name, ':', data);
+                }
+            }
+        } catch (error1) {
+            console.log('❌ aladhan.com API failed:', error1);
         }
-        
-        const data = await response.json();
-        console.log('Prayer times API response:', data);
-        
+
+        // If first API failed, try second: prayertimes.org with coordinates
+        if (!data || !data.prayer_times) {
+            try {
+                const today = new Date();
+                const day = today.getDate();
+                const month = today.getMonth() + 1;
+                const year = today.getFullYear();
+
+                const url = `https://www.prayertimes.org/api/times/${year}/${month}/${day}?latitude=${selectedCity.lat}&longitude=${selectedCity.lng}&timezone=3`;
+                console.log('Trying prayertimes.org API with coordinates:', url);
+
+                response = await fetch(url);
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.times && altData.times.fajr) {
+                        data = {
+                            prayer_times: {
+                                Fajr: altData.times.fajr,
+                                Sunrise: altData.times.sunrise,
+                                Dhuhr: altData.times.dhuhr,
+                                Asr: altData.times.asr,
+                                Maghrib: altData.times.maghrib,
+                                Isha: altData.times.isha
+                            },
+                            date: {
+                                date_en: new Date().toLocaleDateString('en-US'),
+                                date_hijri: {
+                                    day: new Date().getDate(),
+                                    month: { ar: 'رمضان' },
+                                    year: 1445,
+                                    weekday: { ar: 'الأحد' }
+                                }
+                            }
+                        };
+                        console.log('✅ prayertimes.org API success for', selectedCity.name, ':', data);
+                    }
+                }
+            } catch (error2) {
+                console.log('❌ prayertimes.org API failed:', error2);
+            }
+        }
+
+        // If second API failed, try third: muslimsalat.com with coordinates
+        if (!data || !data.prayer_times) {
+            try {
+                const url = `https://muslimsalat.com/${selectedCity.lat}/${selectedCity.lng}/daily.json?key=free`;
+                console.log('Trying muslimsalat.com API with coordinates:', url);
+
+                response = await fetch(url);
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.items && altData.items[0]) {
+                        const today = altData.items[0];
+                        data = {
+                            prayer_times: {
+                                Fajr: today.fajr,
+                                Sunrise: today.shurooq,
+                                Dhuhr: today.dhuhr,
+                                Asr: today.asr,
+                                Maghrib: today.maghrib,
+                                Isha: today.isha
+                            },
+                            date: {
+                                date_en: new Date().toLocaleDateString('en-US'),
+                                date_hijri: {
+                                    day: new Date().getDate(),
+                                    month: { ar: 'رمضان' },
+                                    year: 1445,
+                                    weekday: { ar: 'الأحد' }
+                                }
+                            }
+                        };
+                        console.log('✅ muslimsalat.com API success for', selectedCity.name, ':', data);
+                    }
+                }
+            } catch (error3) {
+                console.log('❌ muslimsalat.com API failed:', error3);
+            }
+        }
+
+        // If third API failed, try fourth: alquran.vip with coordinates
+        if (!data || !data.prayer_times) {
+            try {
+                const url = `https://alquran.vip/APIs/getPrayerTimes?latitude=${selectedCity.lat}&longitude=${selectedCity.lng}`;
+                console.log('Trying alquran.vip API with coordinates:', url);
+
+                response = await fetch(url);
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.prayer_times) {
+                        data = altData;
+                        console.log('✅ alquran.vip API success for', selectedCity.name, ':', data);
+                    }
+                }
+            } catch (error4) {
+                console.log('❌ alquran.vip API failed:', error4);
+            }
+        }
+
+        // If fourth API failed, try fifth alternative (muslimsalat.com)
+        if (!data || !data.prayer_times) {
+            try {
+                response = await fetch('https://muslimsalat.com/mecca.json?key=free');
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.items && altData.items[0]) {
+                        const today = altData.items[0];
+                        data = {
+                            prayer_times: {
+                                Fajr: today.fajr,
+                                Sunrise: today.shurooq,
+                                Dhuhr: today.dhuhr,
+                                Asr: today.asr,
+                                Maghrib: today.maghrib,
+                                Isha: today.isha
+                            },
+                            date: {
+                                date_en: new Date().toLocaleDateString('en-US'),
+                                date_hijri: {
+                                    day: new Date().getDate(),
+                                    month: { ar: 'رمضان' },
+                                    year: 1445,
+                                    weekday: { ar: 'الأحد' }
+                                }
+                            }
+                        };
+                        console.log('Fifth API response:', data);
+                    }
+                }
+            } catch (error5) {
+                console.log('Fifth API also failed');
+            }
+        }
+
+        // If fifth API failed, try sixth alternative (prayertimes.org.uk)
+        if (!data || !data.prayer_times) {
+            try {
+                const today = new Date();
+                const day = today.getDate();
+                const month = today.getMonth() + 1;
+                const year = today.getFullYear();
+
+                response = await fetch(`https://www.prayertimes.org.uk/api/times/${year}/${month}/${day}?latitude=21.4225&longitude=39.8262&timezone=3`);
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.times && altData.times.fajr) {
+                        data = {
+                            prayer_times: {
+                                Fajr: altData.times.fajr,
+                                Sunrise: altData.times.sunrise,
+                                Dhuhr: altData.times.dhuhr,
+                                Asr: altData.times.asr,
+                                Maghrib: altData.times.maghrib,
+                                Isha: altData.times.isha
+                            },
+                            date: {
+                                date_en: new Date().toLocaleDateString('en-US'),
+                                date_hijri: {
+                                    day: new Date().getDate(),
+                                    month: { ar: 'رمضان' },
+                                    year: 1445,
+                                    weekday: { ar: 'الأحد' }
+                                }
+                            }
+                        };
+                        console.log('Sixth API response:', data);
+                    }
+                }
+            } catch (error6) {
+                console.log('Sixth API also failed');
+            }
+        }
+
+        // If sixth API failed, try seventh alternative (prayertimes.org.au)
+        if (!data || !data.prayer_times) {
+            try {
+                const today = new Date();
+                const day = today.getDate();
+                const month = today.getMonth() + 1;
+                const year = today.getFullYear();
+
+                response = await fetch(`https://www.prayertimes.org.au/api/times/${year}/${month}/${day}?latitude=21.4225&longitude=39.8262&timezone=3`);
+                if (response.ok) {
+                    const altData = await response.json();
+                    if (altData.times && altData.times.fajr) {
+                        data = {
+                            prayer_times: {
+                                Fajr: altData.times.fajr,
+                                Sunrise: altData.times.sunrise,
+                                Dhuhr: altData.times.dhuhr,
+                                Asr: altData.times.asr,
+                                Maghrib: altData.times.maghrib,
+                                Isha: altData.times.isha
+                            },
+                            date: {
+                                date_en: new Date().toLocaleDateString('en-US'),
+                                date_hijri: {
+                                    day: new Date().getDate(),
+                                    month: { ar: 'رمضان' },
+                                    year: 1445,
+                                    weekday: { ar: 'الأحد' }
+                                }
+                            }
+                        };
+                        console.log('Seventh API response:', data);
+                    }
+                }
+            } catch (error7) {
+                console.log('Seventh API also failed');
+            }
+        }
+
+        // If still no data, use fallback prayer times
+        if (!data || !data.prayer_times) {
+            console.warn('Using fallback prayer times');
+            data = {
+                prayer_times: {
+                    Fajr: '05:30',
+                    Sunrise: '06:45',
+                    Dhuhr: '12:30',
+                    Asr: '15:45',
+                    Maghrib: '18:15',
+                    Isha: '19:45'
+                },
+                date: {
+                    date_en: new Date().toLocaleDateString('en-US'),
+                    date_hijri: {
+                        day: new Date().getDate(),
+                        month: { ar: 'رمضان' },
+                        year: 1445,
+                        weekday: { ar: 'الأحد' }
+                    }
+                }
+            };
+            console.log('Fallback prayer times set:', data);
+        }
+
         if (data.prayer_times && data.date) {
             // Extract prayer times
             const times = data.prayer_times;
             const dateInfo = data.date;
-            
+
             // Convert to our format
             prayerTimes = {
                 Fajr: times.Fajr,
@@ -1677,31 +2323,31 @@ async function getPrayerTimesFromAPI() {
                 Maghrib: times.Maghrib,
                 Isha: times.Isha
             };
-            
+
             // Update prayer times display
             displayPrayerTimes();
-            
+
             // Calculate next prayer
             calculateNextPrayer();
-            
+
             // Start countdown
             startCountdown();
-            
+
             // Update hero stats
             updateHeroStats();
-            
+
             // Update date display
             updatePrayerDateFromAPI(dateInfo);
-            
 
-            
 
-            
+
+
+
             return true;
         } else {
             throw new Error('Invalid API response format');
         }
-        
+
     } catch (error) {
         console.error('Error getting prayer times from API:', error);
 
@@ -1717,7 +2363,7 @@ function updatePrayerDateFromAPI(dateInfo) {
         if (gregorianDate && dateInfo.date_en) {
             gregorianDate.textContent = dateInfo.date_en;
         }
-        
+
         // Update Hijri date
         if (dateInfo.date_hijri) {
             const hijriDate = document.getElementById('hijriDate');
@@ -1729,20 +2375,20 @@ function updatePrayerDateFromAPI(dateInfo) {
                     <span class="hijri-year">${hijri.year} هـ</span>
                 `;
             }
-            
+
             // Update weekday
             const weekdayElement = document.getElementById('weekday');
             if (weekdayElement && dateInfo.date_hijri.weekday) {
                 weekdayElement.textContent = dateInfo.date_hijri.weekday.ar;
             }
         }
-        
+
         // Update timezone info
         const timezoneElement = document.getElementById('timezone');
         if (timezoneElement && dateInfo.meta && dateInfo.meta.timezone) {
             timezoneElement.textContent = dateInfo.meta.timezone;
         }
-        
+
     } catch (error) {
         console.error('Error updating prayer date from API:', error);
     }
@@ -1752,18 +2398,18 @@ function updatePrayerDateFromAPI(dateInfo) {
 async function initializePrayerTimesSmart() {
     try {
         console.log('Initializing prayer times with smart approach...');
-        
+
         // First, try to get prayer times from API (no location needed)
         const apiSuccess = await getPrayerTimesFromAPI();
-        
+
         if (apiSuccess) {
             console.log('Prayer times loaded successfully from API');
             return true;
         }
-        
+
         // If API fails, fall back to location-based approach
         console.log('API failed, falling back to location-based prayer times...');
-        
+
         if (currentLocation) {
             await loadPrayerTimes();
             return true;
@@ -1780,9 +2426,9 @@ async function initializePrayerTimesSmart() {
                 return true;
             }
         }
-        
+
         return false;
-        
+
     } catch (error) {
         console.error('Error in smart prayer times initialization:', error);
         return false;
@@ -1793,19 +2439,19 @@ async function initializePrayerTimesSmart() {
 async function refreshPrayerTimesSmart() {
     try {
         console.log('Refreshing prayer times with smart approach...');
-        
 
-        
+
+
         // Try API first
         const apiSuccess = await getPrayerTimesFromAPI();
-        
+
         if (apiSuccess) {
             return true;
         }
-        
+
 
         return await refreshPrayerTimes();
-        
+
     } catch (error) {
         console.error('Error in smart prayer times refresh:', error);
         return false;
@@ -1880,15 +2526,15 @@ function updatePrayerStatusForTable() {
     prayers.forEach(prayer => {
         const statusElement = document.getElementById(prayer.element);
         const countdownElement = document.getElementById(prayer.countdown);
-        
+
         if (statusElement && prayerTimes[prayer.key]) {
             const prayerTime = new Date();
             const [hours, minutes] = prayerTimes[prayer.key].split(':');
             prayerTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-            
+
             const timeDiff = prayerTime.getTime() - currentTime;
             const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-            
+
             // Update status
             if (timeDiff < 0) {
                 // Prayer time has passed
@@ -1904,7 +2550,7 @@ function updatePrayerStatusForTable() {
                 // Prayer time is upcoming
                 statusElement.textContent = 'قادمة';
                 statusElement.className = 'prayer-status upcoming';
-                
+
                 // Update countdown
                 if (countdownElement) {
                     const hours = Math.floor(minutesDiff / 60);
@@ -1926,9 +2572,9 @@ function setPrayerReminder(prayerType) {
         'maghrib': 'المغرب',
         'isha': 'العشاء'
     };
-    
+
     const prayerName = prayerNames[prayerType];
-    
+
     if ('Notification' in window && Notification.permission === 'granted') {
         // Set notification for 5 minutes before prayer
         const prayerTime = prayerTimes[prayerType.charAt(0).toUpperCase() + prayerType.slice(1)];
@@ -1936,9 +2582,9 @@ function setPrayerReminder(prayerType) {
             const [hours, minutes] = prayerTime.split(':');
             const prayerDate = new Date();
             prayerDate.setHours(parseInt(hours), parseInt(minutes) - 5, 0, 0);
-            
+
             const timeUntilReminder = prayerDate.getTime() - Date.now();
-            
+
             if (timeUntilReminder > 0) {
                 setTimeout(() => {
                     new Notification('تذكير بالصلاة', {
@@ -1946,7 +2592,7 @@ function setPrayerReminder(prayerType) {
                         icon: '/media/images/prayer-icon.svg'
                     });
                 }, timeUntilReminder);
-                
+
                 showNotification(`تم تعيين تذكير لصلاة ${prayerName}`, 'success');
             } else {
                 showNotification('وقت الصلاة قريب جداً', 'warning');
@@ -1971,7 +2617,7 @@ function toggleAdhkarSection() {
     if (adhkarSection) {
         const isVisible = adhkarSection.style.display !== 'none';
         adhkarSection.style.display = isVisible ? 'none' : 'block';
-        
+
         const toggleBtn = document.querySelector('.prayer-adhkar-card .header-actions .btn');
         if (toggleBtn) {
             const icon = toggleBtn.querySelector('i');
@@ -1984,10 +2630,7 @@ function toggleAdhkarSection() {
 
 // ====== Enhanced Tasbih System ======
 
-let tasbihCount = 0;
-let currentDhikr = null;
-let targetCount = 0;
-let customDhikrs = [];
+// Variables already defined at top of file
 
 // Show custom dhikr modal
 function showCustomDhikrModal() {
@@ -2007,18 +2650,18 @@ function addCustomDhikr() {
 
     // Add to custom dhikrs list
     customDhikrs.push({ text, count });
-    
+
     // Set as current dhikr
     setCustomDhikr(text, count);
-    
+
     // Close modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('customDhikrModal'));
     modal.hide();
-    
+
     // Clear inputs
     document.getElementById('customDhikrText').value = '';
     document.getElementById('customDhikrCount').value = '';
-    
+
     showEnhancedNotification(`تم إضافة الذكر: ${text} (${count} مرة)`, 'success');
 }
 
@@ -2027,10 +2670,10 @@ function setCustomDhikr(text, count) {
     currentDhikr = { text, count };
     targetCount = count;
     tasbihCount = 0;
-    
+
     updateTasbihDisplay();
     updateCurrentDhikrDisplay();
-    
+
     // Save to localStorage
     saveTasbihState();
 }
@@ -2038,15 +2681,19 @@ function setCustomDhikr(text, count) {
 // Enhanced increment function
 function incrementTasbih() {
     tasbihCount++;
-    
+
     // Check if target reached
     if (currentDhikr && tasbihCount >= targetCount) {
         showCompletionCelebration();
     }
-    
+
+    // Play increment sound
+    playIncrementSound();
+
     updateTasbihDisplay();
+    updateCurrentDhikrDisplay(); // إضافة هذا السطر لتحديث عرض الذكر
     saveTasbihState();
-    
+
     // Haptic feedback
     if (navigator.vibrate) {
         navigator.vibrate(50);
@@ -2058,8 +2705,9 @@ function decrementTasbih() {
     if (tasbihCount > 0) {
         tasbihCount--;
         updateTasbihDisplay();
+        updateCurrentDhikrDisplay(); // إضافة هذا السطر لتحديث عرض الذكر
         saveTasbihState();
-        
+
         // Haptic feedback
         if (navigator.vibrate) {
             navigator.vibrate(100);
@@ -2072,13 +2720,16 @@ function resetTasbih() {
     tasbihCount = 0;
     currentDhikr = null;
     targetCount = 0;
-    
+
+    // Remove all progress rings
+    hideTasbihProgress();
+
     updateTasbihDisplay();
     updateCurrentDhikrDisplay();
     saveTasbihState();
-    
+
     showEnhancedNotification('تم إعادة تعيين العداد', 'info');
-    
+
     // Haptic feedback
     if (navigator.vibrate) {
         navigator.vibrate(200);
@@ -2090,13 +2741,16 @@ function setTasbihPreset(count, text) {
     tasbihCount = 0;
     currentDhikr = { text, count };
     targetCount = count;
-    
+
+    // Remove all existing progress rings
+    hideTasbihProgress();
+
     updateTasbihDisplay();
     updateCurrentDhikrDisplay();
     saveTasbihState();
-    
+
     showEnhancedNotification(`تم تعيين: ${text} (${count} مرة)`, 'success');
-    
+
     // Haptic feedback
     if (navigator.vibrate) {
         navigator.vibrate(100);
@@ -2107,16 +2761,16 @@ function setTasbihPreset(count, text) {
 function updateTasbihDisplay() {
     const counter = document.getElementById('tasbihCounter');
     if (!counter) return;
-    
+
     counter.textContent = tasbihCount;
-    
+
     // Add completion class if target reached
     if (currentDhikr && tasbihCount >= targetCount) {
         counter.classList.add('completed');
     } else {
         counter.classList.remove('completed');
     }
-    
+
     // Add scale animation
     counter.style.transform = 'scale(1.1)';
     setTimeout(() => {
@@ -2128,17 +2782,17 @@ function updateTasbihDisplay() {
 function updateCurrentDhikrDisplay() {
     const dhikrElement = document.getElementById('currentDhikr');
     if (!dhikrElement) return;
-    
+
     if (currentDhikr) {
         dhikrElement.textContent = `${currentDhikr.text} (${tasbihCount}/${targetCount})`;
         dhikrElement.classList.add('active');
-        
+
         // Update progress bar
         updateTasbihProgress();
     } else {
         dhikrElement.textContent = 'اختر ذكراً للبدء';
         dhikrElement.classList.remove('active');
-        
+
         // Hide progress bar
         hideTasbihProgress();
     }
@@ -2146,52 +2800,188 @@ function updateCurrentDhikrDisplay() {
 
 // Update tasbih progress bar
 function updateTasbihProgress() {
-    let progressBar = document.querySelector('.tasbih-progress');
-    
-    if (!progressBar) {
-        // Create progress bar if it doesn't exist
-        const counter = document.getElementById('currentDhikr');
+    let progressRing = document.querySelector('.tasbih-progress-ring:not(.completed)');
+
+    if (!progressRing) {
+        // Create circular progress ring if it doesn't exist
+        const counter = document.getElementById('tasbihCounter');
         if (counter) {
-            progressBar = document.createElement('div');
-            progressBar.className = 'tasbih-progress';
-            progressBar.innerHTML = '<div class="tasbih-progress-bar"></div>';
-            counter.parentNode.insertBefore(progressBar, counter.nextSibling);
+            progressRing = document.createElement('div');
+            progressRing.className = 'tasbih-progress-ring';
+            progressRing.innerHTML = `
+                <svg class="progress-ring-svg" viewBox="0 0 120 120">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#059669;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54" stroke-width="8"/>
+                    <circle class="progress-ring-circle" cx="60" cy="60" r="54" stroke-width="8"/>
+                </svg>
+                <div class="progress-ring-text">
+                    <span class="progress-current">${tasbihCount}</span>
+                    <span class="progress-separator">/</span>
+                    <span class="progress-target">${targetCount}</span>
+                </div>
+            `;
+            counter.appendChild(progressRing);
         }
     }
-    
-    if (progressBar && targetCount > 0) {
+
+    if (progressRing && targetCount > 0) {
         const progress = (tasbihCount / targetCount) * 100;
-        const progressBarInner = progressBar.querySelector('.tasbih-progress-bar');
-        if (progressBarInner) {
-            progressBarInner.style.width = `${Math.min(progress, 100)}%`;
+        const circle = progressRing.querySelector('.progress-ring-circle');
+        const currentText = progressRing.querySelector('.progress-current');
+        const targetText = progressRing.querySelector('.progress-target');
+
+        if (circle) {
+            const radius = 54;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (progress / 100) * circumference;
+
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        if (currentText) currentText.textContent = tasbihCount;
+        if (targetText) targetText.textContent = targetCount;
+
+        // Check if target reached and create new ring
+        if (tasbihCount >= targetCount && !progressRing.classList.contains('completed')) {
+            completeProgressRing(progressRing);
+            createNewProgressRing();
         }
     }
 }
 
-// Hide tasbih progress bar
-function hideTasbihProgress() {
-    const progressBar = document.querySelector('.tasbih-progress');
-    if (progressBar) {
-        progressBar.remove();
+// Complete current progress ring (make it green)
+function completeProgressRing(progressRing) {
+    progressRing.classList.add('completed');
+
+    // Change the circle color to green
+    const circle = progressRing.querySelector('.progress-ring-circle');
+    if (circle) {
+        circle.style.stroke = '#10b981';
+        circle.style.filter = 'drop-shadow(0 0 15px rgba(16, 185, 129, 0.8))';
     }
+
+    // Add completion animation
+    progressRing.style.animation = 'ringCompletion 1s ease-out';
+
+    // Show completion text
+    const progressText = progressRing.querySelector('.progress-ring-text');
+    if (progressText) {
+        progressText.innerHTML = `
+            <div class="completion-text">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>مكتمل!</span>
+            </div>
+        `;
+    }
+}
+
+// Create new progress ring for next round
+function createNewProgressRing() {
+    const counter = document.getElementById('tasbihCounter');
+    if (!counter) return;
+
+    // Count completed rings to determine color
+    const completedRings = document.querySelectorAll('.tasbih-progress-ring.completed');
+    const roundNumber = completedRings.length + 1;
+
+    // Different colors for different rounds
+    const colors = [
+        { primary: '#3b82f6', secondary: '#1d4ed8' }, // Blue for round 2
+        { primary: '#8b5cf6', secondary: '#7c3aed' }, // Purple for round 3
+        { primary: '#f59e0b', secondary: '#d97706' }, // Orange for round 4
+        { primary: '#ef4444', secondary: '#dc2626' }, // Red for round 5
+        { primary: '#06b6d4', secondary: '#0891b2' }  // Cyan for round 6+
+    ];
+
+    const colorIndex = (roundNumber - 2) % colors.length;
+    const colorsForRound = colors[colorIndex];
+
+    // Create new progress ring
+    const newProgressRing = document.createElement('div');
+    newProgressRing.className = 'tasbih-progress-ring new-ring';
+    newProgressRing.innerHTML = `
+        <svg class="progress-ring-svg" viewBox="0 0 120 120">
+            <defs>
+                <linearGradient id="progressGradientNew${roundNumber}" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:${colorsForRound.primary};stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:${colorsForRound.secondary};stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:${colorsForRound.primary};stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54" stroke-width="8"/>
+            <circle class="progress-ring-circle" cx="60" cy="60" r="54" stroke-width="8" style="stroke: url(#progressGradientNew${roundNumber})"/>
+        </svg>
+        <div class="progress-ring-text">
+            <span class="progress-current">0</span>
+            <span class="progress-separator">/</span>
+            <span class="progress-target">${targetCount}</span>
+        </div>
+    `;
+
+    // Insert new ring after the completed one
+    const completedRing = document.querySelector('.tasbih-progress-ring.completed');
+    if (completedRing) {
+        completedRing.parentNode.insertBefore(newProgressRing, completedRing.nextSibling);
+    } else {
+        counter.appendChild(newProgressRing);
+    }
+
+    // Reset counter for new round
+    tasbihCount = 0;
+    updateTasbihDisplay();
+
+}
+
+// Hide tasbih progress ring
+function hideTasbihProgress() {
+    const progressRings = document.querySelectorAll('.tasbih-progress-ring');
+    progressRings.forEach(ring => ring.remove());
 }
 
 // Show completion celebration
 function showCompletionCelebration() {
     // Show celebration notification
-    showEnhancedNotification(`🎉 تم إكمال الذكر: ${currentDhikr.text}!`, 'success', 5000);
-    
+    showEnhancedNotification(` تم إكمال الذكر: ${currentDhikr.text}!`, 'success', 5000);
+
     // Play celebration sound if available
     playCelebrationSound();
-    
-    // Add celebration animation to counter
-    const counter = document.getElementById('tasbihCounter');
-    if (counter) {
-        counter.style.animation = 'celebration 1s ease-in-out';
-        setTimeout(() => {
-            counter.style.animation = '';
-        }, 1000);
-    }
+
+    // Show Islamic-themed celebration
+    const celebrationContainer = document.createElement('div');
+    celebrationContainer.className = 'celebration-container islamic-celebration';
+    celebrationContainer.innerHTML = `
+        <div class="celebration-text">تم إكمال الذكر</div>
+        <div class="celebration-patterns"></div>
+        <div class="celebration-geometric"></div>
+        <div class="celebration-ornaments"></div>
+        <div class="celebration-glow"></div>
+        <div class="celebration-dots"></div>
+        <div class="celebration-lines"></div>
+        <div class="celebration-circles"></div>
+        <div class="celebration-squares"></div>
+        <div class="celebration-triangles"></div>
+    `;
+
+    document.body.appendChild(celebrationContainer);
+
+    // Remove celebration after animation
+    setTimeout(() => {
+        if (celebrationContainer.parentNode) {
+            celebrationContainer.parentNode.removeChild(celebrationContainer);
+        }
+    }, 4000);
+
+    // Auto-return to adhkar section after completion
+    setTimeout(() => {
+        returnToAdhkarSection();
+    }, 2000); // Wait 2 seconds before returning
 }
 
 // Play celebration sound
@@ -2200,19 +2990,40 @@ function playCelebrationSound() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
     oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
     oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
-    
+
     gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    
+
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.3);
+}
+
+// Play increment sound
+function playIncrementSound() {
+    // Create a soft click sound for increment
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Soft click sound
+    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.05);
+
+    gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
 }
 
 // Save tasbih state to localStorage
@@ -2236,7 +3047,7 @@ function loadTasbihState() {
             currentDhikr = state.currentDhikr || null;
             targetCount = state.targetCount || 0;
             customDhikrs = state.customDhikrs || [];
-            
+
             updateTasbihDisplay();
             updateCurrentDhikrDisplay();
         }
@@ -2249,19 +3060,47 @@ function loadTasbihState() {
 window.showCustomDhikrModal = showCustomDhikrModal;
 window.addCustomDhikr = addCustomDhikr;
 window.setTasbihPreset = setTasbihPreset;
+window.returnToAdhkarSection = returnToAdhkarSection;
+window.playIncrementSound = playIncrementSound;
+window.playCelebrationSound = playCelebrationSound;
+window.showCompletionCelebration = showCompletionCelebration;
+window.incrementTasbih = incrementTasbih;
+window.decrementTasbih = decrementTasbih;
+window.resetTasbih = resetTasbih;
 
 // Function to link adhkar with tasbih
 function linkAdhkarWithTasbih(dhikrText, count) {
     // Set the selected dhikr in tasbih
     setCustomDhikr(dhikrText, count);
-    
+
     // Show success message
     showEnhancedNotification(`تم ربط الذكر: ${dhikrText} مع السبحة`, 'success');
-    
+
     // Scroll to tasbih section
     const tasbihSection = document.querySelector('.tasbih-card');
     if (tasbihSection) {
         tasbihSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// Function to return to adhkar section
+function returnToAdhkarSection() {
+    // Find the adhkar section
+    const adhkarSection = document.querySelector('.adhkar-slider-card');
+    if (adhkarSection) {
+        // Scroll to adhkar section with smooth animation
+        adhkarSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        // Add highlight animation class
+        adhkarSection.classList.add('return-highlight');
+
+        // Remove the class after animation completes
+        setTimeout(() => {
+            adhkarSection.classList.remove('return-highlight');
+        }, 2000);
     }
 }
 
@@ -2284,13 +3123,13 @@ function displayPrayerTimesEnhanced() {
 
     // Calculate next prayer before starting countdown
     calculateNextPrayer();
-    
+
     // Update prayer status for cards
     updatePrayerStatus();
-    
+
     // Update prayer date
     updatePrayerDate();
-    
+
     // Start countdown for cards
     startCountdown();
 }
@@ -2313,7 +3152,7 @@ function startTableCountdown() {
 function initializeEnhancedFeatures() {
     // Load tasbih count
     loadTasbihState();
-    
+
     // Add keyboard shortcuts for tasbih
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Space') {
@@ -2338,7 +3177,7 @@ function showNotification(message, type = 'info') {
         showEnhancedNotification(message, type);
         return;
     }
-    
+
     // Fallback to simple alert
     console.log(`${type.toUpperCase()}: ${message}`);
 }
@@ -2402,23 +3241,35 @@ function updatePrayerTimesGridForTable() {
 // ====== Enhanced Initialization ======
 
 // Enhanced initialization function
-function initializeEnhancedPrayerTimes() {
+async function initializeEnhancedPrayerTimes() {
+    // Try to get user's location and set city automatically
+    try {
+        await getUserCountryAndSetCity();
+    } catch (error) {
+        console.log('Auto-location failed, using saved city');
+        // Load saved city selection as fallback
+        loadSavedCity();
+    }
+
     // Initialize basic prayer times
     initializePrayerTimesSmart();
-    
+
     // Initialize enhanced features
     initializeEnhancedFeatures();
-    
+
     // Update prayer times grid for card compatibility
     updatePrayerTimesGridForTable();
-    
+
     // Display prayer times with enhanced function
     if (prayerTimes && Object.keys(prayerTimes).length > 0) {
         displayPrayerTimesEnhanced();
     }
-    
+
     // Start enhanced countdown
     startTableCountdown();
+
+    // Display timezone information
+    displayTimezoneInfo();
 }
 
 // ====== Export Enhanced Functions ======
@@ -2430,6 +3281,39 @@ window.incrementTasbih = incrementTasbih;
 window.decrementTasbih = decrementTasbih;
 window.resetTasbih = resetTasbih;
 window.setTasbihPreset = setTasbihPreset;
+window.setCustomDhikr = setCustomDhikr;
+window.updateTasbihDisplay = updateTasbihDisplay;
+window.updateCurrentDhikrDisplay = updateCurrentDhikrDisplay;
+window.saveTasbihState = saveTasbihState;
+window.loadTasbihState = loadTasbihState;
+window.showCustomDhikrModal = showCustomDhikrModal;
+window.addCustomDhikr = addCustomDhikr;
+window.returnToAdhkarSection = returnToAdhkarSection;
+window.playIncrementSound = playIncrementSound;
+window.playCelebrationSound = playCelebrationSound;
+window.showCompletionCelebration = showCompletionCelebration;
+window.updateTasbihProgress = updateTasbihProgress;
+window.hideTasbihProgress = hideTasbihProgress;
+window.createNewProgressRing = createNewProgressRing;
+window.completeProgressRing = completeProgressRing;
+window.setTasbihPreset = setTasbihPreset;
+window.toggleAdhkarSection = toggleAdhkarSection;
+window.setPrayerReminder = setPrayerReminder;
+window.getNotificationIcon = getNotificationIcon;
+window.showNotification = showNotification;
+window.updateCityDisplay = updateCityDisplay;
+window.loadSavedCity = loadSavedCity;
+window.refreshPrayerTimesSmart = refreshPrayerTimesSmart;
+window.getUserCountryAndSetCity = getUserCountryAndSetCity;
+window.clearPrayerTimes = clearPrayerTimes;
 window.displayPrayerTimesEnhanced = displayPrayerTimesEnhanced;
 window.initializeEnhancedPrayerTimes = initializeEnhancedPrayerTimes;
 window.linkAdhkarWithTasbih = linkAdhkarWithTasbih;
+window.showEnhancedNotification = showEnhancedNotification;
+window.getNotificationIcon = getNotificationIcon;
+window.showNotification = showNotification;
+window.updateCityDisplay = updateCityDisplay;
+window.loadSavedCity = loadSavedCity;
+window.refreshPrayerTimesSmart = refreshPrayerTimesSmart;
+window.getUserCountryAndSetCity = getUserCountryAndSetCity;
+window.clearPrayerTimes = clearPrayerTimes;
