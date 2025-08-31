@@ -3061,7 +3061,6 @@ window.showCustomDhikrModal = showCustomDhikrModal;
 window.addCustomDhikr = addCustomDhikr;
 window.setTasbihPreset = setTasbihPreset;
 window.returnToAdhkarSection = returnToAdhkarSection;
-window.playIncrementSound = playIncrementSound;
 window.playCelebrationSound = playCelebrationSound;
 window.showCompletionCelebration = showCompletionCelebration;
 window.incrementTasbih = incrementTasbih;
