@@ -3064,7 +3064,6 @@ function showNotification(message, type = 'info') {
     notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
     notification.innerHTML = `
         ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
 
     // Add to page

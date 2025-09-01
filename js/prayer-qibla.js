@@ -5,6 +5,7 @@ let currentLocation = null;
 let prayerTimes = null;
 let nextPrayer = null;
 let countdownInterval = null;
+let prayerCountdownInterval = null; // used by startTableCountdown
 let qiblaAngle = 0;
 
 // Tasbih and Dhikr variables
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('All required elements found, proceeding with initialization...');
 
-    // Initialize enhanced prayer times with table support
+    // Initialize enhanced prayer times with no-location fallback
     initializeEnhancedPrayerTimes();
 
     // Update prayer date
@@ -244,18 +245,27 @@ function handleLocationError(error) {
         }
     }
 
-    // Try to load prayer times with default location (Mecca) as fallback
-    setTimeout(() => {
-        if (!currentLocation) {
-            console.log('Using default location (Mecca) as fallback');
-            currentLocation = {
-                latitude: 21.4225,
-                longitude: 39.8262
-            };
-            loadPrayerTimes();
-            calculateQiblaDirection();
-        }
-    }, 2000);
+    // Prefer city-based API (no geolocation permission needed)
+    getPrayerTimesFromAPI()
+        .then((ok) => {
+            if (!ok) {
+                // Final fallback: Mecca coords
+                if (!currentLocation) {
+                    console.log('Falling back to default location (Mecca)');
+                    currentLocation = { latitude: 21.4225, longitude: 39.8262 };
+                    loadPrayerTimes();
+                    calculateQiblaDirection();
+                }
+            }
+        })
+        .catch(() => {
+            if (!currentLocation) {
+                console.log('Falling back to default location (Mecca)');
+                currentLocation = { latitude: 21.4225, longitude: 39.8262 };
+                loadPrayerTimes();
+                calculateQiblaDirection();
+            }
+        });
 }
 
 // Show prayer times error with retry button
@@ -359,7 +369,7 @@ async function loadPrayerTimes() {
         if (data.status === 'OK' && data.data && data.data.timings) {
             prayerTimes = data.data.timings;
             console.log('Prayer times set to:', prayerTimes);
-            displayPrayerTimes();
+            displayPrayerTimesEnhanced();
             calculateNextPrayer();
             updateHeroStats();
         } else {
@@ -452,14 +462,21 @@ function updatePrayerStatus() {
         const now = new Date();
         const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes
 
-        const prayerOrder = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        const prayerOrder = [
+            { key: 'Fajr', id: 'fajr' },
+            { key: 'Sunrise', id: 'sunrise' },
+            { key: 'Dhuhr', id: 'dhuhr' },
+            { key: 'Asr', id: 'asr' },
+            { key: 'Maghrib', id: 'maghrib' },
+            { key: 'Isha', id: 'isha' }
+        ];
         let currentPrayerIndex = -1;
         let nextPrayerIndex = -1;
 
         // Find current and next prayer
         for (let i = 0; i < prayerOrder.length; i++) {
-            const prayerKey = prayerOrder[i];
-            const prayerTime = prayerTimes[prayerKey] || prayerTimes[prayerKey.charAt(0).toUpperCase() + prayerKey.slice(1)];
+            const prayer = prayerOrder[i];
+            const prayerTime = prayerTimes[prayer.key];
 
             if (prayerTime) {
                 const [hours, minutes] = prayerTime.split(':').map(Number);
@@ -478,17 +495,17 @@ function updatePrayerStatus() {
         console.log('Prayer status update - Current index:', currentPrayerIndex, 'Next index:', nextPrayerIndex);
 
         // Update status for each prayer
-        prayerOrder.forEach((prayerId, index) => {
+        prayerOrder.forEach((prayer, index) => {
             try {
-                const timeElement = document.getElementById(prayerId);
+                const timeElement = document.getElementById(prayer.id);
                 if (!timeElement) {
-                    console.warn(`Time element not found for ${prayerId}`);
+                    console.warn(`Time element not found for ${prayer.id}`);
                     return;
                 }
 
                 const prayerItem = timeElement.closest('.prayer-time-item, .enhanced-prayer-item');
                 if (!prayerItem) {
-                    console.warn(`Prayer item not found for ${prayerId}`);
+                    console.warn(`Prayer item not found for ${prayer.id}`);
                     return;
                 }
 
@@ -500,23 +517,23 @@ function updatePrayerStatus() {
                         // Past prayer
                         statusElement.textContent = 'مرت';
                         statusElement.classList.add('past');
-                        console.log(`${prayerId}: Past prayer`);
+                        console.log(`${prayer.id}: Past prayer`);
                     } else if (index === currentPrayerIndex) {
                         // Current prayer
                         statusElement.textContent = 'حالية';
                         statusElement.classList.add('current');
-                        console.log(`${prayerId}: Current prayer`);
+                        console.log(`${prayer.id}: Current prayer`);
                     } else {
                         // Upcoming prayer
                         statusElement.textContent = 'قادمة';
                         statusElement.classList.add('upcoming');
-                        console.log(`${prayerId}: Upcoming prayer`);
+                        console.log(`${prayer.id}: Upcoming prayer`);
                     }
                 } else {
-                    console.warn(`Status element not found for ${prayerId}`);
+                    console.warn(`Status element not found for ${prayer.id}`);
                 }
             } catch (error) {
-                console.error(`Error updating status for ${prayerId}:`, error);
+                console.error(`Error updating status for ${prayer.id}:`, error);
             }
         });
 
@@ -551,12 +568,12 @@ function calculateNextPrayer() {
     }
 
     const prayerTimesArray = [
-        { name: 'الفجر', time: getPrayerTime('fajr'), id: 'fajr' },
-        { name: 'الشروق', time: getPrayerTime('sunrise'), id: 'sunrise' },
-        { name: 'الظهر', time: getPrayerTime('dhuhr'), id: 'dhuhr' },
-        { name: 'العصر', time: getPrayerTime('asr'), id: 'asr' },
-        { name: 'المغرب', time: getPrayerTime('maghrib'), id: 'maghrib' },
-        { name: 'العشاء', time: getPrayerTime('isha'), id: 'isha' }
+        { name: 'الفجر', time: getPrayerTime('Fajr'), id: 'fajr' },
+        { name: 'الشروق', time: getPrayerTime('Sunrise'), id: 'sunrise' },
+        { name: 'الظهر', time: getPrayerTime('Dhuhr'), id: 'dhuhr' },
+        { name: 'العصر', time: getPrayerTime('Asr'), id: 'asr' },
+        { name: 'المغرب', time: getPrayerTime('Maghrib'), id: 'maghrib' },
+        { name: 'العشاء', time: getPrayerTime('Isha'), id: 'isha' }
     ].filter(prayer => prayer.time); // Only include prayers with valid times
 
     let nextPrayerTime = null;
@@ -1174,10 +1191,17 @@ function refreshLocation() {
     }
 }
 
-// Utility functions
-function formatTime(timeString) {
+// Utility functions (scoped for prayer times)
+function formatPrayerTime(timeString) {
     if (!timeString) return '--:--';
-    return timeString.substring(0, 5);
+    // Expect HH:MM or HH:MM (with possible seconds). Trim to HH:MM
+    const parts = String(timeString).split(':');
+    if (parts.length >= 2) {
+        const hh = parts[0].padStart(2, '0');
+        const mm = parts[1].padStart(2, '0');
+        return `${hh}:${mm}`;
+    }
+    return '--:--';
 }
 
 // Helper function to format time in 12-hour format with Arabic AM/PM
@@ -1294,7 +1318,7 @@ function testPrayerTimes() {
     prayerTimes = testPrayerTimes;
 
     // Try to display
-    displayPrayerTimes();
+    displayPrayerTimesEnhanced();
 
     console.log('✅ Test completed');
 }
@@ -1428,7 +1452,7 @@ function simulateAPIResponse() {
     if (mockData.status === 'OK' && mockData.data && mockData.data.timings) {
         prayerTimes = mockData.data.timings;
         console.log('✅ Prayer times set from mock data:', prayerTimes);
-        displayPrayerTimes();
+        displayPrayerTimesEnhanced();
         calculateNextPrayer();
     } else {
         console.error('❌ Invalid mock data format');
@@ -1772,233 +1796,80 @@ function clearPrayerTimes() {
     }
 }
 
-// Function to get user's country and set appropriate city automatically using GPS
+// Function to get user's country and set appropriate city automatically using IP (no GPS)
 async function getUserCountryAndSetCity() {
     try {
-        // Show loading state
+        console.log('🌍 Starting getUserCountryAndSetCity...');
         const cityNameElement = document.getElementById('currentCityName');
-        if (cityNameElement) {
-            cityNameElement.textContent = 'جاري التحميل...';
-        }
+        if (cityNameElement) cityNameElement.textContent = 'جاري التحميل...';
 
-        // Get user's GPS location
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-                enableHighAccuracy: true,
-                timeout: 15000,
-                maximumAge: 60000
-            });
-        });
-
-        const { latitude, longitude } = position.coords;
-        console.log('GPS coordinates:', { latitude, longitude });
-
-        // Use reverse geocoding to get country and city
+        // 1) Try ipapi.co (no key)
         let country = null;
         let city = null;
-
         try {
-            console.log('Trying bigdatacloud API...');
-            const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=ar`);
-            console.log('Bigdatacloud response status:', response.status);
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Reverse geocoding response:', data);
-                console.log('🔍 Full API response keys:', Object.keys(data));
-
-                country = data.countryName;
+            const res = await fetch('https://ipapi.co/json/');
+            if (res.ok) {
+                const data = await res.json();
+                country = data.country_name;
                 city = data.city;
-
-                console.log('Extracted country:', country);
-                console.log('Extracted city:', city);
-                console.log('🔍 Country type:', typeof country, 'Value:', country);
-
-                if (!country) {
-                    console.log('No country found in response, trying alternative...');
-                }
-            } else {
-                console.log('Bigdatacloud API failed with status:', response.status);
             }
-        } catch (error) {
-            console.log('Reverse geocoding failed with error:', error);
-        }
+        } catch {}
 
-        // If first API failed or no country, try OpenStreetMap Nominatim
+        // 2) Fallback: ipwho.is
         if (!country) {
             try {
-                console.log('Trying Nominatim API...');
-                const response2 = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=ar`);
-                console.log('Nominatim response status:', response2.status);
-
-                if (response2.ok) {
-                    const data = await response2.json();
-                    console.log('Nominatim response:', data);
-                    console.log('🔍 Nominatim response keys:', Object.keys(data));
-                    console.log('🔍 Nominatim address keys:', data.address ? Object.keys(data.address) : 'No address');
-
-                    country = data.address?.country;
-                    city = data.address?.city || data.address?.town || data.address?.village;
-
-                    console.log('Nominatim extracted country:', country);
-                    console.log('Nominatim extracted city:', city);
-                    console.log('🔍 Nominatim country type:', typeof country, 'Value:', country);
-                } else {
-                    console.log('Nominatim API failed with status:', response2.status);
+                const res2 = await fetch('https://ipwho.is/');
+                if (res2.ok) {
+                    const data2 = await res2.json();
+                    if (data2.success) {
+                        country = data2.country;
+                        city = data2.city;
+                    }
                 }
-            } catch (error2) {
-                console.log('Nominatim also failed with error:', error2);
-            }
+            } catch {}
         }
 
-        // If still no country, try a third API (using IP-based geolocation as fallback)
-        if (!country) {
-            try {
-                console.log('Trying third API (ipapi.co IP-based)...');
-                const response3 = await fetch(`https://ipapi.co/json/`);
-                console.log('Third API response status:', response3.status);
+        if (!country) throw new Error('IP geo failed');
 
-                if (response3.ok) {
-                    const data = await response3.json();
-                    console.log('Third API response:', data);
-                    console.log('🔍 Third API response keys:', Object.keys(data));
-
-                    country = data.country_name;
-                    city = data.city;
-
-                    console.log('Third API extracted country:', country);
-                    console.log('Third API extracted city:', city);
-                    console.log('🔍 Third API country type:', typeof country, 'Value:', country);
-                } else {
-                    console.log('Third API failed with status:', response3.status);
-                }
-            } catch (error3) {
-                console.log('Third API also failed with error:', error3);
+        // Match country to our cities list
+        let bestMatch = null;
+        TRADITIONAL_CITIES.forEach((c, idx) => {
+            const a = c.country.toLowerCase().trim();
+            const b = country.toLowerCase().trim();
+            if (a === b || a.includes(b) || b.includes(a)) {
+                if (!bestMatch || idx < bestMatch.index) bestMatch = { index: idx, cityData: c };
             }
-        }
+        });
 
-        if (country) {
-            console.log('✅ SUCCESS: User location by GPS:', { country, city, lat: latitude, lng: longitude });
-            console.log('🔍 Country value analysis:');
-            console.log('  - Raw value:', country);
-            console.log('  - Type:', typeof country);
-            console.log('  - Length:', country.length);
-            console.log('  - Trimmed:', country.trim());
-            console.log('  - Lowercase:', country.toLowerCase());
-            console.log('  - Without quotes:', country.replace(/['"]/g, ''));
-
-            // Find capital city of user's country
-            let bestMatch = null;
-
-            // First, try to find exact country match
-            console.log('🔍 Looking for country:', country);
-            console.log('📋 Available countries in list:', TRADITIONAL_CITIES.map(c => c.country));
-            console.log('🔍 Country comparison details:');
-            TRADITIONAL_CITIES.forEach((cityData, index) => {
-                console.log(`  ${cityData.country} === ${country} = ${cityData.country === country}`);
-            });
-
-            TRADITIONAL_CITIES.forEach((cityData, index) => {
-                console.log(`🔍 Checking city ${cityData.name} with country ${cityData.country} against ${country}`);
-                console.log(`  - List country: "${cityData.country}" (type: ${typeof cityData.country}, length: ${cityData.country.length})`);
-                console.log(`  - API country: "${country}" (type: ${typeof country}, length: ${country.length})`);
-
-                // Try exact match first
-                if (cityData.country === country) {
-                    console.log(`✅ Exact match found! City: ${cityData.name}, Index: ${index}`);
-                    // Prefer capital cities (usually first in list for each country)
-                    if (!bestMatch || index < bestMatch.index) {
-                        bestMatch = { index, cityData };
-                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
-                    }
-                }
-                // Try partial match (in case of slight differences)
-                else if (cityData.country.toLowerCase().includes(country.toLowerCase()) ||
-                    country.toLowerCase().includes(cityData.country.toLowerCase())) {
-                    console.log(`✅ Partial match found! City: ${cityData.name}, Index: ${index}`);
-                    if (!bestMatch || index < bestMatch.index) {
-                        bestMatch = { index, cityData };
-                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
-                    }
-                }
-                // Try normalized comparison (remove extra spaces, quotes, etc.)
-                else if (cityData.country.toLowerCase().trim().replace(/['"]/g, '') ===
-                    country.toLowerCase().trim().replace(/['"]/g, '')) {
-                    console.log(`✅ Normalized match found! City: ${cityData.name}, Index: ${index}`);
-                    if (!bestMatch || index < bestMatch.index) {
-                        bestMatch = { index, cityData };
-                        console.log(`🔄 Updated bestMatch to: ${cityData.name} at index ${index}`);
-                    }
-                }
-
-                // Log comparison details for debugging
-                console.log(`  - Exact match: ${cityData.country === country}`);
-                console.log(`  - Partial match: ${cityData.country.toLowerCase().includes(country.toLowerCase()) || country.toLowerCase().includes(cityData.country.toLowerCase())}`);
-                console.log(`  - Normalized match: ${cityData.country.toLowerCase().trim().replace(/['"]/g, '') === country.toLowerCase().trim().replace(/['"]/g, '')}`);
-            });
-
-            // If no exact country match, find closest city by distance (if we have coordinates)
-            if (!bestMatch && latitude && longitude) {
-                console.log('🌍 No exact country match, finding closest city by distance...');
-                let bestScore = 0;
-                TRADITIONAL_CITIES.forEach((cityData, index) => {
-                    const distance = calculateDistance(latitude, longitude, cityData.lat, cityData.lng);
-                    const score = 1 / (1 + distance); // Higher score for closer cities
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestMatch = { index, cityData };
-                        console.log(`🌍 Closest city found: ${cityData.name} at distance ${distance.toFixed(2)}km`);
-                    }
-                });
-            }
-
-            if (bestMatch) {
-                currentCityIndex = bestMatch.index;
-                console.log('🎯 SUCCESS: Auto-selected city:', bestMatch.cityData.name, 'for country:', country);
-                console.log('📍 City index set to:', currentCityIndex);
-
-                // Update display
-                updateCityDisplay();
-
-                // Save selection
-                localStorage.setItem('selectedCityIndex', currentCityIndex);
-
-                // Clear current prayer times and get new ones
-                clearPrayerTimes();
-                await getPrayerTimesFromAPI();
-
-                // Update the display with new times
-                if (prayerTimes && Object.keys(prayerTimes).length > 0) {
-                    displayPrayerTimesEnhanced();
-                    startTableCountdown();
-                }
-
-                // Show success notification
-                if (typeof showEnhancedNotification === 'function') {
-                    showEnhancedNotification(`تم تحديد ${bestMatch.cityData.name} (${country}) تلقائياً`, 'success');
-                }
-            } else {
-                console.log('❌ ERROR: No matching city found for country:', country);
-                console.log('📋 Available cities:', TRADITIONAL_CITIES.map(c => `${c.name} (${c.country})`));
-                throw new Error('No matching city found');
-            }
-
-        } else {
-            console.log('❌ ERROR: Could not get country from any API');
-            console.log('🔍 Final check - country:', country, 'city:', city);
-            throw new Error('Could not get location from GPS');
-        }
-
-    } catch (error) {
-        console.error('Error getting user location by GPS:', error);
-
-        // Fallback to default city (Cairo)
-        currentCityIndex = 2;
+        // Default to Cairo if no match
+        currentCityIndex = bestMatch ? bestMatch.index : 2;
 
         updateCityDisplay();
+        localStorage.setItem('selectedCityIndex', currentCityIndex);
+
+        clearPrayerTimes();
+        console.log('🌍 Getting prayer times for auto-detected city...');
+        await getPrayerTimesFromAPI();
+        if (prayerTimes && Object.keys(prayerTimes).length > 0) {
+            console.log('🌍 Prayer times received, displaying...');
+            displayPrayerTimesEnhanced();
+            startTableCountdown();
+        } else {
+            console.log('🌍 No prayer times received');
+        }
 
         if (typeof showEnhancedNotification === 'function') {
-            showEnhancedNotification('تعذر تحديد الموقع', 'warning');
+            const name = TRADITIONAL_CITIES[currentCityIndex].name;
+            showEnhancedNotification(`تم تحديد ${name} (${country}) تلقائياً`, 'success');
+        }
+    } catch (e) {
+        console.warn('IP-based auto city failed, using Cairo');
+        currentCityIndex = 2; // Cairo
+        updateCityDisplay();
+        await getPrayerTimesFromAPI();
+        if (prayerTimes && Object.keys(prayerTimes).length > 0) {
+            displayPrayerTimesEnhanced();
+            startTableCountdown();
         }
     }
 }
@@ -2032,7 +1903,7 @@ function loadSavedCity() {
 // Get prayer times from coordinates-based APIs
 async function getPrayerTimesFromAPI() {
     try {
-        console.log('Getting prayer times from coordinates-based APIs...');
+        console.log('🔥 getPrayerTimesFromAPI called!');
 
         // Get selected city coordinates
         const selectedCity = TRADITIONAL_CITIES[currentCityIndex];
@@ -2323,9 +2194,10 @@ async function getPrayerTimesFromAPI() {
                 Maghrib: times.Maghrib,
                 Isha: times.Isha
             };
+            console.log('🔥 Final prayerTimes object:', prayerTimes);
 
             // Update prayer times display
-            displayPrayerTimes();
+            displayPrayerTimesEnhanced();
 
             // Calculate next prayer
             calculateNextPrayer();
@@ -3107,16 +2979,38 @@ function returnToAdhkarSection() {
 
 // Enhanced function to display prayer times in card format
 function displayPrayerTimesEnhanced() {
+    console.log('🕒 displayPrayerTimesEnhanced called with prayerTimes:', prayerTimes);
     if (!prayerTimes || Object.keys(prayerTimes).length === 0) {
+        console.log('❌ No prayer times data available');
         return;
     }
 
-    // Update prayer times in cards
-    const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-    prayers.forEach(prayer => {
-        const element = document.getElementById(prayer.toLowerCase());
-        if (element && prayerTimes[prayer]) {
-            element.textContent = formatTime(prayerTimes[prayer]);
+    // Update prayer times in cards with correct ID mapping
+    const prayerMapping = {
+        'Fajr': 'fajr',
+        'Sunrise': 'sunrise', 
+        'Dhuhr': 'dhuhr',
+        'Asr': 'asr',
+        'Maghrib': 'maghrib',
+        'Isha': 'isha'
+    };
+
+    Object.keys(prayerMapping).forEach(prayerKey => {
+        const elementId = prayerMapping[prayerKey];
+        const element = document.getElementById(elementId);
+        if (element && prayerTimes[prayerKey]) {
+            const formattedTime = formatPrayerTime(prayerTimes[prayerKey]);
+            console.log(`Setting ${prayerKey} (${elementId}) to: ${prayerTimes[prayerKey]} -> ${formattedTime}`);
+            element.textContent = formattedTime;
+        } else {
+            console.log(`Missing element or data for ${prayerKey} (${elementId}):`, {
+                element: !!element,
+                data: prayerTimes[prayerKey]
+            });
+            // Try to create element if missing
+            if (!element) {
+                createPrayerTimeElement(elementId);
+            }
         }
     });
 
@@ -3190,9 +3084,6 @@ function showEnhancedNotification(message, type = 'info', duration = 3000) {
             <i class="bi ${getNotificationIcon(type)}"></i>
             <span>${message}</span>
         </div>
-        <button class="notification-close" onclick="this.parentElement.remove()">
-            <i class="bi bi-x"></i>
-        </button>
     `;
 
     document.body.appendChild(notification);
@@ -3259,10 +3150,8 @@ async function initializeEnhancedPrayerTimes() {
     // Update prayer times grid for card compatibility
     updatePrayerTimesGridForTable();
 
-    // Display prayer times with enhanced function
-    if (prayerTimes && Object.keys(prayerTimes).length > 0) {
-        displayPrayerTimesEnhanced();
-    }
+    // Display prayer times with enhanced function (after API call completes)
+    // Note: displayPrayerTimesEnhanced will be called automatically when getPrayerTimesFromAPI completes
 
     // Start enhanced countdown
     startTableCountdown();

@@ -813,9 +813,6 @@ function showNotification(message, type = 'info') {
         <div class="notification-content">
             <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
             <span>${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
-                <i class="bi bi-x"></i>
-            </button>
         </div>
     `;
 

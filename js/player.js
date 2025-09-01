@@ -795,3 +795,4 @@ function previousAyah() {
 
     playAyah(current.ayahIndex);
 }
+

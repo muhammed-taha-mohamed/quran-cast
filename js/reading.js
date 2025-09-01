@@ -1,6 +1,7 @@
 // ====== Reading Page JavaScript ======
 
-let surahs = [];
+// Use namespaced variable to avoid collision in SPA
+let readingSurahs = [];
 let currentSurah = null;
 let currentAyahs = [];
 let showTafsirState = true;
@@ -18,8 +19,8 @@ async function loadSurahs() {
     try {
         const res = await fetch('https://api.alquran.cloud/v1/surah');
         const data = await res.json();
-        surahs = data.data;
-        renderSurahList(surahs);
+        readingSurahs = data.data;
+        renderSurahList(readingSurahs);
     } catch (error) {
         console.error('Error loading surahs:', error);
         showSurahListError();
@@ -66,7 +67,7 @@ function showSurahListError() {
 
 // Select surah for reading
 async function selectSurahForReading(index) {
-    const surah = surahs[index];
+    const surah = readingSurahs[index];
     if (!surah) return;
 
     currentSurah = surah;
@@ -184,11 +185,11 @@ function renderAyahsForReading(ayahs) {
 // Search in surahs
 function searchInSurahs(query) {
     if (!query.trim()) {
-        renderSurahList(surahs);
+        renderSurahList(readingSurahs);
         return;
     }
 
-    const filtered = surahs.filter(s =>
+    const filtered = readingSurahs.filter(s =>
         `${s.number}`.includes(query) ||
         s.name.includes(query) ||
         s.englishName.toLowerCase().includes(query.toLowerCase())

@@ -1,546 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quran Cast - الأحاديث النبوية</title>
-    <meta name="description" content="أحاديث نبوية شريفة مع معلومات الراوي ودرجة الحديث">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&display=swap"
-        rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
-    <link rel="stylesheet" href="styles/main.css">
-</head>
-
-<body>
-
-    <!-- Top Navigation - Desktop Only -->
-    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-block">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40" class="rounded me-3">
-            </a>
-
-            <!-- Navigation Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="bi me-2"></i> الرئيسية
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="prayer-qibla.html">
-                            <i class="bi me-2"></i>الصلاة والقبلة
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="player.html">
-                            <i class="bi me-2"></i>القرآن الكريم
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="hadith.html">
-                            <i class="bi me-2"></i>الأحاديث
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Theme Toggle -->
-                <div class="navbar-nav">
-                    <button class="btn theme-toggle" onclick="toggleTheme()" title="تبديل الوضع المظلم">
-                        <i class="bi bi-moon-fill" id="themeIcon"></i>
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-
-
-    <!-- Enhanced Mobile Sidebar -->
-    <div class="offcanvas offcanvas-start enhanced-sidebar" tabindex="-1" id="mobileSidebar">
-        <div class="offcanvas-header">
-            <div class="sidebar-brand d-flex align-items-center">
-                <img src="media/images/logo.jpg" alt="Quran Cast Logo" width="40" height="40"
-                    class="rounded-circle me-3">
-                <h5 class="offcanvas-title mb-0">Quran Cast</h5>
-            </div>
-            <button type="button" class="btn-close enhanced-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="sidebar-nav">
-                <div class="nav-section mb-4">
-                    <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                    <a href="index.html" class="sidebar-nav-item">
-                        <i class="bi bi-book-open"></i>
-                        <span>القرآن الكريم</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                    <a href="prayer-qibla.html" class="sidebar-nav-item">
-                        <i class="bi "></i>
-                        <span>الصلاة والقبلة</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                    <a href="hadith.html" class="sidebar-nav-item active">
-                        <i class="bi bi-chat-quote"></i>
-                        <span>الأحاديث</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-
-                    <a href="mushaf.html" class="sidebar-nav-item">
-                        <i class="bi bi-journal-text"></i>
-                        <span>المصحف</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-
-                    <a href="player.html" class="sidebar-nav-item">
-                        <i class="bi bi-ear"></i>
-                        <span>المشغل</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                </div>
-
-                <div class="nav-section mb-4">
-                    <h6 class="nav-section-title">إعدادات سريعة</h6>
-                    <button class="sidebar-nav-item" onclick="toggleTheme()">
-                        <i class="bi bi-moon-stars"></i>
-                        <span>تبديل الوضع</span>
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-
-                </div>
-
-                <div class="nav-section">
-                    <h6 class="nav-section-title">معلومات التطبيق</h6>
-                    <div class="sidebar-info">
-                        <p class="text-muted mb-2"><i class="bi bi-code-slash me-2"></i>نسخة تجريبية v1.0</p>
-                        <p class="text-muted mb-0"><i class="bi bi-heart me-2"></i>مطور للمسلمين</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <main class="container" style="margin-top: 80px;">
-        <!-- Hero Section -->
-        <div class="hero-section text-center py-5 mb-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold text-primary mb-3">📖 الأحاديث النبوية</h1>
-                    <p class="lead text-muted mb-4">اقرأ وتدبر في أحاديث النبي محمد ﷺ</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hadith Controls -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h3 class="mb-0">
-                            <i class="bi bi-shuffle me-2"></i>البحث والفلترة في الأحاديث
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="search-bar" role="search">
-                                    <i class="bi bi-search text-muted"></i>
-                                    <input id="hadithSearch" placeholder="ابحث في نص الحديث..."
-                                        aria-label="بحث في الحديث" />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <select id="narratorFilter" class="form-select">
-                                    <option value="">جميع الرواة</option>
-                                    <option value="أبو هريرة">أبو هريرة</option>
-                                    <option value="عائشة">عائشة</option>
-                                    <option value="عبد الله بن عمر">عبد الله بن عمر</option>
-                                    <option value="عبد الله بن عباس">عبد الله بن عباس</option>
-                                    <option value="أنس بن مالك">أنس بن مالك</option>
-                                    <option value="علي بن أبي طالب">علي بن أبي طالب</option>
-                                    <option value="عمر بن الخطاب">عمر بن الخطاب</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <select id="categoryFilter" class="form-select">
-                                    <option value="">جميع الأقسام</option>
-                                    <option value="العقيدة">العقيدة</option>
-                                    <option value="العبادات">العبادات</option>
-                                    <option value="الأخلاق">الأخلاق</option>
-                                    <option value="المعاملات">المعاملات</option>
-                                    <option value="الآداب">الآداب</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="text-center mt-3">
-                            <button class="btn btn-primary btn-lg me-2" onclick="refreshHadith()">
-                                <i class="bi bi-arrow-clockwise me-2"></i>عرض حديث جديد
-                            </button>
-                            <button class="btn btn-success btn-lg me-2" onclick="searchHadiths()">
-                                <i class="bi bi-search me-2"></i>البحث
-                            </button>
-                            <button class="btn btn-outline-secondary btn-lg" onclick="clearFilters()">
-                                <i class="bi bi-x-circle me-2"></i>مسح الفلاتر
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Current Hadith -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h3 class="mb-0">
-                            <i class="bi bi-chat-quote me-2"></i>الحديث الحالي
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="hadith-content" id="hadithContent">
-                            <div class="hadith-text text-center mb-4" id="hadithText">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">جاري التحميل...</span>
-                                </div>
-                                <p class="mt-2">جاري تحميل الحديث...</p>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="hadith-narrator card">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title">
-                                                <i class="bi bi-person me-2"></i>الراوي
-                                            </h5>
-                                            <p class="card-text" id="narratorName">--</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="hadith-grade card">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title">
-                                                <i class="bi bi-star me-2"></i>درجة الحديث
-                                            </h5>
-                                            <p class="card-text" id="gradeText">--</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hadith Categories -->
-        <div class="row mb-4">
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header bg-info text-white">
-                        <h4 class="mb-0">
-                            <i class="bi bi-collection me-2"></i>أقسام الأحاديث
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <button class="btn btn-outline-primary w-100" onclick="getHadithByCategory('faith')">
-                                    <i class="bi bi-heart me-2"></i>الإيمان
-                                </button>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <button class="btn btn-outline-success w-100" onclick="getHadithByCategory('morals')">
-                                    <i class="bi bi-award me-2"></i>الأخلاق
-                                </button>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <button class="btn btn-outline-warning w-100" onclick="getHadithByCategory('worship')">
-                                    <i class="bi bi-pray me-2"></i>العبادة
-                                </button>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <button class="btn btn-outline-danger w-100" onclick="getHadithByCategory('social')">
-                                    <i class="bi bi-people me-2"></i>المعاملات
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header bg-warning text-dark">
-                        <h4 class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>معلومات مهمة
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled">
-                            <li class="mb-2">
-                                <i class="bi bi-check-circle text-success me-2"></i>
-                                جميع الأحاديث من مصادر موثوقة
-                            </li>
-                            <li class="mb-2">
-                                <i class="bi bi-check-circle text-success me-2"></i>
-                                يتم عرض درجة الحديث والراوي
-                            </li>
-                            <li class="mb-2">
-                                <i class="bi bi-check-circle text-success me-2"></i>
-                                يمكنك البحث في أقسام مختلفة
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hadith Statistics -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-secondary text-white">
-                        <h4 class="mb-0">
-                            <i class="bi bi-bar-chart me-2"></i>إحصائيات الأحاديث
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-md-3 mb-3">
-                                <div class="stat-item">
-                                    <i class="bi bi-book display-4 text-primary"></i>
-                                    <h5 class="mt-2">المجموع</h5>
-                                    <p class="text-muted">أكثر من 1000 حديث</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="stat-item">
-                                    <i class="bi bi-person-check display-4 text-success"></i>
-                                    <h5 class="mt-2">الرواة</h5>
-                                    <p class="text-muted">أكثر من 50 راوي</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="stat-item">
-                                    <i class="bi bi-star display-4 text-warning"></i>
-                                    <h5 class="mt-2">الدرجات</h5>
-                                    <p class="text-muted">صحيح، حسن، ضعيف</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="stat-item">
-                                    <i class="bi bi-tags display-4 text-info"></i>
-                                    <h5 class="mt-2">الأقسام</h5>
-                                    <p class="text-muted">أكثر من 20 قسم</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-
-    <!-- Enhanced Footer -->
-    <footer style="height: 20px;">
-
-    </footer>
-
-    <!-- Bottom Navigation Bar - Mobile Only -->
-    <nav class="bottom-navbar">
-
-        <div class="nav-item active" onclick="window.location.href='index.html'">
-            <i class="bi bi-house-door"></i>
-            <span>الرئيسية</span>
-        </div>
-
-
-        <div class="nav-item" onclick="window.location.href='prayer-qibla.html'">
-            <i class="bi bi-clock"></i>
-            <span>الصلاة</span>
-        </div>
-
-        <div class="nav-item" onclick="showQuranModeModal()">
-            <i class="bi bi-book-half"></i>
-            <span>القرآن</span>
-        </div>
-
-
-        <div class="nav-item" onclick="window.location.href='hadith.html'">
-            <i class="bi bi-chat-quote"></i>
-            <span>الأحاديث</span>
-        </div>
-
-        <div class="nav-item more-btn" onclick="toggleSidebar()">
-            <i class="bi bi-three-dots"></i>
-            <span>المزيد</span>
-        </div>
-    </nav>
-
-    <!-- Enhanced Sidebar (Hidden by default) -->
-    <div class="sidebar enhanced-sidebar" id="sidebar" style="display: none;">
-        <div class="sidebar-header">
-            <div class="logo-section">
-
-                <h4 class="app-name">Quran Cast</h4>
-            </div>
-
-        </div>
-        <div class="sidebar-content">
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="index.html" class="sidebar-nav-item">
-                    <i class="bi bi-book-open"></i>
-                    <span>القرآن الكريم</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="prayer-qibla.html" class="sidebar-nav-item">
-                    <i class="bi bi-clock"></i>
-                    <span>الصلاة والقبلة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="hadith.html" class="sidebar-nav-item active">
-                    <i class="bi bi-chat-quote"></i>
-                    <span>الأحاديث</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="reading.html" class="sidebar-nav-item">
-                    <i class="bi bi-book"></i>
-                    <span>القراءة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="player.html" class="sidebar-nav-item">
-                    <i class="bi bi-ear"></i>
-                    <span>المشغل</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </div>
-
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">إعدادات سريعة</h6>
-                <button class="sidebar-nav-item" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                    <span>تبديل الوضع</span>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </div>
-
-
-            <div class="nav-section mb-4">
-
-                <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
-                    onclick="toggleSidebar()">
-                    <span> اغلاق</span>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/hadith.js"></script>
-
-    <!-- Quran Mode Selection Modal -->
-    <div class="modal fade" id="quranModeModal" tabindex="-1" aria-labelledby="quranModeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center pb-4">
-                    <div class="quran-mode-icon mb-4">
-                        <i class="bi bi-book-open display-1 text-primary"></i>
-                    </div>
-                    <h4 class="modal-title mb-4" id="quranModeModalLabel">اختر وضع القرآن الكريم</h4>
-
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="quran-mode-option" onclick="selectQuranMode('listening')">
-                                <div class="mode-icon mb-3">
-                                    <i class="bi bi-ear display-4 text-success"></i>
-                                </div>
-                                <h5 class="mode-title">الاستماع</h5>
-                                <p class="mode-description text-muted">استمع إلى تلاوات عطرة</p>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="quran-mode-option" onclick="selectQuranMode('reading')">
-                                <div class="mode-icon mb-3">
-                                    <i class="bi bi-book display-4 text-info"></i>
-                                </div>
-                                <h5 class="mode-title">القراءة</h5>
-                                <p class="mode-description text-muted">اقرأ القرآن مع التفسير</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Quran Mode Selection Functions
-        function selectQuranMode(mode) {
-            if (mode === 'listening') {
-                window.location.href = 'player.html';
-            } else if (mode === 'reading') {
-                window.location.href = 'reading.html';
-            }
-        }
-
-        // Show Quran Mode Modal for Quran-related navigation items
-        function showQuranModeModal() {
-            const modal = new bootstrap.Modal(document.getElementById('quranModeModal'));
-            modal.show();
-        }
-
-        // Add click event listeners to Quran navigation items
-        document.addEventListener('DOMContentLoaded', function () {
-            // Desktop navbar Quran link
-            const desktopQuranLink = document.querySelector('.navbar-nav .nav-item a[href="player.html"]');
-            if (desktopQuranLink) {
-                desktopQuranLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showQuranModeModal();
-                });
-            }
-
-            // Bottom navbar Quran item
-            const bottomQuranItem = document.querySelector('.bottom-navbar .nav-item[onclick*="player.html"]');
-            if (bottomQuranItem) {
-                bottomQuranItem.setAttribute('onclick', 'showQuranModeModal()');
-            }
-
-            // Sidebar Quran link
-            const sidebarQuranLink = document.querySelector('.sidebar .sidebar-nav-item[href="player.html"]');
-            if (sidebarQuranLink) {
-                sidebarQuranLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showQuranModeModal();
-                });
-            }
-        });
-    </script>
-</body>
-
-</html>
