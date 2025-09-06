@@ -492,20 +492,17 @@ function updatePrayerStatus() {
             }
         }
 
-        console.log('Prayer status update - Current index:', currentPrayerIndex, 'Next index:', nextPrayerIndex);
 
         // Update status for each prayer
         prayerOrder.forEach((prayer, index) => {
             try {
                 const timeElement = document.getElementById(prayer.id);
                 if (!timeElement) {
-                    console.warn(`Time element not found for ${prayer.id}`);
                     return;
                 }
 
                 const prayerItem = timeElement.closest('.prayer-time-item, .enhanced-prayer-item');
                 if (!prayerItem) {
-                    console.warn(`Prayer item not found for ${prayer.id}`);
                     return;
                 }
 
@@ -547,9 +544,7 @@ function updatePrayerStatus() {
 
 // Calculate next prayer
 function calculateNextPrayer() {
-    console.log('🔍 calculateNextPrayer called with prayerTimes:', prayerTimes);
     if (!prayerTimes) {
-        console.log('❌ No prayer times available for next prayer calculation');
         return;
     }
 
@@ -647,7 +642,6 @@ function updateCountdown() {
     try {
         console.log('🔍 updateCountdown called with nextPrayer:', nextPrayer, 'prayerTimes:', prayerTimes);
         if (!nextPrayer || !prayerTimes) {
-            console.log('❌ Missing data for countdown update - nextPrayer:', !!nextPrayer, 'prayerTimes:', !!prayerTimes);
             return;
         }
 
@@ -708,11 +702,9 @@ function updateCountdown() {
             if (svgLoader) {
                 // Replace SVG loader with countdown text
                 heroPrayerCountdown.innerHTML = countdownString;
-                console.log('Hero countdown updated:', countdownString);
             } else {
                 // Update existing countdown text
                 heroPrayerCountdown.textContent = countdownString;
-                console.log('Hero countdown updated:', countdownString);
             }
         }
 
@@ -729,8 +721,6 @@ function updateCountdown() {
             const countdownString = `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
             prayerCountdownMobile.textContent = countdownString;
 
-            // Debug log for mobile countdown
-            console.log('Mobile countdown updated:', countdownString);
         }
 
         // Update mobile stats every second for real-time countdown
@@ -1594,21 +1584,18 @@ function updateMobileStats() {
             'Isha': 'العشاء'
         };
         const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
-        console.log('Setting mobile prayer name:', displayName);
         nextPrayerNameMobile.textContent = displayName;
     }
 
     if (nextPrayerTimeMobile) {
         // Show exact time when next prayer will be in 12-hour format
         if (nextPrayer.time) {
-            console.log('Setting mobile prayer time:', nextPrayer.time);
             const [hours, minutes] = nextPrayer.time.split(':');
             const hour12 = parseInt(hours) % 12 || 12;
             const ampm = parseInt(hours) >= 12 ? 'م' : 'ص';
             const timeString12 = `${hour12}:${minutes} ${ampm}`;
             nextPrayerTimeMobile.textContent = timeString12;
         } else {
-            console.log('No prayer time available for mobile');
             nextPrayerTimeMobile.textContent = '--:--';
         }
     }
@@ -1813,7 +1800,7 @@ async function getUserCountryAndSetCity() {
                 country = data.country_name;
                 city = data.city;
             }
-        } catch {}
+        } catch { }
 
         // 2) Fallback: ipwho.is
         if (!country) {
@@ -1826,7 +1813,7 @@ async function getUserCountryAndSetCity() {
                         city = data2.city;
                     }
                 }
-            } catch {}
+            } catch { }
         }
 
         if (!country) throw new Error('IP geo failed');
@@ -1848,10 +1835,8 @@ async function getUserCountryAndSetCity() {
         localStorage.setItem('selectedCityIndex', currentCityIndex);
 
         clearPrayerTimes();
-        console.log('🌍 Getting prayer times for auto-detected city...');
         await getPrayerTimesFromAPI();
         if (prayerTimes && Object.keys(prayerTimes).length > 0) {
-            console.log('🌍 Prayer times received, displaying...');
             displayPrayerTimesEnhanced();
             startTableCountdown();
         } else {
@@ -1860,7 +1845,6 @@ async function getUserCountryAndSetCity() {
 
         if (typeof showEnhancedNotification === 'function') {
             const name = TRADITIONAL_CITIES[currentCityIndex].name;
-            showEnhancedNotification(`تم تحديد ${name} (${country}) تلقائياً`, 'success');
         }
     } catch (e) {
         console.warn('IP-based auto city failed, using Cairo');
@@ -1903,7 +1887,6 @@ function loadSavedCity() {
 // Get prayer times from coordinates-based APIs
 async function getPrayerTimesFromAPI() {
     try {
-        console.log('🔥 getPrayerTimesFromAPI called!');
 
         // Get selected city coordinates
         const selectedCity = TRADITIONAL_CITIES[currentCityIndex];
@@ -2988,7 +2971,7 @@ function displayPrayerTimesEnhanced() {
     // Update prayer times in cards with correct ID mapping
     const prayerMapping = {
         'Fajr': 'fajr',
-        'Sunrise': 'sunrise', 
+        'Sunrise': 'sunrise',
         'Dhuhr': 'dhuhr',
         'Asr': 'asr',
         'Maghrib': 'maghrib',

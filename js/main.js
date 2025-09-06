@@ -130,7 +130,6 @@ function getCurrentReciter() {
     if (!reciterSelect) return 'ar.alafasy';
 
     const value = reciterSelect.value;
-    console.log('Current reciter value:', value);
 
     // Map the select values to actual API values
     const reciterMap = {
@@ -320,7 +319,6 @@ async function loadSurahForReading(index) {
                     tafsir: tafsir
                 };
             } catch (tafsirError) {
-                console.log(`Could not load tafsir for ayah ${a.number}:`, tafsirError);
                 return {
                     aya: a.numberInSurah,
                     text: a.text,
@@ -605,7 +603,6 @@ async function loadSurah(index) {
     try {
         // Arabic text (uthmani) + English (Pickthall) + audio (selected reciter)
         const currentReciter = getCurrentReciter();
-        console.log('Loading surah with reciter:', currentReciter);
 
         const [arRes, enRes, audioRes] = await Promise.all([
             fetch(`https://api.alquran.cloud/v1/surah/${surah.number}`),
@@ -625,7 +622,6 @@ async function loadSurah(index) {
             throw new Error('No audio data available for this reciter');
         }
 
-        console.log('Audio data loaded successfully:', au.data.ayahs.length, 'ayahs');
 
         // Load tafsir for each ayah
         const ayahs = await Promise.all(ar.data.ayahs.map(async (a, i) => {
@@ -643,7 +639,6 @@ async function loadSurah(index) {
                     tafsir: tafsir
                 };
             } catch (tafsirError) {
-                console.log(`Could not load tafsir for ayah ${a.number}:`, tafsirError);
                 return {
                     aya: a.numberInSurah,
                     text: a.text,
@@ -669,7 +664,6 @@ async function loadSurah(index) {
         console.error('Error loading surah:', error);
         // Try to fallback to Alafasy if the selected reciter fails
         if (getCurrentReciter() !== 'ar.alafasy') {
-            console.log('Falling back to Alafasy reciter...');
             const reciterSelect = document.getElementById('reciterSelect');
             if (reciterSelect) {
                 reciterSelect.value = 'ar.alafasy';
@@ -702,7 +696,6 @@ function searchInQuran(query) {
 
     // إزالة التشكيل من query للبحث
     const cleanQuery = removeTashkeel(query);
-    console.log(`البحث عن: "${query}" (بدون تشكيل: "${cleanQuery}")`);
 
     isSearchMode = true;
 
@@ -792,7 +785,6 @@ async function searchInAllSurahs(query) {
 
                 return matchingAyahs;
             } catch (error) {
-                console.log(`Error searching in surah ${surah.number}:`, error);
                 return [];
             }
         });
@@ -806,7 +798,6 @@ async function searchInAllSurahs(query) {
         }
 
     } catch (error) {
-        console.error('Error searching in all surahs:', error);
     }
 }
 
@@ -853,7 +844,6 @@ function playAyah(i) {
         return;
     }
 
-    console.log('Playing ayah:', i, 'Audio URL:', item.audio);
 
     current.ayahIndex = i;
 
@@ -873,12 +863,10 @@ function playAyah(i) {
     };
 
     audio.onloadeddata = () => {
-        console.log('Audio loaded successfully for ayah:', i);
         updatePlayButtonIcon(true);
     };
 
     audio.play().catch(error => {
-        console.error('Error playing audio:', error);
         updatePlayButtonIcon(false);
     });
 
@@ -890,16 +878,13 @@ function playAyah(i) {
 function nextAyah() {
     const next = current.ayahIndex + 1;
     if (next < current.playlist.length) {
-        console.log('Playing next ayah:', next);
         playAyah(next);
     } else {
         // End of surah, move to next surah if available
         if (current.surahIndex + 1 < surahs.length) {
-            console.log('Moving to next surah:', current.surahIndex + 1);
             loadSurah(current.surahIndex + 1);
         } else {
             // End of all surahs, stop playback
-            console.log('End of all surahs, stopping playback');
             const audio = window.audioPlayer;
             if (audio) {
                 audio.pause();
@@ -2848,7 +2833,6 @@ const adhkarCategories = [
 
 // Initialize adhkar system
 function initializeAdhkarSystem() {
-    console.log('🚀 Initializing Advanced Adhkar System...');
 
     // Load saved progress
     loadAdhkarProgress();
@@ -2859,7 +2843,6 @@ function initializeAdhkarSystem() {
     // Update progress display
     updateAdhkarProgressDisplay();
 
-    console.log('✅ Adhkar System initialized successfully');
 }
 
 // Setup event listeners for adhkar
