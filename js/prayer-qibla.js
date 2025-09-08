@@ -1,4 +1,4 @@
-// Prayer Times and Qibla Combined JavaScript
+// Prayer Times 
 
 // Global variables
 let currentLocation = null;
@@ -57,78 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load tasbih state
     loadTasbihState();
 });
-
-// Request location directly from browser without popup
-async function requestLocation() {
-    try {
-        console.log('Requesting location directly from browser...');
-
-        // Check if we have a stored location first
-        const storedLocation = localStorage.getItem('userLocation');
-        if (storedLocation) {
-            try {
-                currentLocation = JSON.parse(storedLocation);
-                console.log('Using stored location:', currentLocation);
-
-                // Load prayer times and qibla direction with stored location
-                await loadPrayerTimes();
-                calculateQiblaDirection();
-                updateHeroStats();
-                return;
-            } catch (error) {
-                console.log('Error parsing stored location, requesting new location...');
-                localStorage.removeItem('userLocation');
-            }
-        }
-
-        // Request location directly from browser
-        console.log('Getting current position...');
-        const position = await getCurrentPosition();
-        console.log('Position received:', position);
-
-        currentLocation = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        };
-
-        // Store location in localStorage
-        localStorage.setItem('userLocation', JSON.stringify(currentLocation));
-        console.log('Location stored and current location set to:', currentLocation);
-
-        // Load prayer times and qibla direction
-        console.log('Loading prayer times...');
-        await loadPrayerTimes();
-
-        console.log('Calculating qibla direction...');
-        calculateQiblaDirection();
-
-        // Update hero stats with prayer times
-        updateHeroStats();
-
-    } catch (error) {
-        console.error('Error getting location:', error);
-        handleLocationError(error);
-    }
-}
-
-// Update location manually (called from update location button)
-async function updateLocation() {
-    try {
-        console.log('Updating location...');
-
-        // Clear stored location
-        localStorage.removeItem('userLocation');
-
-        // Request new location
-        await requestLocation();
-
-
-
-    } catch (error) {
-        console.error('Error updating location:', error);
-
-    }
-}
 
 
 
