@@ -53,8 +53,8 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#hadith">
-                            <i class="bi bi-chat-quote me-2"></i>الأحاديث
+                        <a class="nav-link" href="#radio">
+                            <i class="bi bi-broadcast me-2"></i>الراديو
                         </a>
                     </li>
 
@@ -92,9 +92,9 @@
         </div>
 
 
-        <div class="nav-item" onclick="location.hash='#hadith'">
-            <i class="bi bi-chat-quote-fill"></i>
-            <span>الأحاديث</span>
+        <div class="nav-item" onclick="location.hash='#radio'">
+            <i class="bi bi-broadcast"></i>
+            <span>الراديو</span>
         </div>
 
         <div class="nav-item more-btn" onclick="toggleSidebar()">
@@ -197,9 +197,8 @@
             <div class="content text-center p-5 text-muted">المشغل سيتم دمجه هنا.</div>
         </section>
 
-        <section id="section-hadith" class="spa-section" style="display: none;">
-            <div class="content text-center p-5 text-muted">وضع الأحاديث سيتم دمجه هنا.</div>
-
+        <section id="section-radio" class="spa-section" style="display: none;">
+            <div id="radio_section"></div>
         </section>
     </main>
 
@@ -207,6 +206,41 @@
     <button class="floating-player-btn" id="floatingPlayerBtn" onclick="showPlayer()" style="display: none;">
         <i class="bi bi-music-note"></i>
     </button>
+
+    <!-- Float Button for Back to Top -->
+    <button id="floatButton" class="float-button" onclick="scrollToTop()">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Radio Mini Player -->
+    <div id="radioMiniPlayer" class="radio-mini-player">
+        <div class="mini-player" onclick="openRadioPage()">
+            <div class="mini-player-info">
+                <div class="radio-mini-player-thumbnail">
+                    <i class="bi bi-broadcast"></i>
+                </div>
+                <div class="radio-mini-player-text">
+                    <h4 id="radioMiniTitle">اختر محطة إذاعية</h4>
+                    <p id="radioMiniSubtitle">من القائمة</p>
+                    <p id="radioMiniDescription" class="radio-mini-description"></p>
+                </div>
+            </div>
+           
+
+            <div class="mini-player-controls">
+                   
+                <button class="mini-player-btn" onclick="event.stopPropagation(); toggleRadioMiniPlay()" >
+                    <i class="bi bi-play-circle-fill"></i>
+                </button>
+                
+                <button style="color: rgb(116, 7, 7);" class="mini-player-btn" onclick="event.stopPropagation(); closeRadioMiniPlayer()" >
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+
+
+        </div>
+    </div>
 
     <!-- Enhanced Footer -->
     <footer class="mt-3">
@@ -222,6 +256,7 @@
     <script src="js/azkar.js"></script>
     <script src="js/home.js"></script>
     <script src="js/player.js"></script>
+    <script src="js/radio.js"></script>
 
 
 
@@ -237,7 +272,7 @@
                 '#player': 'section-player',
                 '#reading': 'section-reading',
                 '#mushaf': 'section-mushaf',
-                '#hadith': 'section-hadith'
+                '#radio': 'section-radio'
             };
             const targetId = routes[hash] || 'section-home';
             document.querySelectorAll('.spa-section').forEach(sec => {
@@ -248,17 +283,49 @@
             items.forEach(item => item.classList.remove('active'));
             if (hash === '#home') items[0]?.classList.add('active');
             if (hash === '#azkar') items[1]?.classList.add('active');
-            if (hash === '#hadith') {
+            if (hash === '#radio') {
                 items[3]?.classList.add('active');
-                // Initialize hadith page when shown
-                console.log('Hadith section selected, initializing...');
-                if (typeof initializeHadithPage === 'function') {
-                    console.log('initializeHadithPage function found, calling...');
-                    initializeHadithPage();
+                // Initialize radio page when shown
+                console.log('Radio section selected, initializing...');
+                if (typeof initializeRadioPage === 'function') {
+                    console.log('initializeRadioPage function found, calling...');
+                    initializeRadioPage();
                 } else {
-                    console.error('initializeHadithPage function not found!');
+                    console.error('initializeRadioPage function not found!');
                 }
             }
+        }
+
+        // Theme toggle function
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const themeIcon = document.getElementById('themeIcon');
+            if (themeIcon) {
+                if (theme === 'dark') {
+                    themeIcon.className = 'bi bi-sun-fill';
+                } else {
+                    themeIcon.className = 'bi bi-moon-stars-fill';
+                }
+            }
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
         }
 
         // Function to open Quran player directly
@@ -302,8 +369,39 @@
             }
         }
 
+        // Function to scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide float button based on scroll position
+        function toggleFloatButton() {
+            const floatButton = document.getElementById('floatButton');
+            if (window.scrollY > 300) {
+                floatButton.style.display = 'block';
+                floatButton.style.opacity = '1';
+                floatButton.style.transform = 'translateY(0)';
+            } else {
+                floatButton.style.opacity = '0';
+                floatButton.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    if (window.scrollY <= 300) {
+                        floatButton.style.display = 'none';
+                    }
+                }, 300);
+            }
+        }
+
         window.addEventListener('hashchange', showSectionByHash);
-        document.addEventListener('DOMContentLoaded', showSectionByHash);
+        window.addEventListener('scroll', toggleFloatButton);
+        document.addEventListener('DOMContentLoaded', function() {
+            showSectionByHash();
+            loadSavedTheme();
+            toggleFloatButton();
+        });
     </script>
 
 </body>

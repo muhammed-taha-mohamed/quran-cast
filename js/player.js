@@ -644,6 +644,11 @@ class SoundCloudQuranPlayer {
     }
 
     playAyah(index) {
+        // Stop radio if playing
+        if (typeof stopRadioForQuran === 'function') {
+            stopRadioForQuran();
+        }
+
         // If no playlist exists, load the current surah first
         if (!this.playlist || this.playlist.length === 0) {
             this.loadSurahForReadyState().then(() => {
@@ -691,6 +696,11 @@ class SoundCloudQuranPlayer {
             this.showNotification('يرجى اختيار سورة أولاً', 'info');
             this.updateFloatingButtonState();
             return;
+        }
+
+        // Stop radio if playing
+        if (typeof stopRadioForQuran === 'function') {
+            stopRadioForQuran();
         }
 
         if (this.audio.paused) {
@@ -1038,6 +1048,7 @@ class SoundCloudQuranPlayer {
 
     updatePlayButton() {
         const playIcon = document.getElementById('playIcon');
+        const miniPlayBtn = document.getElementById('miniPlayBtn');
         const miniPlayIcon = document.getElementById('miniPlayIcon');
         const container = document.getElementById('quranPlayerContainer');
         const albumArt = document.querySelector('.album-art');
@@ -1048,6 +1059,10 @@ class SoundCloudQuranPlayer {
             if (playIcon) {
                 const icon = playIcon.querySelector('i');
                 if (icon) icon.className = 'bi bi-pause-fill';
+            }
+            if (miniPlayBtn) {
+                const icon = miniPlayBtn.querySelector('i');
+                if (icon) icon.className = 'bi bi-pause-circle-fill';
             }
             if (miniPlayIcon) {
                 miniPlayIcon.className = 'bi bi-pause-circle-fill';
@@ -1070,6 +1085,10 @@ class SoundCloudQuranPlayer {
             if (playIcon) {
                 const icon = playIcon.querySelector('i');
                 if (icon) icon.className = 'bi bi-play-fill';
+            }
+            if (miniPlayBtn) {
+                const icon = miniPlayBtn.querySelector('i');
+                if (icon) icon.className = 'bi bi-play-circle-fill';
             }
             if (miniPlayIcon) {
                 miniPlayIcon.className = 'bi bi-play-circle-fill';

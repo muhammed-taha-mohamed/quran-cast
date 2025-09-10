@@ -2932,6 +2932,35 @@
     function renderCategories(categories){
       main.innerHTML = '';
       
+      // Create hero section
+      const heroSection = document.createElement('div');
+      heroSection.className = 'azkar-hero-section';
+      heroSection.innerHTML = `
+        <div class="azkar-hero-content">
+          <div class="azkar-hero-text">
+            <h1 class="azkar-hero-title">
+              الأذكار والأدعية
+            </h1>
+            <p class="azkar-hero-subtitle">
+              اذكر الله في كل وقت وكل مكان، واجعل ذكر الله نوراً في قلبك
+            </p>
+            <div class="azkar-hero-stats">
+              <div class="azkar-stat-item">
+                <span class="azkar-stat-number">${categories.length}</span>
+                <span class="azkar-stat-label">فئة أذكار</span>
+              </div>
+              <div class="azkar-stat-item">
+                <span class="azkar-stat-number">${categories.reduce((total, cat) => total + cat.array.length, 0)}</span>
+                <span class="azkar-stat-label">ذكر ودعاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="azkar-hero-image">
+            <i class="bi bi-book-heart"></i>
+          </div>
+        </div>
+      `;
+      
       // Create search container
       const searchContainer = document.createElement('div');
       searchContainer.className = 'search-container';
@@ -2958,18 +2987,19 @@
         cardContent.className = 'adhkar-category-content';
         cardContent.innerHTML = `
           <div class="adhkar-category-info">
-            <h3 class="adhkar-category-title">${cat.category}</h3>
-            <div class="adhkar-category-count">${cat.array.length} ذكر</div>
+            <div class="adhkar-category-count-badge">
+              <span class="adhkar-category-count">${cat.array.length}</span>
+            </div>
+            <h4 class="adhkar-category-title">${cat.category}</h4>
           </div>
-          <div class="adhkar-category-icon">
-            <i class="bi bi-arrow-left"></i>
-          </div>
+          
         `;
   
         card.appendChild(cardContent);
         gridContainer.appendChild(card);
       });
       
+      main.appendChild(heroSection);
       main.appendChild(searchContainer);
       main.appendChild(gridContainer);
       
@@ -3026,11 +3056,16 @@
       // Create modal if it doesn't exist
       let modal = document.getElementById('adhkarModal');
       if (!modal) {
+        // Random background image selection for the modal
+        const backgroundImages = ['azkar_1.jpg', 'azkar_2.jpg', 'azkar_3.jpg', 'azkar_4.jpg', 'azkar_5.jpg'];
+        const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+        
         modal = document.createElement('div');
         modal.id = 'adhkarModal';
         modal.className = 'adhkar-modal';
         modal.innerHTML = `
-          <div class="adhkar-modal-content">
+          <div class="adhkar-modal-content" style="background-image: url('media/images/${randomImage}')">
+            <div class="adhkar-modal-overlay"></div>
             <div class="adhkar-modal-header">
               <h3 class="adhkar-modal-title"></h3>
               <button class="adhkar-modal-close" onclick="closeAdhkarModal()">
