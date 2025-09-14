@@ -46,8 +46,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="openQuranPlayer(); return false;">
-                            <i class="bi bi-headphones me-2"></i>القرآن
+                        <a class="nav-link" href="#reels">
+                            <i class="bi bi-people-fill"></i>>المجتمع
                         </a>
                     </li>
 
@@ -60,8 +60,36 @@
 
                 </ul>
 
-                <!-- Theme Toggle -->
+                <!-- User Actions -->
                 <div class="navbar-nav">
+                    <button class="btn btn-outline-primary me-2" id="loginBtn" onclick="openAuthModal()"
+                        title="تسجيل الدخول">
+                        <i class="bi bi-person-circle me-1"></i>
+                        تسجيل الدخول
+                    </button>
+                    <button class="btn btn-outline-info me-2" id="firebaseHelpBtn" onclick="openFirebaseConsole()"
+                        title="إعداد Firebase">
+                        <i class="bi bi-gear me-1"></i>
+                        إعداد Firebase
+                    </button>
+                    <div class="dropdown" id="userDropdown" style="display: none;">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span id="userName">المستخدم</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="showUserMenu()">
+                                    <i class="bi bi-person me-2"></i>الملف الشخصي
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="confirmLogout()">
+                                    <i class="bi bi-box-arrow-right me-2"></i>تسجيل الخروج
+                                </a></li>
+                        </ul>
+                    </div>
                     <button class="btn theme-toggle" onclick="toggleTheme()" title="تبديل الوضع المظلم">
                         <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                     </button>
@@ -81,21 +109,23 @@
         </div>
 
 
+        <div class="nav-item" onclick="location.hash='#radio'">
+            <i class="bi bi-mic-fill"></i>
+            <span>الراديو</span>
+        </div>
+
+
+        <div class="nav-item" onclick="location.hash='#reels'">
+            <i class="bi bi-people-fill"></i>
+            <span>المجتمع</span>
+        </div>
+
+
         <div class="nav-item" onclick="location.hash='#azkar'">
             <i class="bi bi-clock-fill"></i>
             <span>الاذكار</span>
         </div>
 
-        <div class="nav-item" onclick="openQuranPlayer()">
-            <i class="bi bi-book-half"></i>
-            <span>القرآن</span>
-        </div>
-
-
-        <div class="nav-item" onclick="location.hash='#radio'">
-            <i class="bi bi-broadcast"></i>
-            <span>الراديو</span>
-        </div>
 
         <div class="nav-item more-btn" onclick="toggleSidebar()">
             <i class="bi bi-list-stars"></i>
@@ -117,45 +147,60 @@
         </div>
         <div class="sidebar-content">
             <div class="nav-section mb-4">
-                <h6 class="nav-section-title">القائمة الرئيسية</h6>
-                <a href="#" class="sidebar-nav-item active" onclick="showQuranModeModal(); return false;">
-                    <i class="bi bi-book-open"></i>
-                    <span>القرآن الكريم</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="prayer-qibla.html" class="sidebar-nav-item">
-                    <i class="bi bi-clock"></i>
-                    <span>الصلاة والقبلة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="hadith.html" class="sidebar-nav-item">
-                    <i class="bi bi-chat-quote"></i>
-                    <span>الأحاديث</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="reading.html" class="sidebar-nav-item">
-                    <i class="bi bi-book"></i>
-                    <span>القراءة</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-                <a href="player.html" class="sidebar-nav-item">
-                    <i class="bi bi-ear"></i>
-                    <span>المشغل</span>
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </div>
 
-            <div class="nav-section mb-4">
-                <h6 class="nav-section-title">إعدادات سريعة</h6>
+
+                <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#home'">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>الرئيسية</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+
+                <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#radio'">
+                    <i class="bi bi-broadcast"></i>
+                    <span>الراديو</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+
+                <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#reels'">
+                    <i class="bi bi-people-fill"></i>
+                    <span>المجتمع</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+
+                <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#azkar'">
+                    <i class="bi bi-clock-fill"></i>
+                    <span>الاذكار</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+
+                <div class="sidebar-nav-item" id="mobileLoginBtn" onclick="openAuthModal(); toggleSidebar()">
+                    <i class="bi bi-person-circle"></i>
+                    <span>تسجيل الدخول</span>
+                    <i class="bi bi-chevron-left"></i>
+                </div>
+
+                <div class="sidebar-nav-item" id="mobileUserBtn" onclick="showUserMenu()" style="display: none;">
+                    <i class="bi bi-person-circle"></i>
+                    <span id="mobileUserName">المستخدم</span>
+                    <i class="bi bi-chevron-left"></i>
+                </div>
+
+                <div class="sidebar-nav-item" id="mobileLogoutBtn" onclick="confirmLogout(); toggleSidebar()"
+                    style="display: none;">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>تسجيل الخروج</span>
+                    <i class="bi bi-chevron-left"></i>
+                </div>
+
                 <button class="sidebar-nav-item" onclick="toggleTheme()">
                     <i class="bi bi-moon-stars"></i>
                     <span>تبديل الوضع</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
-            </div>
-
-
-            <div class="nav-section mb-4">
 
                 <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
                     onclick="toggleSidebar()">
@@ -171,8 +216,8 @@
 
 
     <!-- Main Content -->
-    <main class="container" style="margin-top: 10px;">
-       
+    <main class="container" style="margin-top: 2px;">
+
         <!-- Home Section -->
         <section id="section-home" class="spa-section" style="display: block;">
 
@@ -200,7 +245,69 @@
         <section id="section-radio" class="spa-section" style="display: none;">
             <div id="radio_section"></div>
         </section>
+
+        <!-- Reels Section -->
+        <section id="section-reels" class="spa-section" style="display: none;">
+            <div id="reels_section"></div>
+        </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Quran Cast</h5>
+                        <p>تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="social-links">
+                        <ul class="footer-links">
+                            <li><a href="#section-home">الرئيسية</a></li>
+                            <li><a href="#section-azkar">الأذكار</a></li>
+                            <li><a href="#section-player">المشغل</a></li>
+                            <li><a href="#section-radio">الراديو</a></li>
+                        </ul>
+
+                        <ul class="footer-links">
+                            <li><a href="#section-reels">المنشورات</a></li>
+                            <li><a href="#section-prayer">الصلاة</a></li>
+                            <li><a href="#section-qibla">القبلة</a></li>
+                            <li><a href="#section-reading">القراءة</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h6>تواصل معنا</h6>
+                        <div class="contact-info">
+                            <p><i class="bi bi-envelope"></i> info@qurancast.com</p>
+                            <p><i class="bi bi-phone"></i> +201111392984</p>
+                            <p><i class="bi bi-geo-alt"></i> القاهرة جمهوية مصر العربية</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <br><br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Floating Action Button for Mobile -->
     <button class="floating-player-btn" id="floatingPlayerBtn" onclick="showPlayer()" style="display: none;">
@@ -210,6 +317,11 @@
     <!-- Float Button for Back to Top -->
     <button id="floatButton" class="float-button" onclick="scrollToTop()">
         <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Floating Upload Button for Reels -->
+    <button id="floatingUploadBtn" class="floating-upload-btn" onclick="openUploadModal()" style="display: none;">
+        <i class="bi bi-plus"></i>
     </button>
 
     <!-- Radio Mini Player -->
@@ -225,15 +337,16 @@
                     <p id="radioMiniDescription" class="radio-mini-description"></p>
                 </div>
             </div>
-           
+
 
             <div class="mini-player-controls">
-                   
-                <button class="mini-player-btn" onclick="event.stopPropagation(); toggleRadioMiniPlay()" >
+
+                <button class="mini-player-btn" onclick="event.stopPropagation(); toggleRadioMiniPlay()">
                     <i class="bi bi-play-circle-fill"></i>
                 </button>
-                
-                <button style="color: rgb(116, 7, 7);" class="mini-player-btn" onclick="event.stopPropagation(); closeRadioMiniPlayer()" >
+
+                <button style="color: rgb(116, 7, 7);" class="mini-player-btn"
+                    onclick="event.stopPropagation(); closeRadioMiniPlayer()">
                     <i class="bi bi-x-circle"></i>
                 </button>
             </div>
@@ -242,21 +355,159 @@
         </div>
     </div>
 
-    <!-- Enhanced Footer -->
-    <footer class="mt-3">
-        <div class="text-center text-muted">
-            <small>Quran Cast - تطبيق إسلامي شامل للمسلمين</small>
+    <!-- Auth Modal -->
+    <div class="modal fade unified-modal" id="authModal" tabindex="-1" aria-labelledby="authModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">تسجيل الدخول</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Login Form -->
+                    <div id="loginForm">
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="loginEmail"
+                                placeholder="أدخل بريدك الإلكتروني">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="loginPassword"
+                                placeholder="أدخل كلمة المرور">
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="button" class="btn btn-primary" onclick="loginWithEmail()">تسجيل
+                                الدخول</button>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted">ليس لديك حساب؟ <a href="#" onclick="switchToSignup()"
+                                    class="text-primary">سجل الآن</a></small>
+                        </div>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div id="signupForm" style="display: none;">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="signupName" placeholder="أدخل اسمك">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="signupEmail"
+                                placeholder="أدخل بريدك الإلكتروني">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="signupPassword"
+                                placeholder="أدخل كلمة المرور">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="confirmPassword"
+                                placeholder="أعد إدخال كلمة المرور">
+                        </div>
+                        <div class="mb-3">
+                            <label for="profilePicture" class="form-label">الصورة الشخصية (اختياري)</label>
+                            <input type="file" class="form-control" id="profilePicture" accept="image/*">
+                            <div class="form-text">يمكنك اختيار صورة شخصية أو تركها فارغة لاستخدام الأيقونة الافتراضية
+                            </div>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="button" class="btn btn-primary" onclick="signupWithEmail()">إنشاء
+                                حساب</button>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted">لديك حساب؟ <a href="#" onclick="switchToLogin()"
+                                    class="text-primary">تسجيل الدخول</a></small>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div id="authStatus" class="mt-3"></div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal fade unified-modal" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel">
+                        منشور جديد
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-form">
+                        <div class="mb-3" id="usernameField" style="display: none;">
+                            <input type="text" class="form-control" id="modalUsername" placeholder="أدخل اسمك"
+                                style="white-space: pre-wrap; word-wrap: break-word;" onkeydown="return true;"
+                                onpaste="return true;">
+                        </div>
+
+                        <!-- Content Type Selection -->
+                        <div class="mb-3">
+                            <div class="content-type-selector">
+                                <div class="content-type-option" data-type="text">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <span>نص</span>
+                                </div>
+                                <div class="content-type-option" data-type="image">
+                                    <i class="bi bi-image"></i>
+                                    <span>صورة</span>
+                                </div>
+                                <div class="content-type-option" data-type="video">
+                                    <i class="bi bi-camera-video"></i>
+                                    <span>فيديو</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <div class="mb-3" id="textContent" style="display: none;">
+                            <label for="modalTextContent" class="form-label">النص</label>
+                            <textarea class="form-control" id="modalTextContent" rows="4"
+                                placeholder="اكتب منشورك هنا..."
+                                style="resize: vertical; white-space: pre-wrap; word-wrap: break-word;"
+                                onkeydown="return true;" onpaste="return true;"></textarea>
+                        </div>
+
+                        <!-- Image Content -->
+                        <div class="mb-3" id="imageContent" style="display: none;">
+                            <label for="modalImageInput" class="form-label">اختر الصورة</label>
+                            <input type="file" class="form-control" id="modalImageInput" accept="image/*">
+                        </div>
+
+                        <!-- Video Content -->
+                        <div class="mb-3" id="videoContent" style="display: none;">
+                            <label for="modalVideoInput" class="form-label">اختر الفيديو</label>
+                            <input type="file" class="form-control" id="modalVideoInput" accept="video/*">
+                        </div>
+
+                        <div id="modalUploadStatus" class="mt-3"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="reelsManager.uploadContentFromModal()">
+                        نشر
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
 
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="js/notification-system.js"></script>
     <script src="js/prayer-qibla.js"></script>
     <script src="js/azkar.js"></script>
     <script src="js/home.js"></script>
     <script src="js/player.js"></script>
     <script src="js/radio.js"></script>
+    <script src="js/reels.js"></script>
 
 
 
@@ -272,19 +523,30 @@
                 '#player': 'section-player',
                 '#reading': 'section-reading',
                 '#mushaf': 'section-mushaf',
-                '#radio': 'section-radio'
+                '#radio': 'section-radio',
+                '#reels': 'section-reels'
             };
             const targetId = routes[hash] || 'section-home';
             document.querySelectorAll('.spa-section').forEach(sec => {
                 sec.style.display = (sec.id === targetId) ? 'block' : 'none';
             });
 
+            // Scroll to top when changing pages
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
             const items = document.querySelectorAll('.bottom-navbar .nav-item');
             items.forEach(item => item.classList.remove('active'));
-            if (hash === '#home') items[0]?.classList.add('active');
-            if (hash === '#azkar') items[1]?.classList.add('active');
+            if (hash === '#home') {
+                items[0]?.classList.add('active');
+                if (typeof hideFloatingUploadBtn === 'function') hideFloatingUploadBtn();
+            }
             if (hash === '#radio') {
-                items[3]?.classList.add('active');
+                items[1]?.classList.add('active');
+                if (typeof hideFloatingUploadBtn === 'function') hideFloatingUploadBtn();
                 // Initialize radio page when shown
                 console.log('Radio section selected, initializing...');
                 if (typeof initializeRadioPage === 'function') {
@@ -293,6 +555,26 @@
                 } else {
                     console.error('initializeRadioPage function not found!');
                 }
+            }
+            if (hash === '#reels') {
+                items[2]?.classList.add('active');
+                // Show floating upload button for reels only if user is logged in
+                const floatingBtn = document.getElementById('floatingUploadBtn');
+                if (floatingBtn && reelsManager && reelsManager.currentUser) {
+                    floatingBtn.style.display = 'block';
+                }
+                // Initialize reels page when shown
+                console.log('Reels section selected, initializing...');
+                if (typeof initializeReelsPage === 'function') {
+                    console.log('initializeReelsPage function found, calling...');
+                    initializeReelsPage();
+                } else {
+                    console.error('initializeReelsPage function not found!');
+                }
+            }
+            if (hash === '#azkar') {
+                items[3]?.classList.add('active');
+                if (typeof hideFloatingUploadBtn === 'function') hideFloatingUploadBtn();
             }
         }
 
@@ -397,12 +679,17 @@
 
         window.addEventListener('hashchange', showSectionByHash);
         window.addEventListener('scroll', toggleFloatButton);
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             showSectionByHash();
             loadSavedTheme();
             toggleFloatButton();
         });
     </script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
 </body>
 

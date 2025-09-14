@@ -16,140 +16,140 @@ class SoundCloudQuranPlayer {
 
         // Static list of all 114 surahs with IDs
         this.surahs = [
-            { id: 1, number: 1, name: 'سورة الفاتحة', englishName: 'Al-Fatihah', numberOfAyahs: 7 },
-            { id: 2, number: 2, name: 'سورة البقرة', englishName: 'Al-Baqarah', numberOfAyahs: 286 },
-            { id: 3, number: 3, name: 'سورة آل عمران', englishName: 'Ali \'Imran', numberOfAyahs: 200 },
-            { id: 4, number: 4, name: 'سورة النساء', englishName: 'An-Nisa', numberOfAyahs: 176 },
-            { id: 5, number: 5, name: 'سورة المائدة', englishName: 'Al-Ma\'idah', numberOfAyahs: 120 },
-            { id: 6, number: 6, name: 'سورة الأنعام', englishName: 'Al-An\'am', numberOfAyahs: 165 },
-            { id: 7, number: 7, name: 'سورة الأعراف', englishName: 'Al-A\'raf', numberOfAyahs: 206 },
-            { id: 8, number: 8, name: 'سورة الأنفال', englishName: 'Al-Anfal', numberOfAyahs: 75 },
-            { id: 9, number: 9, name: 'سورة التوبة', englishName: 'At-Tawbah', numberOfAyahs: 129 },
-            { id: 10, number: 10, name: 'سورة يونس', englishName: 'Yunus', numberOfAyahs: 109 },
-            { id: 11, number: 11, name: 'سورة هود', englishName: 'Hud', numberOfAyahs: 123 },
-            { id: 12, number: 12, name: 'سورة يوسف', englishName: 'Yusuf', numberOfAyahs: 111 },
-            { id: 13, number: 13, name: 'سورة الرعد', englishName: 'Ar-Ra\'d', numberOfAyahs: 43 },
-            { id: 14, number: 14, name: 'سورة إبراهيم', englishName: 'Ibrahim', numberOfAyahs: 52 },
-            { id: 15, number: 15, name: 'سورة الحجر', englishName: 'Al-Hijr', numberOfAyahs: 99 },
-            { id: 16, number: 16, name: 'سورة النحل', englishName: 'An-Nahl', numberOfAyahs: 128 },
-            { id: 17, number: 17, name: 'سورة الإسراء', englishName: 'Al-Isra', numberOfAyahs: 111 },
-            { id: 18, number: 18, name: 'سورة الكهف', englishName: 'Al-Kahf', numberOfAyahs: 110 },
-            { id: 19, number: 19, name: 'سورة مريم', englishName: 'Maryam', numberOfAyahs: 98 },
-            { id: 20, number: 20, name: 'سورة طه', englishName: 'Taha', numberOfAyahs: 135 },
-            { id: 21, number: 21, name: 'سورة الأنبياء', englishName: 'Al-Anbiya', numberOfAyahs: 112 },
-            { id: 22, number: 22, name: 'سورة الحج', englishName: 'Al-Hajj', numberOfAyahs: 78 },
-            { id: 23, number: 23, name: 'سورة المؤمنون', englishName: 'Al-Mu\'minun', numberOfAyahs: 118 },
-            { id: 24, number: 24, name: 'سورة النور', englishName: 'An-Nur', numberOfAyahs: 64 },
-            { id: 25, number: 25, name: 'سورة الفرقان', englishName: 'Al-Furqan', numberOfAyahs: 77 },
-            { id: 26, number: 26, name: 'سورة الشعراء', englishName: 'Ash-Shu\'ara', numberOfAyahs: 227 },
-            { id: 27, number: 27, name: 'سورة النمل', englishName: 'An-Naml', numberOfAyahs: 93 },
-            { id: 28, number: 28, name: 'سورة القصص', englishName: 'Al-Qasas', numberOfAyahs: 88 },
-            { id: 29, number: 29, name: 'سورة العنكبوت', englishName: 'Al-\'Ankabut', numberOfAyahs: 69 },
-            { id: 30, number: 30, name: 'سورة الروم', englishName: 'Ar-Rum', numberOfAyahs: 60 },
-            { id: 31, number: 31, name: 'سورة لقمان', englishName: 'Luqman', numberOfAyahs: 34 },
-            { id: 32, number: 32, name: 'سورة السجدة', englishName: 'As-Sajdah', numberOfAyahs: 30 },
-            { id: 33, number: 33, name: 'سورة الأحزاب', englishName: 'Al-Ahzab', numberOfAyahs: 73 },
-            { id: 34, number: 34, name: 'سورة سبأ', englishName: 'Saba', numberOfAyahs: 54 },
-            { id: 35, number: 35, name: 'سورة فاطر', englishName: 'Fatir', numberOfAyahs: 45 },
-            { id: 36, number: 36, name: 'سورة يس', englishName: 'Ya-Sin', numberOfAyahs: 83 },
-            { id: 37, number: 37, name: 'سورة الصافات', englishName: 'As-Saffat', numberOfAyahs: 182 },
-            { id: 38, number: 38, name: 'سورة ص', englishName: 'Sad', numberOfAyahs: 88 },
-            { id: 39, number: 39, name: 'سورة الزمر', englishName: 'Az-Zumar', numberOfAyahs: 75 },
-            { id: 40, number: 40, name: 'سورة غافر', englishName: 'Ghafir', numberOfAyahs: 85 },
-            { id: 41, number: 41, name: 'سورة فصلت', englishName: 'Fussilat', numberOfAyahs: 54 },
-            { id: 42, number: 42, name: 'سورة الشورى', englishName: 'Ash-Shura', numberOfAyahs: 53 },
-            { id: 43, number: 43, name: 'سورة الزخرف', englishName: 'Az-Zukhruf', numberOfAyahs: 89 },
-            { id: 44, number: 44, name: 'سورة الدخان', englishName: 'Ad-Dukhan', numberOfAyahs: 59 },
-            { id: 45, number: 45, name: 'سورة الجاثية', englishName: 'Al-Jathiyah', numberOfAyahs: 37 },
-            { id: 46, number: 46, name: 'سورة الأحقاف', englishName: 'Al-Ahqaf', numberOfAyahs: 35 },
-            { id: 47, number: 47, name: 'سورة محمد', englishName: 'Muhammad', numberOfAyahs: 38 },
-            { id: 48, number: 48, name: 'سورة الفتح', englishName: 'Al-Fath', numberOfAyahs: 29 },
-            { id: 49, number: 49, name: 'سورة الحجرات', englishName: 'Al-Hujurat', numberOfAyahs: 18 },
-            { id: 50, number: 50, name: 'سورة ق', englishName: 'Qaf', numberOfAyahs: 45 },
-            { id: 51, number: 51, name: 'سورة الذاريات', englishName: 'Adh-Dhariyat', numberOfAyahs: 60 },
-            { id: 52, number: 52, name: 'سورة الطور', englishName: 'At-Tur', numberOfAyahs: 49 },
-            { id: 53, number: 53, name: 'سورة النجم', englishName: 'An-Najm', numberOfAyahs: 62 },
-            { id: 54, number: 54, name: 'سورة القمر', englishName: 'Al-Qamar', numberOfAyahs: 55 },
-            { id: 55, number: 55, name: 'سورة الرحمن', englishName: 'Ar-Rahman', numberOfAyahs: 78 },
-            { id: 56, number: 56, name: 'سورة الواقعة', englishName: 'Al-Waqi\'ah', numberOfAyahs: 96 },
-            { id: 57, number: 57, name: 'سورة الحديد', englishName: 'Al-Hadid', numberOfAyahs: 29 },
-            { id: 58, number: 58, name: 'سورة المجادلة', englishName: 'Al-Mujadila', numberOfAyahs: 22 },
-            { id: 59, number: 59, name: 'سورة الحشر', englishName: 'Al-Hashr', numberOfAyahs: 24 },
-            { id: 60, number: 60, name: 'سورة الممتحنة', englishName: 'Al-Mumtahanah', numberOfAyahs: 13 },
-            { id: 61, number: 61, name: 'سورة الصف', englishName: 'As-Saff', numberOfAyahs: 14 },
-            { id: 62, number: 62, name: 'سورة الجمعة', englishName: 'Al-Jumu\'ah', numberOfAyahs: 11 },
-            { id: 63, number: 63, name: 'سورة المنافقون', englishName: 'Al-Munafiqun', numberOfAyahs: 11 },
-            { id: 64, number: 64, name: 'سورة التغابن', englishName: 'At-Taghabun', numberOfAyahs: 18 },
-            { id: 65, number: 65, name: 'سورة الطلاق', englishName: 'At-Talaq', numberOfAyahs: 12 },
-            { id: 66, number: 66, name: 'سورة التحريم', englishName: 'At-Tahrim', numberOfAyahs: 12 },
-            { id: 67, number: 67, name: 'سورة الملك', englishName: 'Al-Mulk', numberOfAyahs: 30 },
-            { id: 68, number: 68, name: 'سورة القلم', englishName: 'Al-Qalam', numberOfAyahs: 52 },
-            { id: 69, number: 69, name: 'سورة الحاقة', englishName: 'Al-Haqqah', numberOfAyahs: 52 },
-            { id: 70, number: 70, name: 'سورة المعارج', englishName: 'Al-Ma\'arij', numberOfAyahs: 44 },
-            { id: 71, number: 71, name: 'سورة نوح', englishName: 'Nuh', numberOfAyahs: 28 },
-            { id: 72, number: 72, name: 'سورة الجن', englishName: 'Al-Jinn', numberOfAyahs: 28 },
-            { id: 73, number: 73, name: 'سورة المزمل', englishName: 'Al-Muzzammil', numberOfAyahs: 20 },
-            { id: 74, number: 74, name: 'سورة المدثر', englishName: 'Al-Muddaththir', numberOfAyahs: 56 },
-            { id: 75, number: 75, name: 'سورة القيامة', englishName: 'Al-Qiyamah', numberOfAyahs: 40 },
-            { id: 76, number: 76, name: 'سورة الإنسان', englishName: 'Al-Insan', numberOfAyahs: 31 },
-            { id: 77, number: 77, name: 'سورة المرسلات', englishName: 'Al-Mursalat', numberOfAyahs: 50 },
-            { id: 78, number: 78, name: 'سورة النبأ', englishName: 'An-Naba', numberOfAyahs: 40 },
-            { id: 79, number: 79, name: 'سورة النازعات', englishName: 'An-Nazi\'at', numberOfAyahs: 46 },
-            { id: 80, number: 80, name: 'سورة عبس', englishName: '\'Abasa', numberOfAyahs: 42 },
-            { id: 81, number: 81, name: 'سورة التكوير', englishName: 'At-Takwir', numberOfAyahs: 29 },
-            { id: 82, number: 82, name: 'سورة الانفطار', englishName: 'Al-Infitar', numberOfAyahs: 19 },
-            { id: 83, number: 83, name: 'سورة المطففين', englishName: 'Al-Mutaffifin', numberOfAyahs: 36 },
-            { id: 84, number: 84, name: 'سورة الانشقاق', englishName: 'Al-Inshiqaq', numberOfAyahs: 25 },
-            { id: 85, number: 85, name: 'سورة البروج', englishName: 'Al-Buruj', numberOfAyahs: 22 },
-            { id: 86, number: 86, name: 'سورة الطارق', englishName: 'At-Tariq', numberOfAyahs: 17 },
-            { id: 87, number: 87, name: 'سورة الأعلى', englishName: 'Al-A\'la', numberOfAyahs: 19 },
-            { id: 88, number: 88, name: 'سورة الغاشية', englishName: 'Al-Ghashiyah', numberOfAyahs: 26 },
-            { id: 89, number: 89, name: 'سورة الفجر', englishName: 'Al-Fajr', numberOfAyahs: 30 },
-            { id: 90, number: 90, name: 'سورة البلد', englishName: 'Al-Balad', numberOfAyahs: 20 },
-            { id: 91, number: 91, name: 'سورة الشمس', englishName: 'Ash-Shams', numberOfAyahs: 15 },
-            { id: 92, number: 92, name: 'سورة الليل', englishName: 'Al-Layl', numberOfAyahs: 21 },
-            { id: 93, number: 93, name: 'سورة الضحى', englishName: 'Ad-Duha', numberOfAyahs: 11 },
-            { id: 94, number: 94, name: 'سورة الشرح', englishName: 'Ash-Sharh', numberOfAyahs: 8 },
-            { id: 95, number: 95, name: 'سورة التين', englishName: 'At-Tin', numberOfAyahs: 8 },
-            { id: 96, number: 96, name: 'سورة العلق', englishName: 'Al-\'Alaq', numberOfAyahs: 19 },
-            { id: 97, number: 97, name: 'سورة القدر', englishName: 'Al-Qadr', numberOfAyahs: 5 },
-            { id: 98, number: 98, name: 'سورة البينة', englishName: 'Al-Bayyinah', numberOfAyahs: 8 },
-            { id: 99, number: 99, name: 'سورة الزلزلة', englishName: 'Az-Zalzalah', numberOfAyahs: 8 },
-            { id: 100, number: 100, name: 'سورة العاديات', englishName: 'Al-\'Adiyat', numberOfAyahs: 11 },
-            { id: 101, number: 101, name: 'سورة القارعة', englishName: 'Al-Qari\'ah', numberOfAyahs: 11 },
-            { id: 102, number: 102, name: 'سورة التكاثر', englishName: 'At-Takathur', numberOfAyahs: 8 },
-            { id: 103, number: 103, name: 'سورة العصر', englishName: 'Al-\'Asr', numberOfAyahs: 3 },
-            { id: 104, number: 104, name: 'سورة الهمزة', englishName: 'Al-Humazah', numberOfAyahs: 9 },
-            { id: 105, number: 105, name: 'سورة الفيل', englishName: 'Al-Fil', numberOfAyahs: 5 },
-            { id: 106, number: 106, name: 'سورة قريش', englishName: 'Quraysh', numberOfAyahs: 4 },
-            { id: 107, number: 107, name: 'سورة الماعون', englishName: 'Al-Ma\'un', numberOfAyahs: 7 },
-            { id: 108, number: 108, name: 'سورة الكوثر', englishName: 'Al-Kawthar', numberOfAyahs: 3 },
-            { id: 109, number: 109, name: 'سورة الكافرون', englishName: 'Al-Kafirun', numberOfAyahs: 6 },
-            { id: 110, number: 110, name: 'سورة النصر', englishName: 'An-Nasr', numberOfAyahs: 3 },
-            { id: 111, number: 111, name: 'سورة المسد', englishName: 'Al-Masad', numberOfAyahs: 5 },
-            { id: 112, number: 112, name: 'سورة الإخلاص', englishName: 'Al-Ikhlas', numberOfAyahs: 4 },
-            { id: 113, number: 113, name: 'سورة الفلق', englishName: 'Al-Falaq', numberOfAyahs: 5 },
-            { id: 114, number: 114, name: 'سورة الناس', englishName: 'An-Nas', numberOfAyahs: 6 }
+            { id: 1, number: 1, name: 'الفاتحة', englishName: 'Al-Fatihah', numberOfAyahs: 7 },
+            { id: 2, number: 2, name: 'البقرة', englishName: 'Al-Baqarah', numberOfAyahs: 286 },
+            { id: 3, number: 3, name: 'آل عمران', englishName: 'Ali \'Imran', numberOfAyahs: 200 },
+            { id: 4, number: 4, name: 'النساء', englishName: 'An-Nisa', numberOfAyahs: 176 },
+            { id: 5, number: 5, name: 'المائدة', englishName: 'Al-Ma\'idah', numberOfAyahs: 120 },
+            { id: 6, number: 6, name: 'الأنعام', englishName: 'Al-An\'am', numberOfAyahs: 165 },
+            { id: 7, number: 7, name: 'الأعراف', englishName: 'Al-A\'raf', numberOfAyahs: 206 },
+            { id: 8, number: 8, name: 'الأنفال', englishName: 'Al-Anfal', numberOfAyahs: 75 },
+            { id: 9, number: 9, name: 'التوبة', englishName: 'At-Tawbah', numberOfAyahs: 129 },
+            { id: 10, number: 10, name: 'يونس', englishName: 'Yunus', numberOfAyahs: 109 },
+            { id: 11, number: 11, name: 'هود', englishName: 'Hud', numberOfAyahs: 123 },
+            { id: 12, number: 12, name: 'يوسف', englishName: 'Yusuf', numberOfAyahs: 111 },
+            { id: 13, number: 13, name: 'الرعد', englishName: 'Ar-Ra\'d', numberOfAyahs: 43 },
+            { id: 14, number: 14, name: 'إبراهيم', englishName: 'Ibrahim', numberOfAyahs: 52 },
+            { id: 15, number: 15, name: 'الحجر', englishName: 'Al-Hijr', numberOfAyahs: 99 },
+            { id: 16, number: 16, name: 'النحل', englishName: 'An-Nahl', numberOfAyahs: 128 },
+            { id: 17, number: 17, name: 'الإسراء', englishName: 'Al-Isra', numberOfAyahs: 111 },
+            { id: 18, number: 18, name: 'الكهف', englishName: 'Al-Kahf', numberOfAyahs: 110 },
+            { id: 19, number: 19, name: 'مريم', englishName: 'Maryam', numberOfAyahs: 98 },
+            { id: 20, number: 20, name: 'طه', englishName: 'Taha', numberOfAyahs: 135 },
+            { id: 21, number: 21, name: 'الأنبياء', englishName: 'Al-Anbiya', numberOfAyahs: 112 },
+            { id: 22, number: 22, name: 'الحج', englishName: 'Al-Hajj', numberOfAyahs: 78 },
+            { id: 23, number: 23, name: 'المؤمنون', englishName: 'Al-Mu\'minun', numberOfAyahs: 118 },
+            { id: 24, number: 24, name: 'النور', englishName: 'An-Nur', numberOfAyahs: 64 },
+            { id: 25, number: 25, name: 'الفرقان', englishName: 'Al-Furqan', numberOfAyahs: 77 },
+            { id: 26, number: 26, name: 'الشعراء', englishName: 'Ash-Shu\'ara', numberOfAyahs: 227 },
+            { id: 27, number: 27, name: 'النمل', englishName: 'An-Naml', numberOfAyahs: 93 },
+            { id: 28, number: 28, name: 'القصص', englishName: 'Al-Qasas', numberOfAyahs: 88 },
+            { id: 29, number: 29, name: 'العنكبوت', englishName: 'Al-\'Ankabut', numberOfAyahs: 69 },
+            { id: 30, number: 30, name: 'الروم', englishName: 'Ar-Rum', numberOfAyahs: 60 },
+            { id: 31, number: 31, name: 'لقمان', englishName: 'Luqman', numberOfAyahs: 34 },
+            { id: 32, number: 32, name: 'السجدة', englishName: 'As-Sajdah', numberOfAyahs: 30 },
+            { id: 33, number: 33, name: 'الأحزاب', englishName: 'Al-Ahzab', numberOfAyahs: 73 },
+            { id: 34, number: 34, name: 'سبأ', englishName: 'Saba', numberOfAyahs: 54 },
+            { id: 35, number: 35, name: 'فاطر', englishName: 'Fatir', numberOfAyahs: 45 },
+            { id: 36, number: 36, name: 'يس', englishName: 'Ya-Sin', numberOfAyahs: 83 },
+            { id: 37, number: 37, name: 'الصافات', englishName: 'As-Saffat', numberOfAyahs: 182 },
+            { id: 38, number: 38, name: 'ص', englishName: 'Sad', numberOfAyahs: 88 },
+            { id: 39, number: 39, name: 'الزمر', englishName: 'Az-Zumar', numberOfAyahs: 75 },
+            { id: 40, number: 40, name: 'غافر', englishName: 'Ghafir', numberOfAyahs: 85 },
+            { id: 41, number: 41, name: 'فصلت', englishName: 'Fussilat', numberOfAyahs: 54 },
+            { id: 42, number: 42, name: 'الشورى', englishName: 'Ash-Shura', numberOfAyahs: 53 },
+            { id: 43, number: 43, name: 'الزخرف', englishName: 'Az-Zukhruf', numberOfAyahs: 89 },
+            { id: 44, number: 44, name: 'الدخان', englishName: 'Ad-Dukhan', numberOfAyahs: 59 },
+            { id: 45, number: 45, name: 'الجاثية', englishName: 'Al-Jathiyah', numberOfAyahs: 37 },
+            { id: 46, number: 46, name: 'الأحقاف', englishName: 'Al-Ahqaf', numberOfAyahs: 35 },
+            { id: 47, number: 47, name: 'محمد', englishName: 'Muhammad', numberOfAyahs: 38 },
+            { id: 48, number: 48, name: 'الفتح', englishName: 'Al-Fath', numberOfAyahs: 29 },
+            { id: 49, number: 49, name: 'الحجرات', englishName: 'Al-Hujurat', numberOfAyahs: 18 },
+            { id: 50, number: 50, name: 'ق', englishName: 'Qaf', numberOfAyahs: 45 },
+            { id: 51, number: 51, name: 'الذاريات', englishName: 'Adh-Dhariyat', numberOfAyahs: 60 },
+            { id: 52, number: 52, name: 'الطور', englishName: 'At-Tur', numberOfAyahs: 49 },
+            { id: 53, number: 53, name: 'النجم', englishName: 'An-Najm', numberOfAyahs: 62 },
+            { id: 54, number: 54, name: 'القمر', englishName: 'Al-Qamar', numberOfAyahs: 55 },
+            { id: 55, number: 55, name: 'الرحمن', englishName: 'Ar-Rahman', numberOfAyahs: 78 },
+            { id: 56, number: 56, name: 'الواقعة', englishName: 'Al-Waqi\'ah', numberOfAyahs: 96 },
+            { id: 57, number: 57, name: 'الحديد', englishName: 'Al-Hadid', numberOfAyahs: 29 },
+            { id: 58, number: 58, name: 'المجادلة', englishName: 'Al-Mujadila', numberOfAyahs: 22 },
+            { id: 59, number: 59, name: 'الحشر', englishName: 'Al-Hashr', numberOfAyahs: 24 },
+            { id: 60, number: 60, name: 'الممتحنة', englishName: 'Al-Mumtahanah', numberOfAyahs: 13 },
+            { id: 61, number: 61, name: 'الصف', englishName: 'As-Saff', numberOfAyahs: 14 },
+            { id: 62, number: 62, name: 'الجمعة', englishName: 'Al-Jumu\'ah', numberOfAyahs: 11 },
+            { id: 63, number: 63, name: 'المنافقون', englishName: 'Al-Munafiqun', numberOfAyahs: 11 },
+            { id: 64, number: 64, name: 'التغابن', englishName: 'At-Taghabun', numberOfAyahs: 18 },
+            { id: 65, number: 65, name: 'الطلاق', englishName: 'At-Talaq', numberOfAyahs: 12 },
+            { id: 66, number: 66, name: 'التحريم', englishName: 'At-Tahrim', numberOfAyahs: 12 },
+            { id: 67, number: 67, name: 'الملك', englishName: 'Al-Mulk', numberOfAyahs: 30 },
+            { id: 68, number: 68, name: 'القلم', englishName: 'Al-Qalam', numberOfAyahs: 52 },
+            { id: 69, number: 69, name: 'الحاقة', englishName: 'Al-Haqqah', numberOfAyahs: 52 },
+            { id: 70, number: 70, name: 'المعارج', englishName: 'Al-Ma\'arij', numberOfAyahs: 44 },
+            { id: 71, number: 71, name: 'نوح', englishName: 'Nuh', numberOfAyahs: 28 },
+            { id: 72, number: 72, name: 'الجن', englishName: 'Al-Jinn', numberOfAyahs: 28 },
+            { id: 73, number: 73, name: 'المزمل', englishName: 'Al-Muzzammil', numberOfAyahs: 20 },
+            { id: 74, number: 74, name: 'المدثر', englishName: 'Al-Muddaththir', numberOfAyahs: 56 },
+            { id: 75, number: 75, name: 'القيامة', englishName: 'Al-Qiyamah', numberOfAyahs: 40 },
+            { id: 76, number: 76, name: 'الإنسان', englishName: 'Al-Insan', numberOfAyahs: 31 },
+            { id: 77, number: 77, name: 'المرسلات', englishName: 'Al-Mursalat', numberOfAyahs: 50 },
+            { id: 78, number: 78, name: 'النبأ', englishName: 'An-Naba', numberOfAyahs: 40 },
+            { id: 79, number: 79, name: 'النازعات', englishName: 'An-Nazi\'at', numberOfAyahs: 46 },
+            { id: 80, number: 80, name: 'عبس', englishName: '\'Abasa', numberOfAyahs: 42 },
+            { id: 81, number: 81, name: 'التكوير', englishName: 'At-Takwir', numberOfAyahs: 29 },
+            { id: 82, number: 82, name: 'الانفطار', englishName: 'Al-Infitar', numberOfAyahs: 19 },
+            { id: 83, number: 83, name: 'المطففين', englishName: 'Al-Mutaffifin', numberOfAyahs: 36 },
+            { id: 84, number: 84, name: 'الانشقاق', englishName: 'Al-Inshiqaq', numberOfAyahs: 25 },
+            { id: 85, number: 85, name: 'البروج', englishName: 'Al-Buruj', numberOfAyahs: 22 },
+            { id: 86, number: 86, name: 'الطارق', englishName: 'At-Tariq', numberOfAyahs: 17 },
+            { id: 87, number: 87, name: 'الأعلى', englishName: 'Al-A\'la', numberOfAyahs: 19 },
+            { id: 88, number: 88, name: 'الغاشية', englishName: 'Al-Ghashiyah', numberOfAyahs: 26 },
+            { id: 89, number: 89, name: 'الفجر', englishName: 'Al-Fajr', numberOfAyahs: 30 },
+            { id: 90, number: 90, name: 'البلد', englishName: 'Al-Balad', numberOfAyahs: 20 },
+            { id: 91, number: 91, name: 'الشمس', englishName: 'Ash-Shams', numberOfAyahs: 15 },
+            { id: 92, number: 92, name: 'الليل', englishName: 'Al-Layl', numberOfAyahs: 21 },
+            { id: 93, number: 93, name: 'الضحى', englishName: 'Ad-Duha', numberOfAyahs: 11 },
+            { id: 94, number: 94, name: 'الشرح', englishName: 'Ash-Sharh', numberOfAyahs: 8 },
+            { id: 95, number: 95, name: 'التين', englishName: 'At-Tin', numberOfAyahs: 8 },
+            { id: 96, number: 96, name: 'العلق', englishName: 'Al-\'Alaq', numberOfAyahs: 19 },
+            { id: 97, number: 97, name: 'القدر', englishName: 'Al-Qadr', numberOfAyahs: 5 },
+            { id: 98, number: 98, name: 'البينة', englishName: 'Al-Bayyinah', numberOfAyahs: 8 },
+            { id: 99, number: 99, name: 'الزلزلة', englishName: 'Az-Zalzalah', numberOfAyahs: 8 },
+            { id: 100, number: 100, name: 'العاديات', englishName: 'Al-\'Adiyat', numberOfAyahs: 11 },
+            { id: 101, number: 101, name: 'القارعة', englishName: 'Al-Qari\'ah', numberOfAyahs: 11 },
+            { id: 102, number: 102, name: 'التكاثر', englishName: 'At-Takathur', numberOfAyahs: 8 },
+            { id: 103, number: 103, name: 'العصر', englishName: 'Al-\'Asr', numberOfAyahs: 3 },
+            { id: 104, number: 104, name: 'الهمزة', englishName: 'Al-Humazah', numberOfAyahs: 9 },
+            { id: 105, number: 105, name: 'الفيل', englishName: 'Al-Fil', numberOfAyahs: 5 },
+            { id: 106, number: 106, name: 'قريش', englishName: 'Quraysh', numberOfAyahs: 4 },
+            { id: 107, number: 107, name: 'الماعون', englishName: 'Al-Ma\'un', numberOfAyahs: 7 },
+            { id: 108, number: 108, name: 'الكوثر', englishName: 'Al-Kawthar', numberOfAyahs: 3 },
+            { id: 109, number: 109, name: 'الكافرون', englishName: 'Al-Kafirun', numberOfAyahs: 6 },
+            { id: 110, number: 110, name: 'النصر', englishName: 'An-Nasr', numberOfAyahs: 3 },
+            { id: 111, number: 111, name: 'المسد', englishName: 'Al-Masad', numberOfAyahs: 5 },
+            { id: 112, number: 112, name: 'الإخلاص', englishName: 'Al-Ikhlas', numberOfAyahs: 4 },
+            { id: 113, number: 113, name: 'الفلق', englishName: 'Al-Falaq', numberOfAyahs: 5 },
+            { id: 114, number: 114, name: 'الناس', englishName: 'An-Nas', numberOfAyahs: 6 }
         ];
 
         // Reciter images mapping
         this.reciterImages = {
-            'ar.alafasy': 'media/images/alafasy.jpg',
-            'ar.yasseraldossari': 'media/images/yasseraldossari.jpg',
+            'ar.alafasy': 'media/images/afasy.jpg',
+            'ar.yasseraldossari': 'media/images/dosary.jpg',
 
-            'ar.abdulbasitmurattal': 'media/images/abdulbasit.png',
-            'ar.abdulbasitmujawwad': 'media/images/abdulbasit.png',
+            'ar.abdulbasitmurattal': 'media/images/abdelbaset.jpg',
+            'ar.abdulbasitmujawwad': 'media/images/abdelbaset.jpg',
 
-            'ar.ahmedalajmi': 'media/images/ahmedalajmi.jpg',
-            'ar.muhammadayyub': 'media/images/muhammadayyub.jpg',
+            'ar.ahmedalajmi': 'media/images/ahmedajamy.jpg',
+            'ar.muhammadayyub': 'media/images/ayoub.jpg',
 
-            'ar.abdulazizazzahrani': 'media/images/abdulazizazzahrani.jpg',
-            'ar.muhammadsiddiqalminshawimujawwad': 'media/images/minshawy.jpg',
-            'ar.mustafaismail': 'media/images/mustafaismail.jpg',
+            'ar.abdulazizazzahrani': 'media/images/zahrany.jpg',
+            'ar.muhammadsiddiqalminshawimujawwad': 'media/images/menshawy.jpg',
+            'ar.mustafaismail': 'media/images/m_ismaiel.jpg',
 
             // New reciters
-            'ar.abdullahalmatrood': 'media/images/abdullahalmatrood.jpg',
-            'ar.abdullahawadaljuhani': 'media/images/abdullahawadaljuhani.jpg',
+            'ar.abdullahalmatrood': 'media/images/logo.jpg',
+            'ar.abdullahawadaljuhani': 'media/images/logo.jpg',
             'ar.abdullahbasfar': 'media/images/logo.jpg',
             'ar.abdullahkhayat': 'media/images/logo.jpg',
             'ar.abdullahkhulaifi': 'media/images/logo.jpg',
@@ -246,14 +246,12 @@ class SoundCloudQuranPlayer {
                     </div>
                 </div>
                 <div class="mini-player-controls">
-                   
-                    <button class="mini-player-btn" id="miniPlayBtn">
-                        <i class="bi bi-play-circle-fill" id="miniPlayIcon"></i>
-                    </button>
-                    
-                    <button class="mini-player-btn" id="expandBtn">
-                        <i class="bi bi-arrow-down-circle" id="expandIcon"></i>
-                    </button>
+                                            <button class="mini-player-btn" id="miniPlayBtn">
+                            <i class="bi bi-play-circle-fill" id="miniPlayIcon"></i>
+                        </button>
+                            <button class="mini-player-btn" id="expandBtn">
+                            <i class="bi bi-arrow-down-circle" id="expandIcon"></i>
+                        </button>
                 </div>
             </div>
 
@@ -325,20 +323,15 @@ class SoundCloudQuranPlayer {
         
         
       <div class="controls">
-
-                    <button class="mini-player-btn" id="miniPrevBtn" title="رجوع 10 ثواني">
-                        <img src="media/images/-10.png" alt="forward" style="width: 30px; height: 30px;">
-                    </button>
-                   
-                    <button class="mini-player-btn play-pause" id="playIcon">
-                    <i class="bi bi-play-fill"></i>
-                    </button>
-                    
-                    <button class="mini-player-btn" id="miniNextBtn" title="تقديم 10 ثواني">
-                      
-                    <img src="media/images/+10.png" alt="forward" style="width: 30px; height: 30px;">
-
-                    </button>
+        <button class="mini-player-btn" id="prevBtn">
+          <i class="bi bi-skip-backward"></i>
+        </button>
+        <button class="mini-player-btn play-pause" id="playIcon">
+          <i class="bi bi-play-fill"></i>
+        </button>
+        <button class="mini-player-btn" id="nextBtn">
+          <i class="bi bi-skip-forward"></i>
+        </button>
       </div>
 
       
@@ -378,41 +371,18 @@ class SoundCloudQuranPlayer {
             this.toggleExpanded();
         });
 
-        // Mini player navigation buttons
-        const miniPrevBtn = document.getElementById('miniPrevBtn');
-        const miniNextBtn = document.getElementById('miniNextBtn');
-
-        if (miniPrevBtn) {
-            miniPrevBtn.addEventListener('click', () => {
-                this.rewind10Seconds();
-            });
-        }
-
-        if (miniNextBtn) {
-            miniNextBtn.addEventListener('click', () => {
-                this.forward10Seconds();
-            });
-        }
-
         // Full player controls
         document.getElementById('playIcon').addEventListener('click', () => {
             this.togglePlayPause();
         });
 
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            this.previousAyah();
+        });
 
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                this.rewind10Seconds();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                this.forward10Seconds();
-            });
-        }
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            this.nextAyah();
+        });
 
         document.getElementById('downloadBtn').addEventListener('click', () => {
             this.downloadAyah();
@@ -479,6 +449,7 @@ class SoundCloudQuranPlayer {
 
         this.audio.addEventListener('error', (e) => {
             console.error('Audio error:', e);
+            this.showNotification('خطأ في تحميل الملف الصوتي', 'error');
             this.updateFloatingButtonState();
             this.hidePlayer();
         });
@@ -503,6 +474,7 @@ class SoundCloudQuranPlayer {
             this.updatePlayerInfo(this.currentSurah);
             this.updateCurrentSurahDisplay();
             this.updateReciterImage();
+            this.updateSurahCounter();
 
             // Load the surah but don't play it (paused state)
             await this.loadSurahForReadyState();
@@ -544,12 +516,14 @@ class SoundCloudQuranPlayer {
                 this.loadAudioForReadyState();
             }
 
+            this.showNotification(`تم تحميل ${this.currentSurah.name} - جاهز للعب`, 'success');
             this.updateFloatingButtonState();
 
             return Promise.resolve();
 
         } catch (error) {
             console.error('Error loading surah for ready state:', error);
+            this.showNotification('خطأ في تحميل السورة', 'error');
             this.updateFloatingButtonState();
             return Promise.reject(error);
         }
@@ -637,16 +611,12 @@ class SoundCloudQuranPlayer {
 
         } catch (error) {
             console.error('Error loading surah:', error);
+            this.showNotification('خطأ في تحميل السورة', 'error');
             this.updateFloatingButtonState();
         }
     }
 
     playAyah(index) {
-        // Stop radio if playing
-        if (typeof stopRadioForQuran === 'function') {
-            stopRadioForQuran();
-        }
-
         // If no playlist exists, load the current surah first
         if (!this.playlist || this.playlist.length === 0) {
             this.loadSurahForReadyState().then(() => {
@@ -680,6 +650,7 @@ class SoundCloudQuranPlayer {
 
         this.audio.play().catch(error => {
             console.error('Error playing audio:', error);
+            this.showNotification('خطأ في تشغيل الملف الصوتي', 'error');
             this.updateFloatingButtonState();
         });
 
@@ -694,11 +665,6 @@ class SoundCloudQuranPlayer {
             this.showNotification('يرجى اختيار سورة أولاً', 'info');
             this.updateFloatingButtonState();
             return;
-        }
-
-        // Stop radio if playing
-        if (typeof stopRadioForQuran === 'function') {
-            stopRadioForQuran();
         }
 
         if (this.audio.paused) {
@@ -744,8 +710,6 @@ class SoundCloudQuranPlayer {
         if (this.audio.duration) {
             this.audio.currentTime = Math.max(0, this.audio.currentTime - 10);
             this.showNotification('رجوع 10 ثواني', 'info');
-        } else {
-            this.showNotification('لا يوجد ملف صوتي محمل', 'warning');
         }
     }
 
@@ -753,8 +717,6 @@ class SoundCloudQuranPlayer {
         if (this.audio.duration) {
             this.audio.currentTime = Math.min(this.audio.duration, this.audio.currentTime + 10);
             this.showNotification('تقديم 10 ثواني', 'info');
-        } else {
-            this.showNotification('لا يوجد ملف صوتي محمل', 'warning');
         }
     }
 
@@ -907,11 +869,6 @@ class SoundCloudQuranPlayer {
             container.classList.add('active', 'show');
             container.classList.remove('hide');
             fullPlayer.style.display = 'block';
-
-            // Force reflow to ensure the element is rendered
-            fullPlayer.offsetHeight;
-
-            fullPlayer.classList.add('show');
             expandIcon.className = 'bi bi-chevron-down';
             this.updateFloatingButtonState();
 
@@ -922,15 +879,7 @@ class SoundCloudQuranPlayer {
         } else {
             // Hide full player but keep mini player visible
             container.classList.remove('active');
-            fullPlayer.classList.remove('show');
-
-            // Hide full player after animation
-            setTimeout(() => {
-                if (!fullPlayer.classList.contains('show')) {
-                    fullPlayer.style.display = 'none';
-                }
-            }, 400);
-
+            fullPlayer.style.display = 'none';
             expandIcon.className = 'bi bi-chevron-up';
 
             // Remove body padding on mobile
@@ -1046,7 +995,6 @@ class SoundCloudQuranPlayer {
 
     updatePlayButton() {
         const playIcon = document.getElementById('playIcon');
-        const miniPlayBtn = document.getElementById('miniPlayBtn');
         const miniPlayIcon = document.getElementById('miniPlayIcon');
         const container = document.getElementById('quranPlayerContainer');
         const albumArt = document.querySelector('.album-art');
@@ -1057,10 +1005,6 @@ class SoundCloudQuranPlayer {
             if (playIcon) {
                 const icon = playIcon.querySelector('i');
                 if (icon) icon.className = 'bi bi-pause-fill';
-            }
-            if (miniPlayBtn) {
-                const icon = miniPlayBtn.querySelector('i');
-                if (icon) icon.className = 'bi bi-pause-circle-fill';
             }
             if (miniPlayIcon) {
                 miniPlayIcon.className = 'bi bi-pause-circle-fill';
@@ -1083,10 +1027,6 @@ class SoundCloudQuranPlayer {
             if (playIcon) {
                 const icon = playIcon.querySelector('i');
                 if (icon) icon.className = 'bi bi-play-fill';
-            }
-            if (miniPlayBtn) {
-                const icon = miniPlayBtn.querySelector('i');
-                if (icon) icon.className = 'bi bi-play-circle-fill';
             }
             if (miniPlayIcon) {
                 miniPlayIcon.className = 'bi bi-play-circle-fill';
@@ -1191,7 +1131,7 @@ class SoundCloudQuranPlayer {
         // Create a temporary link element to trigger download
         const link = document.createElement('a');
         link.href = audioUrl;
-        link.download = `${this.currentSurah.name}.mp3`;
+        link.download = `سورة_${this.currentSurah.name}.mp3`;
         link.target = '_blank';
 
         // Add to DOM, click, and remove
@@ -1303,10 +1243,6 @@ class SoundCloudQuranPlayer {
         const container = document.getElementById('quranPlayerContainer');
         if (container) {
             container.style.display = 'block';
-
-            // Force reflow to ensure the element is rendered
-            container.offsetHeight;
-
             container.classList.remove('hide');
             container.classList.add('show');
 
@@ -1331,7 +1267,7 @@ class SoundCloudQuranPlayer {
                 if (!container.classList.contains('show')) {
                     container.style.display = 'none';
                 }
-            }, 500);
+            }, 400);
         }
     }
 
@@ -1482,7 +1418,7 @@ class SoundCloudQuranPlayer {
 
             item.innerHTML = `
                 <i class="bi bi-book"></i>
-                <span> ${surah.name}</span>
+                <span>سورة ${surah.name}</span>
                 <span class="item-number">${surah.numberOfAyahs} آية</span>
             `;
 
@@ -1501,17 +1437,17 @@ class SoundCloudQuranPlayer {
         if (!reciterGrid) return;
 
         const allReciters = [
-            { value: 'ar.alafasy', name: 'مشاري العفاسي', image: 'media/images/alafasy.jpg' },
-            { value: 'ar.yasseraldossari', name: 'ياسر الدوسري', image: 'media/images/yasseraldossari.jpg' },
-            { value: 'ar.abdulbasitmurattal', name: 'عبد الباسط عبد الصمد (مرتل)', image: 'media/images/abdulbasit.png' },
-            { value: 'ar.abdulbasitmujawwad', name: 'عبد الباسط عبد الصمد (مجود)', image: 'media/images/abdulbasit.png' },
-            { value: 'ar.ahmedalajmi', name: 'احمد العجمي', image: 'media/images/ahmedalajmi.jpg' },
-            { value: 'ar.muhammadayyub', name: 'محمد أيوب', image: 'media/images/muhammadayyub.jpg' },
-            { value: 'ar.abdulazizazzahrani', name: 'عبد العزيز الزهراني', image: 'media/images/abdulazizazzahrani.jpg' },
-            { value: 'ar.muhammadsiddiqalminshawimujawwad', name: 'محمد صديق المنشاوي (مجود)', image: 'media/images/minshawy.jpg' },
-            { value: 'ar.mustafaismail', name: 'مصطفي اسماعيل', image: 'media/images/mustafaismail.jpg' },
-            { value: 'ar.abdullahalmatrood', name: 'عبد الله المطرود', image: 'media/images/abdullahalmatrood.jpg' },
-            { value: 'ar.abdullahawadaljuhani', name: 'عبد الله عواد الجهني', image: 'media/images/abdullahawadaljuhani.jpg' },
+            { value: 'ar.alafasy', name: 'مشاري العفاسي', image: 'media/images/afasy.jpg' },
+            { value: 'ar.yasseraldossari', name: 'ياسر الدوسري', image: 'media/images/dosary.jpg' },
+            { value: 'ar.abdulbasitmurattal', name: 'عبد الباسط عبد الصمد (مرتل)', image: 'media/images/abdelbaset.jpg' },
+            { value: 'ar.abdulbasitmujawwad', name: 'عبد الباسط عبد الصمد (مجود)', image: 'media/images/abdelbaset.jpg' },
+            { value: 'ar.ahmedalajmi', name: 'احمد العجمي', image: 'media/images/ahmedajamy.jpg' },
+            { value: 'ar.muhammadayyub', name: 'محمد أيوب', image: 'media/images/ayoub.jpg' },
+            { value: 'ar.abdulazizazzahrani', name: 'عبد العزيز الزهراني', image: 'media/images/zahrany.jpg' },
+            { value: 'ar.muhammadsiddiqalminshawimujawwad', name: 'محمد صديق المنشاوي (مجود)', image: 'media/images/menshawy.jpg' },
+            { value: 'ar.mustafaismail', name: 'مصطفي اسماعيل', image: 'media/images/m_ismaiel.jpg' },
+            { value: 'ar.abdullahalmatrood', name: 'عبد الله المطرود', image: 'media/images/logo.jpg' },
+            { value: 'ar.abdullahawadaljuhani', name: 'عبد الله عواد الجهني', image: 'media/images/logo.jpg' },
             { value: 'ar.abdullahbasfar', name: 'عبد الله بصفر', image: 'media/images/logo.jpg' },
             { value: 'ar.abdullahkhayat', name: 'عبد الله خياط', image: 'media/images/logo.jpg' },
             { value: 'ar.abdullahkhulaifi', name: 'عبد الله خليفي', image: 'media/images/logo.jpg' },
@@ -1570,7 +1506,8 @@ class SoundCloudQuranPlayer {
         showMoreBtn.className = 'reciter-card show-more-btn';
         showMoreBtn.innerHTML = `
             <div class="show-more-content">
-                <span>عرض ${allReciters.length} قارئ آخرين</span>
+                <i class="bi bi-three-dots me-2"></i>
+                <span>عرض ${allReciters.length - 6} قارئ آخرين</span>
             </div>
         `;
 
@@ -1755,7 +1692,7 @@ class SoundCloudQuranPlayer {
     updateCurrentSurahDisplay() {
         const currentSurahDisplay = document.getElementById('currentSurahDisplay');
         if (currentSurahDisplay && this.currentSurah) {
-            currentSurahDisplay.textContent = ` ${this.currentSurah.name}`;
+            currentSurahDisplay.textContent = `سورة ${this.currentSurah.name}`;
         }
     }
 

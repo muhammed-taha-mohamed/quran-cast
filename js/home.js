@@ -286,20 +286,15 @@ function initializeHomeSection() {
             </div>
 
             <!-- Custom Dhikr Modal -->
-            <div class="modal fade" id="customDhikrModal" tabindex="-1" aria-labelledby="customDhikrModalLabel"
+            <div class="modal fade unified-modal" id="customDhikrModal" tabindex="-1" aria-labelledby="customDhikrModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-
-                            <h5 style="color: #0f766e;" class="modal-title" id="customDhikrModalLabel">
+                            <h5 class="modal-title" id="customDhikrModalLabel">
                                 إضافة ذكر مخصص
                             </h5>
-
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-
-                            </button>
-
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
@@ -345,5 +340,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Export for module usage if needed
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {initializeHomeSection};
+    module.exports = { initializeHomeSection };
 }

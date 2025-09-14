@@ -5,16 +5,17 @@ const radioStations = [
         name: 'إذاعة القرآن الكريم – القاهرة',
         url: 'https://stream.radiojar.com/8s5u5tpdtwzuv',
         description: 'إذاعة القرآن الكريم من القاهرة - مصر',
-        icon: 'bi-broadcast',
-        color: '#0f766e'
+        icon: 'bi-broadcast-pin',
+        color: '#0f766e',
+
     },
 
     {
         id: 'tarateel',
         name: 'تراتيل',
         url: 'https://backup.qurango.net/radio/tarateel',
-        description: 'تراتيل - تلاوات قصيرة متنوعة',
-        icon: 'bi-broadcast',
+        description: 'تراتيل - تلاوات قصيرة متميزة',
+        icon: 'bi-broadcast-pin',
         color: '#0f766e'
     },
 
@@ -22,51 +23,58 @@ const radioStations = [
         id: 'tlawat',
         name: 'تلاوات خاشعة',
         url: 'https://backup.qurango.net/radio/salma',
-        description: 'تلاوات خاشعة',
-        icon: 'bi-broadcast',
+        description: 'تلاوات مختارة من قراء متنوعين',
+        icon: 'bi-broadcast-pin',
         color: '#0f766e'
     },
 
-    
-    
+
     {
-        id: 'tafseer',
-        name: 'تفسير القرآن',
-        url: 'https://backup.qurango.net/radio/tafseer',
-        description: 'تفسير القرآن',
-        icon: 'bi-broadcast',
+        id: 'mukhtasartafsir',
+        name: 'تفسير',
+        url: 'https://backup.qurango.net/radio/mukhtasartafsir',
+        description: 'المختصر في تفسير القرآن الكريم',
+        icon: 'bi-broadcast-pin',
         color: '#0f766e'
     },
     {
-        id: 'alafasy-radio',
-        name: 'إذاعة الشيخ مشاري العفاسي – الكويت',
-        url: 'http://quraan.us:8000/;stream.mp3',
-        description: 'إذاعة الشيخ مشاري العفاسي من الكويت',
-        icon: 'bi-person-badge',
-        color: '#d4af37'
+        id: 'almukhtasar_fi_alsiyra',
+        name: 'المختصر في السيرة النبوية',
+        url: 'https://backup.qurango.net/radio/almukhtasar_fi_alsiyra',
+        description: 'حلقات مختصرة عن سيرة نبيّنا محمد صلى الله عليه وسلم',
+        icon: 'bi-broadcast-pin',
+        color: '#0f766e'
     },
     {
-        id: 'abdulbasit-radio',
+        id: 'fi_zilal_alsiyra',
+        name: 'في ظلال السيرة النبوية',
+        url: 'https://backup.qurango.net/radio/fi_zilal_alsiyra',
+        description: '400 حلقة عن سيرة نبينا محمد صلى الله عليه وسلم',
+        icon: 'bi-broadcast-pin',
+        color: '#0f766e'
+    },
+    {
+        id: 'sahaba-radio',
+        name: 'صور من حياة الصحابة',
+        url: 'https://backup.qurango.net/radio/sahabah',
+        description: '',
+        icon: 'bi-broadcast-pin',
+        color: '#0f766e'
+    },
+    {
+        id: 'abdulbasit_abdulsamad_moratal',
         name: 'إذاعة الشيخ عبدالباسط عبدالصمد – تلاوات خالدة',
-        url: 'http://live.mp3quran.net:9710/;stream.mp3',
-        description: 'إذاعة تلاوات خالدة للشيخ عبدالباسط عبدالصمد',
-        icon: 'bi-person-badge',
+        url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_moratal',
+        description: 'إذاعة تلاوات مرتلة خالدة للشيخ عبدالباسط عبدالصمد',
+        icon: 'bi-person',
         color: '#d4af37'
     },
     {
-        id: 'qatar-quran',
-        name: 'إذاعة القرآن الكريم – قطر',
-        url: 'http://qatarradio.online:8000/quran',
-        description: 'إذاعة القرآن الكريم من دولة قطر',
-        icon: 'bi-broadcast',
-        color: '#0f766e'
-    },
-    {
-        id: 'bahrain-quran',
-        name: 'إذاعة القرآن الكريم – البحرين',
-        url: 'http://radio.bh:8000/quranfm',
-        description: 'إذاعة القرآن الكريم من مملكة البحرين',
-        icon: 'bi-broadcast',
+        id: 'abdulbasit_abdulsamad_mojawwad',
+        name: 'إذاعة الشيخ عبدالباسط عبدالصمد',
+        url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
+        description: 'إذاعة تلاوات مجودة خالدة للشيخ عبدالباسط عبدالصمد',
+        icon: 'bi-person',
         color: '#0f766e'
     }
 ];
@@ -79,7 +87,7 @@ class RadioPlayer {
         this.isPlaying = false;
         this.volume = 0.7;
         this.audio.volume = this.volume;
-        
+
         this.audio.addEventListener('loadstart', () => this.onLoadStart());
         this.audio.addEventListener('canplay', () => this.onCanPlay());
         this.audio.addEventListener('play', () => this.onPlay());
@@ -106,7 +114,7 @@ class RadioPlayer {
             this.currentStation = station;
             this.audio.src = station.url;
             this.audio.play();
-            
+
             // Show radio mini player
             this.showRadioMiniPlayer();
         }
@@ -125,7 +133,7 @@ class RadioPlayer {
         this.isPlaying = false;
         this.currentStation = null;
         this.hideRadioMiniPlayer();
-        
+
         // Hide all visualizers and remove selected class
         const cards = document.querySelectorAll('.radio-station-card');
         cards.forEach(card => {
@@ -227,7 +235,7 @@ class RadioPlayer {
 
         if (this.currentStation) {
             if (stationName) stationName.textContent = this.currentStation.name;
-            
+
         }
     }
 
@@ -308,7 +316,14 @@ let radioPlayer = null;
 // Initialize Radio Page
 function initializeRadioPage() {
     console.log('Initializing Radio Page...');
-    
+
+    // Scroll to top when entering radio page
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+
     // Initialize radio player
     if (!radioPlayer) {
         radioPlayer = new RadioPlayer();
@@ -316,7 +331,7 @@ function initializeRadioPage() {
 
     // Render radio stations
     renderRadioStations();
-    
+
     // Setup event listeners
     setupRadioEventListeners();
 }
@@ -398,7 +413,7 @@ function selectRadioStation(stationId) {
             visualizer.style.display = 'none';
         }
     });
-    
+
     // Add selected to current card and show visualizer
     const selectedCard = document.querySelector(`[data-station-id="${stationId}"]`);
     if (selectedCard) {
@@ -416,7 +431,7 @@ function selectRadioStation(stationId) {
 // Toggle Radio Play
 function toggleRadioPlay() {
     if (!radioPlayer) return;
-    
+
     if (radioPlayer.currentStation) {
         radioPlayer.play(radioPlayer.currentStation);
     } else {
@@ -447,12 +462,12 @@ function toggleRadioMiniPlay() {
 function openRadioPage() {
     // Navigate to radio page
     location.hash = '#radio';
-    
+
     // Scroll to radio player section
     setTimeout(() => {
         const radioPlayerSection = document.querySelector('.radio-player-section');
         if (radioPlayerSection) {
-            radioPlayerSection.scrollIntoView({ 
+            radioPlayerSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'center'
             });
@@ -466,7 +481,7 @@ function closeRadioMiniPlayer() {
     if (radioPlayer && radioPlayer.isPlaying) {
         radioPlayer.stop();
     }
-    
+
     // Hide radio mini player
     const radioMiniPlayer = document.getElementById('radioMiniPlayer');
     if (radioMiniPlayer) {
@@ -482,7 +497,7 @@ function stopRadioForQuran() {
 }
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Check if we're on the radio page
     if (window.location.hash === '#radio' || document.getElementById('radio_section')) {
         initializeRadioPage();
