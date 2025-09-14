@@ -450,7 +450,7 @@ class ReelsManager {
                 </button>
                 <button class="post-action-btn like-btn" onclick="reelsManager.downloadImage('${post.image}', '${post.username || 'مجهول'}')">
                     <i class="bi bi-download"></i>
-                    <span>تنزيل</span>
+                    
                 </button>
             `;
         }
@@ -1487,15 +1487,15 @@ class ReelsManager {
                             <div class="comment-avatar">
                                 ${avatarHTML}
                             </div>
-                            <span class="comment-author">${comment.author}</span>
+                        <span class="comment-author">${comment.author}</span>
                         </div>
                         <div class="comment-header-right">
-                            <span class="comment-time">${timeAgo}</span>
-                            ${canDelete ? `
-                                <button class="btn-delete-comment" onclick="reelsManager.deleteComment('${comment.id}')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            ` : ''}
+                        <span class="comment-time">${timeAgo}</span>
+                        ${canDelete ? `
+                            <button class="btn-delete-comment" onclick="reelsManager.deleteComment('${comment.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        ` : ''}
                         </div>
                     </div>
                     <div class="comment-text">${comment.text}</div>
@@ -1571,15 +1571,15 @@ class ReelsManager {
                             <div class="reply-avatar">
                                 ${avatarHTML}
                             </div>
-                            <span class="reply-author">${reply.author}</span>
+                        <span class="reply-author">${reply.author}</span>
                         </div>
                         <div class="reply-header-right">
-                            <span class="reply-time">${timeAgo}</span>
-                            ${canDelete ? `
-                                <button class="btn-delete-reply" onclick="reelsManager.deleteReply('${reply.id}')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            ` : ''}
+                        <span class="reply-time">${timeAgo}</span>
+                        ${canDelete ? `
+                            <button class="btn-delete-reply" onclick="reelsManager.deleteReply('${reply.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        ` : ''}
                         </div>
                     </div>
                     <div class="reply-text">${reply.text}</div>
