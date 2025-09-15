@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تحميل تطبيق Quran Cast - القرآن الكريم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;800;1000&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1976d2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Quran Cast">
+    <meta name="msapplication-TileColor" content="#1976d2">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="media/images/logo.jpg">
+    <link rel="apple-touch-icon" sizes="152x152" href="media/images/logo.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="media/images/logo.jpg">
+    <link rel="apple-touch-icon" sizes="167x167" href="media/images/logo.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="media/images/logo.jpg">
+    <link rel="shortcut icon" href="media/images/logo.jpg">
+
+    <style>
+        /* Download Page Specific Styles */
+        .download-hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #17a2b8 0%, #0f766e 50%, #0d6efd 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .download-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+
+        .app-logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+        }
+
+        .download-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .download-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .download-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .download-btn.primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-color: transparent;
+        }
+
+        .download-btn.primary:hover {
+            background: linear-gradient(45deg, #ff5252, #d63031);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #17a2b8, #0f766e);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px 40px;
+            margin: 80px 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .screenshots {
+            margin: 80px 0;
+            text-align: center;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .screenshot {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: translateY(-10px);
+        }
+
+        .screenshot img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-download {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 40px 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .download-title {
+                font-size: 2.5rem;
+            }
+            
+            .download-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <div class="floating-element">
+            <i class="bi bi-music-note" style="font-size: 3rem; color: white;"></i>
+        </div>
+        <div class="floating-element">
+            <i class="bi bi-book" style="font-size: 2.5rem; color: white;"></i>
+        </div>
+        <div class="floating-element">
+            <i class="bi bi-heart" style="font-size: 2rem; color: white;"></i>
+        </div>
+    </div>
+
+    <!-- Download Hero Section -->
+    <section class="download-hero">
+        <div class="container">
+            <div class="download-content">
+                <div class="app-logo">
+                    <img src="media/images/logo.jpg" alt="Quran Cast Logo">
+                </div>
+                
+                <h1 class="download-title">Quran Cast</h1>
+                <p class="download-subtitle">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                
+                <div class="download-buttons">
+                    <a href="index.html" class="download-btn primary" id="installBtn">
+                        <i class="bi bi-download"></i>
+                        تحميل التطبيق مجاناً
+                    </a>
+                    <a href="index.html" class="download-btn">
+                        <i class="bi bi-play-circle"></i>
+                        تجربة الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-music-note"></i>
+                </div>
+                <h3 class="feature-title">تشغيل في الخلفية</h3>
+                <p class="feature-description">استمع للقرآن الكريم والراديو حتى عند إغلاق التطبيق</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-bell"></i>
+                </div>
+                <h3 class="feature-title">إشعارات ذكية</h3>
+                <p class="feature-description">تحكم كامل في التشغيل من الإشعارات</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-phone"></i>
+                </div>
+                <h3 class="feature-title">تطبيق موبايل</h3>
+                <p class="feature-description">يمكن تثبيته على الهاتف كتطبيق أصلي</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-wifi-off"></i>
+                </div>
+                <h3 class="feature-title">عمل بدون إنترنت</h3>
+                <p class="feature-description">يعمل جزئياً حتى بدون اتصال بالإنترنت</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-radio"></i>
+                </div>
+                <h3 class="feature-title">راديو إسلامي</h3>
+                <p class="feature-description">أفضل المحطات الإذاعية الإسلامية</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <h3 class="feature-title">أذكار يومية</h3>
+                <p class="feature-description">أذكار الصباح والمساء مع تذكيرات</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="container">
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">محطة إذاعية</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">قارئ قرآن</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">ذكر يومي</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">متاح دائماً</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="container">
+        <div class="screenshots">
+            <h2 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; text-align: center;">
+                شاهد التطبيق
+            </h2>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; text-align: center; margin-bottom: 40px;">
+                واجهة جميلة وسهلة الاستخدام
+            </p>
+            
+            <div class="screenshot-grid">
+                <div class="screenshot">
+                    <img src="media/images/landscape_1.jpg" alt="الصفحة الرئيسية">
+                    <h4 style="color: white; margin-top: 15px;">الصفحة الرئيسية</h4>
+                </div>
+                <div class="screenshot">
+                    <img src="media/images/azan_header.PNG" alt="الراديو">
+                    <h4 style="color: white; margin-top: 15px;">الراديو الإسلامي</h4>
+                </div>
+                <div class="screenshot">
+                    <img src="media/images/azkar_1.jpg" alt="الأذكار">
+                    <h4 style="color: white; margin-top: 15px;">الأذكار اليومية</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-download">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 style="color: white; margin-bottom: 20px;">Quran Cast</h5>
+                    <p style="margin-bottom: 20px;">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                    <div class="download-buttons">
+                        <a href="index.html" class="download-btn primary" id="installBtnFooter">
+                            <i class="bi bi-download"></i>
+                            تحميل التطبيق
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 style="color: white; margin-bottom: 15px;">تواصل معنا</h6>
+                    <div style="color: rgba(255, 255, 255, 0.8);">
+                        <p><i class="bi bi-envelope me-2"></i> info@qurancast.com</p>
+                        <p><i class="bi bi-phone me-2"></i> +201111392984</p>
+                        <p><i class="bi bi-geo-alt me-2"></i> القاهرة جمهورية مصر العربية</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    
+    <script>
+        // PWA Install functionality
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const installBtnFooter = document.getElementById('installBtnFooter');
+
+        // Listen for the beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Update button text
+            if (installBtn) {
+                installBtn.innerHTML = '<i class="bi bi-download"></i> تثبيت التطبيق';
+            }
+            if (installBtnFooter) {
+                installBtnFooter.innerHTML = '<i class="bi bi-download"></i> تثبيت التطبيق';
+            }
+        });
+
+        // Handle install button clicks
+        function handleInstall() {
+            if (!deferredPrompt) {
+                // If no install prompt, redirect to main app
+                window.location.href = 'index.html';
+                return;
+            }
+
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        }
+
+        if (installBtn) {
+            installBtn.addEventListener('click', handleInstall);
+        }
+        if (installBtnFooter) {
+            installBtnFooter.addEventListener('click', handleInstall);
+        }
+
+        // Check if app is already installed
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('App is running in standalone mode');
+            if (installBtn) {
+                installBtn.innerHTML = '<i class="bi bi-check-circle"></i> تم التثبيت';
+                installBtn.style.background = 'linear-gradient(45deg, #00b894, #00a085)';
+            }
+            if (installBtnFooter) {
+                installBtnFooter.innerHTML = '<i class="bi bi-check-circle"></i> تم التثبيت';
+                installBtnFooter.style.background = 'linear-gradient(45deg, #00b894, #00a085)';
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Observe stats
+        document.querySelectorAll('.stat-item').forEach(stat => {
+            stat.style.opacity = '0';
+            stat.style.transform = 'translateY(30px)';
+            stat.style.transition = 'all 0.6s ease';
+            observer.observe(stat);
+        });
+    </script>
+</body>
+
+</html>

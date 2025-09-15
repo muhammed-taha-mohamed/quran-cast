@@ -13,6 +13,10 @@ class SoundCloudQuranPlayer {
         this.currentReciter = 'ar.alafasy';
         this.totalSurahs = 114; // إجمالي عدد السور
         this.currentSurahIndex = 0; // فهرس السورة الحالية
+        
+        // Background audio support
+        this.backgroundAudioEnabled = true;
+        this.notificationSystem = null;
 
         // Static list of all 114 surahs with IDs
         this.surahs = [
@@ -485,6 +489,12 @@ class SoundCloudQuranPlayer {
 
         // Set default volume
         this.audio.volume = 0.7;
+        
+        // Setup background audio event listeners
+        this.setupBackgroundAudioListeners();
+        
+        // Setup media action listeners
+        this.setupMediaActionListeners();
     }
 
     // Surahs are now static, no need to load from API
@@ -514,8 +524,7 @@ class SoundCloudQuranPlayer {
         if (!this.currentSurah) return Promise.resolve();
 
         try {
-            // Show loading state
-            this.showNotification('جاري تحميل سورة الفاتحة...', 'info');
+          
 
             // Load surah data
             const [arabicRes, englishRes] = await Promise.all([
@@ -706,10 +715,166 @@ class SoundCloudQuranPlayer {
                 this.playAyah(0);
             } else {
                 this.showPlayer();
-                this.audio.play();
+                this.play();
             }
         } else {
-            this.audio.pause();
+            this.pause();
+        }
+    }
+
+    // Play audio with background support
+    async play() {
+        try {
+            await this.audio.play();
+            this.isPlaying = true;
+            this.updateFloatingButtonState();
+            this.updatePlaybackState();
+            this.showBackgroundNotification();
+        } catch (error) {
+            console.error('Error playing audio:', error);
+            this.isPlaying = false;
+            this.updateFloatingButtonState();
+        }
+    }
+
+    // Pause audio
+    pause() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.updateFloatingButtonState();
+        this.updatePlaybackState();
+        this.showBackgroundNotification();
+    }
+
+    // Setup background audio event listeners
+    setupBackgroundAudioListeners() {
+        // Audio event listeners
+        this.audio.addEventListener('play', () => {
+            this.isPlaying = true;
+            this.updateFloatingButtonState();
+            this.updatePlaybackState();
+            this.showBackgroundNotification();
+        });
+
+        this.audio.addEventListener('pause', () => {
+            this.isPlaying = false;
+            this.updateFloatingButtonState();
+            this.updatePlaybackState();
+            this.showBackgroundNotification();
+        });
+
+        this.audio.addEventListener('ended', () => {
+            this.isPlaying = false;
+            this.updateFloatingButtonState();
+            this.nextAyah();
+        });
+
+        this.audio.addEventListener('error', (error) => {
+            console.error('Audio error:', error);
+            this.isPlaying = false;
+            this.updateFloatingButtonState();
+            this.showNotification('خطأ في تشغيل الصوت', 'error');
+        });
+
+        // Page visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && this.isPlaying) {
+                this.showBackgroundNotification();
+            }
+        });
+
+        // Before unload
+        window.addEventListener('beforeunload', () => {
+            if (this.isPlaying) {
+                this.showBackgroundNotification();
+            }
+        });
+    }
+
+    // Setup media action listeners
+    setupMediaActionListeners() {
+        window.addEventListener('mediaAction', (event) => {
+            const { action, details } = event.detail;
+            this.handleMediaAction(action, details);
+        });
+    }
+
+    // Handle media actions from notifications
+    handleMediaAction(action, details = null) {
+        console.log('Player received media action:', action, details);
+        
+        switch (action) {
+            case 'play':
+                this.play();
+                break;
+            case 'pause':
+                this.pause();
+                break;
+            case 'next':
+                this.nextAyah();
+                break;
+            case 'previous':
+                this.previousAyah();
+                break;
+            case 'seekbackward':
+                this.seekBackward(details?.seekOffset || 10);
+                break;
+            case 'seekforward':
+                this.seekForward(details?.seekOffset || 10);
+                break;
+            case 'seekto':
+                if (details?.seekTime !== undefined) {
+                    this.seekToTime(details.seekTime);
+                }
+                break;
+            case 'stop':
+                this.pause();
+                break;
+        }
+    }
+
+    // Seek backward
+    seekBackward(seconds = 10) {
+        if (this.audio.duration) {
+            this.audio.currentTime = Math.max(0, this.audio.currentTime - seconds);
+        }
+    }
+
+    // Seek forward
+    seekForward(seconds = 10) {
+        if (this.audio.duration) {
+            this.audio.currentTime = Math.min(this.audio.duration, this.audio.currentTime + seconds);
+        }
+    }
+
+    // Seek to specific time
+    seekToTime(time) {
+        if (this.audio.duration) {
+            this.audio.currentTime = Math.max(0, Math.min(this.audio.duration, time));
+        }
+    }
+
+    // Update playback state for Media Session
+    updatePlaybackState() {
+        if (this.notificationSystem) {
+            this.notificationSystem.updatePlaybackState(this.isPlaying ? 'playing' : 'paused');
+        }
+    }
+
+    // Show background notification
+    showBackgroundNotification() {
+        if (!this.backgroundAudioEnabled || !this.currentSurah) return;
+
+        if (this.notificationSystem) {
+            const reciterName = this.getReciterName(this.currentReciter);
+            this.notificationSystem.updateAudioNotification(
+                this.currentSurah.name,
+                `المؤدي: ${reciterName}`,
+                this.isPlaying,
+                {
+                    icon: this.getReciterImage(this.currentReciter)
+                }
+            );
         }
     }
 
@@ -892,6 +1057,23 @@ class SoundCloudQuranPlayer {
             'ar.alashryomran': 'الأشري عمران'
         };
         return reciterNames[reciterCode] || ' ';
+    }
+
+    getReciterImage(reciterCode) {
+        const reciterImages = {
+            'ar.alafasy': '/media/images/alafasy.jpg',
+            'ar.yasseraldossari': '/media/images/yasseraldossari.jpg',
+            'ar.abdulbasitmurattal': '/media/images/abdulbasit.png',
+            'ar.abdulbasitmujawwad': '/media/images/abdulbasit.png',
+            'ar.ahmedalajmi': '/media/images/ahmedalajmi.jpg',
+            'ar.muhammadayyub': '/media/images/muhammadayyub.jpg',
+            'ar.abdulazizazzahrani': '/media/images/abdulazizazzahrani.jpg',
+            'ar.muhammadsiddiqalminshawimujawwad': '/media/images/minshawy.jpg',
+            'ar.mustafaismail': '/media/images/mustafaismail.jpg',
+            'ar.abdullahalmatrood': '/media/images/abdullahalmatrood.jpg',
+            'ar.abdullahawadaljuhani': '/media/images/abdullahawadaljuhani.jpg'
+        };
+        return reciterImages[reciterCode] || '/media/images/logo.jpg';
     }
 
 
@@ -2004,6 +2186,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         if (quranPlayer) {
             quranPlayer.updateFloatingButtonState();
+            // Connect notification system
+            if (window.notificationSystem) {
+                quranPlayer.notificationSystem = window.notificationSystem;
+            }
         }
     });
 });

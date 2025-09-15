@@ -2956,7 +2956,7 @@ function renderCategories(categories) {
   searchContainer.className = 'search-container';
   searchContainer.innerHTML = `
         <div class="search-box">
-          <i class="bi bi-search"></i>
+         
           <input type="text" id="categorySearch" placeholder="ابحث عن فئة الأذكار..." />
           <button class="clear-search" onclick="clearSearch()" style="display: none;">
             <i class="bi bi-x"></i>
@@ -2964,34 +2964,36 @@ function renderCategories(categories) {
         </div>
       `;
 
-  // Create a grid container for cards
-  const gridContainer = document.createElement('div');
-  gridContainer.className = 'adhkar-categories-grid';
+  // Create a list container for azkar items (like radio stations)
+  const listContainer = document.createElement('div');
+  listContainer.className = 'azkar-categories-list';
 
   categories.forEach((cat, index) => {
-    const card = document.createElement('div');
-    card.className = `adhkar-category-card adhkar-category-${getCategoryClass(index)}`;
-    card.onclick = () => openAdhkarModal(cat);
+    const item = document.createElement('div');
+    item.className = 'azkar-category-item';
+    item.onclick = () => openAdhkarModal(cat);
 
-    const cardContent = document.createElement('div');
-    cardContent.className = 'adhkar-category-content';
-    cardContent.innerHTML = `
-          <div class="adhkar-category-info">
-            <div class="adhkar-category-count-badge">
-              <span class="adhkar-category-count">${cat.array.length}</span>
+    item.innerHTML = `
+      <div class="azkar-category-icon" style="background: ${getCategoryColor(index)}">
+        <i class="bi ${getCategoryIcon(index)}"></i>
             </div>
-            <h4 class="adhkar-category-title">${cat.category}</h4>
+      <div class="azkar-category-info">
+        <h4 class="azkar-category-name">${cat.category}</h4>
+        <p class="azkar-category-description">${cat.array.length} ذكر</p>
           </div>
-          
-        `;
+      <div class="azkar-category-controls">
+        <div class="azkar-category-count-badge">
+          <span class="azkar-category-count">${cat.array.length}</span>
+        </div>
+      </div>
+    `;
 
-    card.appendChild(cardContent);
-    gridContainer.appendChild(card);
+    listContainer.appendChild(item);
   });
 
   main.appendChild(heroSection);
   main.appendChild(searchContainer);
-  main.appendChild(gridContainer);
+  main.appendChild(listContainer);
 
   // Add search functionality
   const searchInput = document.getElementById('categorySearch');
@@ -2999,14 +3001,14 @@ function renderCategories(categories) {
 
   searchInput.addEventListener('input', (e) => {
     const searchTerm = e.target.value.toLowerCase();
-    const cards = gridContainer.querySelectorAll('.adhkar-category-card');
+    const items = listContainer.querySelectorAll('.azkar-category-item');
 
-    cards.forEach(card => {
-      const categoryName = card.querySelector('.adhkar-category-title').textContent.toLowerCase();
+    items.forEach(item => {
+      const categoryName = item.querySelector('.azkar-category-name').textContent.toLowerCase();
       if (categoryName.includes(searchTerm)) {
-        card.style.display = 'flex';
+        item.style.display = 'flex';
       } else {
-        card.style.display = 'none';
+        item.style.display = 'none';
       }
     });
 
@@ -3022,19 +3024,29 @@ function renderCategories(categories) {
 function clearSearch() {
   const searchInput = document.getElementById('categorySearch');
   const clearBtn = document.querySelector('.clear-search');
-  const cards = document.querySelectorAll('.adhkar-category-card');
+  const items = document.querySelectorAll('.azkar-category-item');
 
   searchInput.value = '';
   clearBtn.style.display = 'none';
 
-  cards.forEach(card => {
-    card.style.display = 'flex';
+  items.forEach(item => {
+    item.style.display = 'flex';
   });
 }
 
 function getIconClass(index) {
   const classes = ['primary', 'success', 'warning', 'danger', 'info'];
   return classes[index % classes.length];
+}
+
+function getCategoryColor(index) {
+  const colors = ['#0f766e', '#d4af37', '#17a2b8', '#6f42c1', '#dc3545', '#28a745'];
+  return colors[index % colors.length];
+}
+
+function getCategoryIcon(index) {
+  const icons = ['bi-clock', 'bi-sun', 'bi-moon', 'bi-star', 'bi-heart', 'bi-shield'];
+  return icons[index % icons.length];
 }
 
 function getCategoryClass(index) {
@@ -3046,15 +3058,11 @@ function openAdhkarModal(category) {
   // Create modal if it doesn't exist
   let modal = document.getElementById('adhkarModal');
   if (!modal) {
-    // Random background image selection for the modal
-    const backgroundImages = ['azkar_1.jpg', 'azkar_2.jpg', 'azkar_3.jpg', 'azkar_4.jpg', 'azkar_5.jpg'];
-    const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-
     modal = document.createElement('div');
     modal.id = 'adhkarModal';
     modal.className = 'adhkar-modal';
     modal.innerHTML = `
-          <div class="adhkar-modal-content" style="background-image: url('media/images/${randomImage}')">
+          <div class="adhkar-modal-content">
             <div class="adhkar-modal-overlay"></div>
             <div class="adhkar-modal-header">
               <h3 class="adhkar-modal-title"></h3>
@@ -3085,40 +3093,35 @@ function openAdhkarModal(category) {
     const adhkarText = document.createElement('div');
     adhkarText.className = 'adhkar-text';
     adhkarText.innerHTML = `
+          <div class="adhkar-text-content">
+            <div class="adhkar-main-text">
           <strong>${item.text}</strong>
-          <small class="d-block text-muted">${item.count} مرة</small>
-        `;
-
-    const adhkarPlayer = document.createElement('div');
-    adhkarPlayer.className = 'adhkar-player';
-
-    if (item.audio) {
-      const audioEl = new Audio(item.audio);
-      audioPool.push(audioEl);
-
-      adhkarPlayer.innerHTML = `
-            <div class="player-controls">
-              <button class="play-pause-btn">
+            </div>
+            <div class="adhkar-controls-row">
+              <div class="adhkar-count-badge">
+                <i class="bi bi-repeat"></i>
+                <span>${item.count} مرة</span>
+              </div>
+              <div class="adhkar-player-inline">
+                <button class="play-pause-btn-inline">
                 <i class="bi bi-play-circle"></i>
               </button>
-              <div class="player-info">
-                <div class="time-display">
-                  <span class="current-time">0:00</span>
-                  <span class="duration">0:00</span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar">
-                    <div class="progress-fill"></div>
+                <div class="time-display-inline">
+                  <span class="current-time-inline">0:00</span>
+                  <span class="duration-inline">0:00</span>
                   </div>
                 </div>
               </div>
             </div>
           `;
 
-      const playPauseBtn = adhkarPlayer.querySelector('.play-pause-btn');
-      const progressFill = adhkarPlayer.querySelector('.progress-fill');
-      const currentTimeEl = adhkarPlayer.querySelector('.current-time');
-      const durationEl = adhkarPlayer.querySelector('.duration');
+    if (item.audio) {
+      const audioEl = new Audio(item.audio);
+      audioPool.push(audioEl);
+
+      const playPauseBtn = adhkarText.querySelector('.play-pause-btn-inline');
+      const currentTimeEl = adhkarText.querySelector('.current-time-inline');
+      const durationEl = adhkarText.querySelector('.duration-inline');
 
       // Format time helper
       const formatTime = (seconds) => {
@@ -3130,8 +3133,6 @@ function openAdhkarModal(category) {
       // Update progress bar
       const updateProgress = () => {
         if (audioEl.duration) {
-          const progress = (audioEl.currentTime / audioEl.duration) * 100;
-          progressFill.style.width = `${progress}%`;
           currentTimeEl.textContent = formatTime(audioEl.currentTime);
         }
       };
@@ -3147,19 +3148,25 @@ function openAdhkarModal(category) {
       // Event listeners for play/pause toggle
       audioEl.addEventListener('play', () => {
         playPauseBtn.innerHTML = '<i class="bi bi-pause-circle"></i>';
-        adhkarPlayer.classList.add('playing');
+        adhkarText.classList.add('playing');
+        currentAzkarAudio = audioEl;
       });
 
       audioEl.addEventListener('pause', () => {
         playPauseBtn.innerHTML = '<i class="bi bi-play-circle"></i>';
-        adhkarPlayer.classList.remove('playing');
+        adhkarText.classList.remove('playing');
+        if (currentAzkarAudio === audioEl) {
+          currentAzkarAudio = null;
+        }
       });
 
       audioEl.addEventListener('ended', () => {
         playPauseBtn.innerHTML = '<i class="bi bi-play-circle"></i>';
-        adhkarPlayer.classList.remove('playing');
-        progressFill.style.width = '0%';
+        adhkarText.classList.remove('playing');
         currentTimeEl.textContent = '0:00';
+        if (currentAzkarAudio === audioEl) {
+          currentAzkarAudio = null;
+        }
       });
 
       playPauseBtn.onclick = () => {
@@ -3169,49 +3176,47 @@ function openAdhkarModal(category) {
             a.pause();
             a.currentTime = 0;
           });
-          document.querySelectorAll('.adhkar-player.playing').forEach(player => {
-            player.classList.remove('playing');
-            const btn = player.querySelector('.play-pause-btn');
-            btn.innerHTML = '<i class="bi bi-play-circle"></i>';
-            const fill = player.querySelector('.progress-fill');
-            fill.style.width = '0%';
-            const time = player.querySelector('.current-time');
-            time.textContent = '0:00';
+          document.querySelectorAll('.adhkar-text.playing').forEach(text => {
+            text.classList.remove('playing');
+            const btn = text.querySelector('.play-pause-btn-inline');
+            if (btn) btn.innerHTML = '<i class="bi bi-play-circle"></i>';
+            const time = text.querySelector('.current-time-inline');
+            if (time) time.textContent = '0:00';
           });
+          // Update global audio variable
+          currentAzkarAudio = audioEl;
           audioEl.play().catch(e => alert("تعذر تشغيل الصوت"));
         } else {
           audioEl.pause();
+          currentAzkarAudio = null;
         }
       };
 
-      // Progress bar click to seek
-      const progressContainer = adhkarPlayer.querySelector('.progress-container');
-      progressContainer.onclick = (e) => {
-        if (audioEl.duration) {
-          const rect = progressContainer.getBoundingClientRect();
-          const clickX = e.clientX - rect.left;
-          const width = rect.width;
-          const clickTime = (clickX / width) * audioEl.duration;
-          audioEl.currentTime = clickTime;
-        }
-      };
+      // Progress bar functionality removed - no longer needed
     } else {
-      adhkarPlayer.innerHTML = `
-            <div class="player-controls disabled">
-              <button class="play-pause-btn" disabled>
-                <i class="bi bi-volume-mute"></i>
-              </button>
-              <div class="player-info">
-                <div class="time-display">
-                  <span class="no-audio">لا يوجد صوت</span>
-                </div>
-              </div>
-            </div>
-          `;
+      // Hide player controls for items without audio
+      const playerInline = adhkarText.querySelector('.adhkar-player-inline');
+      if (playerInline) {
+        playerInline.style.display = 'none';
+      }
+    }
+    
+    // Add tasbih button for all items
+    const tasbihBtn = document.createElement('button');
+    tasbihBtn.className = 'btn btn-outline-success btn-sm me-2';
+    tasbihBtn.innerHTML = '<i class="bi bi-calculator"></i> المسبحة';
+    tasbihBtn.onclick = (e) => {
+      e.stopPropagation();
+      linkAdhkarWithTasbih(item.text, item.count);
+    };
+    
+    // Add tasbih button to controls
+    const controlsRow = adhkarText.querySelector('.adhkar-controls-row');
+    if (controlsRow) {
+      controlsRow.appendChild(tasbihBtn);
     }
 
     adhkarContent.appendChild(adhkarText);
-    adhkarContent.appendChild(adhkarPlayer);
     adhkarItem.appendChild(adhkarContent);
     modalList.appendChild(adhkarItem);
   });
@@ -3221,12 +3226,78 @@ function openAdhkarModal(category) {
   document.body.style.overflow = 'hidden';
 }
 
+// Global audio variable for Azkar audio playback
+let currentAzkarAudio = null;
+
 function closeAdhkarModal() {
   const modal = document.getElementById('adhkarModal');
   if (modal) {
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
+    
+    // Stop any playing Azkar audio
+    stopAzkarAudio();
   }
+}
+
+// Function to stop Azkar audio
+function stopAzkarAudio() {
+  if (currentAzkarAudio) {
+    currentAzkarAudio.pause();
+    currentAzkarAudio.currentTime = 0;
+    currentAzkarAudio = null;
+  }
+}
+
+// Function to play Azkar audio
+function playAzkarAudio(audioUrl) {
+  // Stop any currently playing audio first
+  stopAzkarAudio();
+  
+  // Create new audio element
+  currentAzkarAudio = new Audio(audioUrl);
+  
+  // Play the audio
+  currentAzkarAudio.play().catch(error => {
+    console.error('Error playing Azkar audio:', error);
+  });
+}
+
+// Function to link adhkar with tasbih and scroll to it
+function linkAdhkarWithTasbih(dhikrText, count) {
+  // Close the adhkar modal first
+  closeAdhkarModal();
+  
+  // Navigate to home section where tasbih is located
+  location.hash = '#home';
+  
+  // Wait for home section to load, then set tasbih
+  setTimeout(() => {
+    // Set the tasbih with the selected dhikr
+    if (typeof setTasbihPreset === 'function') {
+      setTasbihPreset(count, dhikrText);
+    }
+    
+    // Scroll to tasbih section smoothly
+    setTimeout(() => {
+      const tasbihSection = document.querySelector('.tasbih-counter');
+      if (tasbihSection) {
+        tasbihSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        
+        // Add a highlight effect
+        tasbihSection.style.transform = 'scale(1.05)';
+        tasbihSection.style.boxShadow = '0 0 20px rgba(15, 118, 110, 0.5)';
+        
+        setTimeout(() => {
+          tasbihSection.style.transform = 'scale(1)';
+          tasbihSection.style.boxShadow = '';
+        }, 1000);
+      }
+    }, 200);
+  }, 100);
 }
 
 // Close modal when clicking outside

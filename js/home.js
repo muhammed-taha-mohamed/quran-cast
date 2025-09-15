@@ -247,13 +247,9 @@ function initializeHomeSection() {
                             </div>
                         </div>
                         <div class="header-actions">
-                            <button class="btn btn-outline-success btn-sm" onclick="returnToAdhkarSection()"
-                                title="العودة للأذكار">
-                                <i class="bi bi-arrow-up-circle"></i>
-                                الاذكار
-                            </button>
+                           
                             <button class="btn btn-outline-success btn-sm" onclick="showCustomDhikrModal()">
-                                <i class="bi bi-plus-circle"></i>
+                               
                                 تخصيص
                             </button>
                         </div>
@@ -261,9 +257,8 @@ function initializeHomeSection() {
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12 text-center">
-                                <div class="tasbih-counter">
-                                    <div class="counter-display" id="tasbihCounter" onclick="incrementTasbih()"
-                                        style="cursor: pointer;" title="اضغط لزيادة العداد">0</div>
+                                <div class="tasbih-counter" onclick="incrementTasbih()" style="cursor: pointer;" title="اضغط لزيادة العداد">
+                                    <div class="counter-display" id="tasbihCounter">0</div>
                                     <br>
                                     <div class="current-dhikr" id="currentDhikr">اختر ذكراً للبدء</div>
                                 </div>
@@ -309,11 +304,13 @@ function initializeHomeSection() {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                            <button type="button" class="btn btn-primary" onclick="addCustomDhikr()">
-                                <i class="bi bi-check-circle"></i>
+                        <button type="button" class="btn btn-primary" onclick="addCustomDhikr()">
+                              
                                 إضافة
                             </button>
+                            
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -324,6 +321,34 @@ function initializeHomeSection() {
 
     // Set the HTML content
     homeSection.innerHTML = homeHTML;
+}
+
+// Function to link adhkar with tasbih and scroll to it
+function linkAdhkarWithTasbih(dhikrText, count) {
+    // Set the tasbih with the selected dhikr
+    if (typeof setTasbihPreset === 'function') {
+        setTasbihPreset(count, dhikrText);
+    }
+    
+    // Scroll to tasbih section smoothly
+    setTimeout(() => {
+        const tasbihSection = document.querySelector('.tasbih-counter');
+        if (tasbihSection) {
+            tasbihSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Add a highlight effect
+            tasbihSection.style.transform = 'scale(1.05)';
+            tasbihSection.style.boxShadow = '0 0 20px rgba(15, 118, 110, 0.5)';
+            
+            setTimeout(() => {
+                tasbihSection.style.transform = 'scale(1)';
+                tasbihSection.style.boxShadow = '';
+            }, 1000);
+        }
+    }, 100);
 }
 
 // Initialize the home section when the DOM is loaded
@@ -338,7 +363,60 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 100);
 });
 
+// Floating Navigation Functions
+function toggleBottomNavbar() {
+    const bottomNavbar = document.getElementById('bottomNavbar');
+    const floatingBtn = document.getElementById('floatingNavBtn');
+    
+    if (bottomNavbar && floatingBtn) {
+        if (bottomNavbar.style.display === 'none' || bottomNavbar.style.display === '') {
+            // Show navbar
+            bottomNavbar.style.display = 'flex';
+            floatingBtn.style.display = 'none';
+            bottomNavbar.style.animation = 'slideInUp 0.4s ease';
+        } else {
+            // Hide navbar
+            hideBottomNavbar();
+        }
+    }
+}
+
+function hideBottomNavbar() {
+    const bottomNavbar = document.getElementById('bottomNavbar');
+    const floatingBtn = document.getElementById('floatingNavBtn');
+    
+    if (bottomNavbar && floatingBtn) {
+        bottomNavbar.style.animation = 'slideOutDown 0.3s ease';
+        setTimeout(() => {
+            bottomNavbar.style.display = 'none';
+            floatingBtn.style.display = 'flex';
+        }, 300);
+    }
+}
+
+// Update active nav item based on current section
+function updateActiveNavItem() {
+    const currentHash = window.location.hash || '#home';
+    const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
+    
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        const href = item.getAttribute('onclick');
+        if (href && href.includes(currentHash)) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// Listen for hash changes
+window.addEventListener('hashchange', updateActiveNavItem);
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateActiveNavItem();
+});
+
 // Export for module usage if needed
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { initializeHomeSection };
+    module.exports = { initializeHomeSection, toggleBottomNavbar, hideBottomNavbar, updateActiveNavItem };
 }

@@ -50,8 +50,19 @@ class ReelsManager {
         }, delay);
     }
 
+    // Ensure Firebase is initialized before auth operations
+    async ensureFirebaseInitialized() {
+        if (!this.isInitialized || !this.auth || !this.db) {
+            console.log('Ensuring Firebase initialization...');
+            await this.initialize();
+        }
+    }
+
     async initialize() {
-        if (this.isInitialized) return;
+        if (this.isInitialized && this.auth && this.db) {
+            console.log('Firebase already initialized');
+            return;
+        }
 
         try {
             // Cleanup existing listeners first
@@ -64,7 +75,12 @@ class ReelsManager {
             }
 
             console.log('Initializing Firebase...');
-            firebase.initializeApp(this.firebaseConfig);
+            
+            // Check if Firebase app is already initialized
+            if (!firebase.apps.length) {
+                firebase.initializeApp(this.firebaseConfig);
+            }
+            
             this.db = firebase.firestore();
             this.auth = firebase.auth();
             this.isInitialized = true;
@@ -103,7 +119,13 @@ class ReelsManager {
             script1.onload = () => {
                 const script2 = document.createElement('script');
                 script2.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js';
-                script2.onload = resolve;
+                script2.onload = () => {
+                    const script3 = document.createElement('script');
+                    script3.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
+                    script3.onload = resolve;
+                    script3.onerror = reject;
+                    document.head.appendChild(script3);
+                };
                 script2.onerror = reject;
                 document.head.appendChild(script2);
             };
@@ -154,14 +176,13 @@ class ReelsManager {
         reelsSection.innerHTML = `
             <div class="reels-container">
                 <div class="reels-header">
-                  <br>
                 </div>
                 
                 <div class="reels-content">
                     <div class="reels-grid" id="reelsGrid">
                         <div class="reels-loading">
                         
-                            <p class="mt-2">جاري التحميل</p>
+                            <p>جاري التحميل</p>
                         </div>
                     </div>
                 </div>
@@ -710,6 +731,12 @@ class ReelsManager {
         const userId = this.currentUser ? (this.currentUser.uid || this.currentUser.email) : null;
         const statusDiv = document.getElementById("modalUploadStatus");
         const contentType = this.getSelectedContentType();
+        const uploadButton = document.querySelector('#uploadModal .btn-primary');
+
+        // منع النقر المتكرر
+        if (uploadButton && uploadButton.disabled) {
+            return;
+        }
 
         let contentData = null;
         let fileName = '';
@@ -718,7 +745,6 @@ class ReelsManager {
             const textContent = document.getElementById("modalTextContent").value.trim();
             if (!textContent) {
                 showNotification('يرجى كتابة نص أولاً!', 'warning');
-
                 return;
             }
             contentData = textContent;
@@ -728,7 +754,6 @@ class ReelsManager {
             const file = fileInput.files[0];
             if (!file) {
                 showNotification('يرجى اختيار صورة أولاً!', 'warning');
-
                 return;
             }
             contentData = file;
@@ -738,14 +763,14 @@ class ReelsManager {
             const file = fileInput.files[0];
             if (!file) {
                 showNotification('يرجى اختيار فيديو أولاً!', 'warning');
-
                 return;
             }
             contentData = file;
             fileName = file.name;
         }
 
-
+        // تعطيل الزر وإظهار اللودر
+        this.setUploadButtonLoading(true);
 
         // إظهار إشعار "جاري النشر"
         showNotification('جاري النشر...', 'info');
@@ -802,8 +827,28 @@ class ReelsManager {
             }, 2000);
 
         } catch (err) {
+            console.error('Error uploading content:', err);
             showNotification('حدث خطأ أثناء النشر: ' + err.message, 'error');
+        } finally {
+            // إعادة تفعيل الزر وإخفاء اللودر
+            this.setUploadButtonLoading(false);
+        }
+    }
 
+    setUploadButtonLoading(isLoading) {
+        const uploadButton = document.querySelector('#uploadModal .btn-primary');
+        if (!uploadButton) return;
+
+        if (isLoading) {
+            uploadButton.disabled = true;
+            uploadButton.innerHTML = '<div class="upload-loader-spinner"></div> جاري النشر...';
+            uploadButton.style.opacity = '0.7';
+            uploadButton.style.cursor = 'not-allowed';
+        } else {
+            uploadButton.disabled = false;
+            uploadButton.innerHTML = 'نشر';
+            uploadButton.style.opacity = '1';
+            uploadButton.style.cursor = 'pointer';
         }
     }
 
@@ -1158,7 +1203,10 @@ class ReelsManager {
                     </div>
                 
                 <div class="comments-list" id="comments-list-${index}">
-                    <!-- سيتم تحميل التعليقات هنا -->
+                    <div class="comments-loader" id="comments-loader-${index}">
+                        <div class="loader-spinner"></div>
+                        <p>جاري تحميل التعليقات...</p>
+                    </div>
                 </div>
                 
                 <div class="add-comment">
@@ -1249,6 +1297,7 @@ class ReelsManager {
 
     async addComment(postIndex) {
         const commentInput = document.getElementById(`comment-input-${postIndex}`);
+        const sendButton = document.querySelector(`#comment-input-${postIndex}`).parentElement.querySelector('.btn-send-comment');
         const commentText = commentInput.value.trim();
 
         if (!commentText) {
@@ -1263,39 +1312,72 @@ class ReelsManager {
             return;
         }
 
-        const comment = {
-            id: 'comment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            postIndex: postIndex,
-            text: commentText,
-            author: this.currentUser.displayName || 'مجهول',
-            authorId: this.currentUser.uid,
-            timestamp: Date.now(),
-            likes: 0,
-            likedBy: [],
-            replies: []
-        };
-
-        // حفظ التعليق في Firebase و localStorage
-        await this.saveComment(comment);
-
-        // إضافة التعليق للواجهة
-        await this.displayComment(comment);
-
-        // تحديث عدد التعليقات
-        const comments = await this.getComments();
-        const postComments = comments.filter(c => c.postIndex === postIndex);
-        this.updateCommentCount(postIndex, postComments.length);
-
-        // تحديث commentsCount في البوست
-        if (this.posts[postIndex]) {
-            this.posts[postIndex].commentsCount = postComments.length;
+        // منع النقر المتكرر
+        if (sendButton.disabled) {
+            return;
         }
 
-        // مسح حقل الإدخال
-        commentInput.value = '';
-        this.updateCommentButtonState(postIndex);
+        // تعطيل الزر وإظهار اللودر
+        this.setCommentButtonLoading(postIndex, true);
 
-        showNotification('تم إضافة التعليق بنجاح', 'success');
+        try {
+            const comment = {
+                id: 'comment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                postIndex: postIndex,
+                text: commentText,
+                author: this.currentUser.displayName || 'مجهول',
+                authorId: this.currentUser.uid,
+                timestamp: Date.now(),
+                likes: 0,
+                likedBy: [],
+                replies: []
+            };
+
+            // حفظ التعليق في Firebase و localStorage
+            await this.saveComment(comment);
+
+            // إضافة التعليق للواجهة
+            await this.displayComment(comment);
+
+            // تحديث عدد التعليقات
+            const comments = await this.getComments();
+            const postComments = comments.filter(c => c.postIndex === postIndex);
+            this.updateCommentCount(postIndex, postComments.length);
+
+            // تحديث commentsCount في البوست
+            if (this.posts[postIndex]) {
+                this.posts[postIndex].commentsCount = postComments.length;
+            }
+
+            // مسح حقل الإدخال
+            commentInput.value = '';
+            this.updateCommentButtonState(postIndex);
+
+            showNotification('تم إضافة التعليق بنجاح', 'success');
+        } catch (error) {
+            console.error('Error adding comment:', error);
+            showNotification('حدث خطأ أثناء إضافة التعليق', 'error');
+        } finally {
+            // إعادة تفعيل الزر وإخفاء اللودر
+            this.setCommentButtonLoading(postIndex, false);
+        }
+    }
+
+    setCommentButtonLoading(postIndex, isLoading) {
+        const sendButton = document.querySelector(`#comment-input-${postIndex}`).parentElement.querySelector('.btn-send-comment');
+        if (!sendButton) return;
+
+        if (isLoading) {
+            sendButton.disabled = true;
+            sendButton.innerHTML = '<div class="comment-loader-spinner"></div>';
+            sendButton.style.opacity = '0.7';
+            sendButton.style.cursor = 'not-allowed';
+        } else {
+            sendButton.disabled = false;
+            sendButton.innerHTML = '<i class="bi bi-send"></i>';
+            sendButton.style.opacity = '1';
+            sendButton.style.cursor = 'pointer';
+        }
     }
 
     async saveComment(comment) {
@@ -1388,8 +1470,14 @@ class ReelsManager {
         const comments = await this.getComments();
         const postComments = comments.filter(comment => comment.postIndex === postIndex);
         const commentsList = document.getElementById(`comments-list-${postIndex}`);
+        const commentsLoader = document.getElementById(`comments-loader-${postIndex}`);
 
         if (!commentsList) return;
+
+        // إخفاء اللودر
+        if (commentsLoader) {
+            commentsLoader.style.display = 'none';
+        }
 
         // تحديث عدد التعليقات في الزر
         this.updateCommentCount(postIndex, postComments.length);
@@ -2199,9 +2287,7 @@ class ReelsManager {
     // Authentication methods
     async loginWithEmail() {
         try {
-            if (!this.auth) {
-                await this.initialize();
-            }
+            await this.ensureFirebaseInitialized();
 
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -2247,9 +2333,7 @@ class ReelsManager {
 
     async signupWithEmail() {
         try {
-            if (!this.auth) {
-                await this.initialize();
-            }
+            await this.ensureFirebaseInitialized();
 
             const name = document.getElementById('signupName').value;
             const email = document.getElementById('signupEmail').value;
@@ -2336,8 +2420,179 @@ class ReelsManager {
         }
     }
 
+    async signupWithGoogle() {
+        try {
+            // التأكد من تهيئة Firebase أولاً
+            await this.ensureFirebaseInitialized();
+
+            // إظهار رسالة التحميل
+            showNotification('جاري إنشاء الحساب بجوجل...', 'info');
+
+            // إنشاء Google Auth Provider
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            // إضافة نطاقات إضافية للحصول على معلومات أكثر
+            provider.addScope('email');
+            provider.addScope('profile');
+
+            // تسجيل الدخول/التسجيل باستخدام popup
+            const result = await this.auth.signInWithPopup(provider);
+            
+            // الحصول على معلومات المستخدم
+            const user = result.user;
+            const credential = result.credential;
+
+            console.log('تم إنشاء/تسجيل الدخول بجوجل بنجاح:', user);
+
+            // حفظ معلومات المستخدم في Firestore
+            if (this.db) {
+                try {
+                    await this.db.collection('users').doc(user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        profilePicture: user.photoURL,
+                        provider: 'google',
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    }, { merge: true });
+                    console.log('تم حفظ معلومات المستخدم في Firestore');
+                } catch (firestoreError) {
+                    console.error('خطأ في حفظ معلومات المستخدم:', firestoreError);
+                }
+            }
+
+            // حفظ معلومات المستخدم
+            this.currentUser = {
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                provider: 'google'
+            };
+
+            // حفظ في localStorage
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userDisplayName', user.displayName);
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userPhotoURL', user.photoURL || '');
+            localStorage.setItem('userProvider', 'google');
+
+            // تحديث الواجهة
+            this.updateUIAfterLogin();
+
+            // إغلاق المودال
+            this.hideAuthModal();
+
+            // رسالة نجاح
+            showNotification(`مرحباً ${user.displayName}! تم إنشاء/تسجيل الدخول بنجاح`, 'success');
+
+            return true;
+
+        } catch (error) {
+            console.error('خطأ في إنشاء/تسجيل الدخول بجوجل:', error);
+            
+            let errorMessage = 'حدث خطأ في إنشاء/تسجيل الدخول بجوجل';
+            
+            if (error.code === 'auth/popup-closed-by-user') {
+                errorMessage = 'تم إلغاء العملية';
+            } else if (error.code === 'auth/popup-blocked') {
+                errorMessage = 'تم حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة';
+            } else if (error.code === 'auth/network-request-failed') {
+                errorMessage = 'خطأ في الشبكة. يرجى التحقق من اتصال الإنترنت';
+            } else if (error.code === 'auth/account-exists-with-different-credential') {
+                errorMessage = 'يوجد حساب بنفس البريد الإلكتروني مع طريقة تسجيل دخول مختلفة';
+            }
+
+            showNotification(errorMessage, 'error');
+            return false;
+        }
+    }
+
     async loginWithGoogle() {
-        showNotification('تسجيل الدخول بجوجل غير متاح حالياً', 'warning');
+        try {
+            // التأكد من تهيئة Firebase أولاً
+            await this.ensureFirebaseInitialized();
+
+            // إظهار رسالة التحميل
+            showNotification('جاري تسجيل الدخول بجوجل...', 'info');
+
+            // إنشاء Google Auth Provider
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            // إضافة نطاقات إضافية للحصول على معلومات أكثر
+            provider.addScope('email');
+            provider.addScope('profile');
+
+            // تسجيل الدخول باستخدام popup
+            const result = await this.auth.signInWithPopup(provider);
+            
+            // الحصول على معلومات المستخدم
+            const user = result.user;
+            const credential = result.credential;
+
+            console.log('تم تسجيل الدخول بجوجل بنجاح:', user);
+
+            // حفظ معلومات المستخدم في Firestore
+            if (this.db) {
+                try {
+                    await this.db.collection('users').doc(user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        profilePicture: user.photoURL,
+                        provider: 'google',
+                        lastLogin: new Date().toISOString()
+                    }, { merge: true });
+                    console.log('تم حفظ معلومات المستخدم في Firestore');
+                } catch (firestoreError) {
+                    console.error('خطأ في حفظ معلومات المستخدم:', firestoreError);
+                }
+            }
+
+            // حفظ معلومات المستخدم
+            this.currentUser = {
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                provider: 'google'
+            };
+
+            // حفظ في localStorage
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userDisplayName', user.displayName);
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userPhotoURL', user.photoURL || '');
+            localStorage.setItem('userProvider', 'google');
+
+            // تحديث الواجهة
+            this.updateUIAfterLogin();
+
+            // إغلاق المودال
+            this.hideAuthModal();
+
+            // رسالة نجاح
+            showNotification(`مرحباً ${user.displayName}! تم تسجيل الدخول بنجاح`, 'success');
+
+            return true;
+
+        } catch (error) {
+            console.error('خطأ في تسجيل الدخول بجوجل:', error);
+            
+            let errorMessage = 'حدث خطأ في تسجيل الدخول بجوجل';
+            
+            if (error.code === 'auth/popup-closed-by-user') {
+                errorMessage = 'تم إلغاء تسجيل الدخول';
+            } else if (error.code === 'auth/popup-blocked') {
+                errorMessage = 'تم حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة';
+            } else if (error.code === 'auth/network-request-failed') {
+                errorMessage = 'خطأ في الشبكة. يرجى التحقق من اتصال الإنترنت';
+            } else if (error.code === 'auth/account-exists-with-different-credential') {
+                errorMessage = 'يوجد حساب بنفس البريد الإلكتروني مع طريقة تسجيل دخول مختلفة';
+            }
+
+            showNotification(errorMessage, 'error');
+            return false;
+        }
     }
 
     async logout() {
@@ -2364,7 +2619,7 @@ class ReelsManager {
             console.log('تم تسجيل الخروج بنجاح');
 
             // رسالة نجاح
-            this.showLogoutSuccess();
+            showNotification('تم تسجيل الخروج بنجاح!', 'success');
 
         } catch (error) {
             console.error('خطأ في تسجيل الخروج:', error);
@@ -2662,39 +2917,7 @@ class ReelsManager {
 
     showLogoutSuccess() {
         // إنشاء toast notification
-        const toast = document.createElement('div');
-        toast.className = 'toast align-items-center text-white bg-success border-0';
-        toast.setAttribute('role', 'alert');
-        toast.innerHTML = `
-            <div class="d-flex">
-                <div class="toast-body">
-                    <i class="bi bi-check-circle me-2"></i>
-                    تم تسجيل الخروج بنجاح
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        `;
-
-        // إضافة toast إلى الصفحة
-        let toastContainer = document.getElementById('toastContainer');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toastContainer';
-            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-            toastContainer.style.zIndex = '9999';
-            document.body.appendChild(toastContainer);
-        }
-
-        toastContainer.appendChild(toast);
-
-        // عرض toast
-        const bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
-
-        // إزالة toast بعد إخفائه
-        toast.addEventListener('hidden.bs.toast', () => {
-            toast.remove();
-        });
+     
     }
 
     // Loading animation functions
@@ -2935,11 +3158,15 @@ function fixInputFields() {
 
 // Global functions for authentication
 async function loginWithGoogle() {
-    showNotification('تسجيل الدخول بجوجل غير متاح حالياً', 'warning');
+    if (reelsManager) {
+        await reelsManager.loginWithGoogle();
+    }
 }
 
 async function loginWithGoogleFromModal() {
-    showNotification('تسجيل الدخول بجوجل غير متاح حالياً', 'warning');
+    if (reelsManager) {
+        await reelsManager.loginWithGoogle();
+    }
 }
 
 async function loginWithEmail() {
@@ -2951,6 +3178,12 @@ async function loginWithEmail() {
 async function signupWithEmail() {
     if (reelsManager) {
         await reelsManager.signupWithEmail();
+    }
+}
+
+async function signupWithGoogle() {
+    if (reelsManager) {
+        await reelsManager.signupWithGoogle();
     }
 }
 

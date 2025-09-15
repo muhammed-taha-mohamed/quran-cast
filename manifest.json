@@ -1,0 +1,81 @@
+{
+  "name": "Quran Cast - القرآن الكريم",
+  "short_name": "Quran Cast",
+  "description": "تطبيق شامل للقرآن الكريم والأذكار والصلوات",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["religion", "music", "lifestyle"],
+  "icons": [
+    {
+      "src": "media/images/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "media/images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "media/images/landscape_1.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple"
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "الراديو",
+      "short_name": "الراديو",
+      "description": "استمع للراديو الإسلامي",
+      "url": "/#radio",
+      "icons": [
+        {
+          "src": "media/images/logo.jpg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "الأذكار",
+      "short_name": "الأذكار",
+      "description": "أذكار الصباح والمساء",
+      "url": "/#azkar",
+      "icons": [
+        {
+          "src": "media/images/logo.jpg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "المجتمع",
+      "short_name": "المجتمع",
+      "description": "",
+      "url": "/#reels",
+      "icons": [
+        {
+          "src": "media/images/logo.jpg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

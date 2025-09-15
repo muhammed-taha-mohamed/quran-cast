@@ -79,7 +79,7 @@ const radioStations = [
     }
 ];
 
-// Radio Player Class
+// Radio Player Class with PWA support
 class RadioPlayer {
     constructor() {
         this.audio = new Audio();
@@ -87,6 +87,8 @@ class RadioPlayer {
         this.isPlaying = false;
         this.volume = 0.7;
         this.audio.volume = this.volume;
+        this.backgroundPlayback = false;
+        this.mediaSessionSupported = 'mediaSession' in navigator;
 
         this.audio.addEventListener('loadstart', () => this.onLoadStart());
         this.audio.addEventListener('canplay', () => this.onCanPlay());
@@ -94,6 +96,9 @@ class RadioPlayer {
         this.audio.addEventListener('pause', () => this.onPause());
         this.audio.addEventListener('error', () => this.onError());
         this.audio.addEventListener('ended', () => this.onEnded());
+        
+        // Setup background playback
+        this.setupBackgroundPlayback();
     }
 
     play(station) {
@@ -118,6 +123,9 @@ class RadioPlayer {
             // Show radio mini player
             this.showRadioMiniPlayer();
         }
+
+        // Update media session for PWA
+        this.updateMediaSession();
     }
 
     pause() {
@@ -125,6 +133,9 @@ class RadioPlayer {
         this.isPlaying = false;
         this.updateUI('paused');
         this.updateRadioMiniPlayer();
+        
+        // Update media session for PWA
+        this.updateMediaSession();
     }
 
     stop() {
@@ -133,6 +144,11 @@ class RadioPlayer {
         this.isPlaying = false;
         this.currentStation = null;
         this.hideRadioMiniPlayer();
+
+        // Update media session for PWA
+        if (this.mediaSessionSupported && window.notificationSystem) {
+            window.notificationSystem.updatePlaybackState('none');
+        }
 
         // Hide all visualizers and remove selected class
         const cards = document.querySelectorAll('.radio-station-card');
@@ -306,6 +322,96 @@ class RadioPlayer {
                     radioMiniThumbnail.classList.remove('playing');
                 }
             }
+        }
+    }
+
+    // Setup background playback for PWA
+    setupBackgroundPlayback() {
+        // Listen for media action events
+        window.addEventListener('mediaAction', (event) => {
+            const { action } = event.detail;
+            this.handleMediaAction(action);
+        });
+
+        // Setup visibility change handler for background playback
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && this.isPlaying) {
+                this.backgroundPlayback = true;
+                this.updateMediaSession();
+            } else if (!document.hidden && this.backgroundPlayback) {
+                this.backgroundPlayback = false;
+            }
+        });
+    }
+
+    // Handle media actions from notifications
+    handleMediaAction(action) {
+        switch (action) {
+            case 'play':
+                if (this.currentStation) {
+                    this.play(this.currentStation);
+                }
+                break;
+            case 'pause':
+                this.pause();
+                break;
+            case 'stop':
+                this.stop();
+                break;
+            case 'next':
+                this.playNextStation();
+                break;
+            case 'previous':
+                this.playPreviousStation();
+                break;
+        }
+    }
+
+    // Update Media Session metadata
+    updateMediaSession() {
+        if (!this.mediaSessionSupported || !this.currentStation) return;
+
+        // Update notification system with current station info
+        if (window.notificationSystem) {
+            window.notificationSystem.updateMediaSession({
+                title: this.currentStation.name,
+                artist: this.currentStation.description || 'محطة إذاعية',
+                album: 'Quran Cast Radio'
+            });
+
+            // Update playback state
+            window.notificationSystem.updatePlaybackState(this.isPlaying ? 'playing' : 'paused');
+
+            // Show notification for station change
+            if (this.isPlaying) {
+                window.notificationSystem.showStationChanged(this.currentStation.name);
+            }
+        }
+    }
+
+    // Play next station
+    playNextStation() {
+        if (!this.currentStation) return;
+        
+        const currentIndex = radioStations.findIndex(s => s.id === this.currentStation.id);
+        const nextIndex = (currentIndex + 1) % radioStations.length;
+        const nextStation = radioStations[nextIndex];
+        
+        if (nextStation) {
+            selectRadioStation(nextStation.id);
+        }
+    }
+
+    // Play previous station
+    playPreviousStation() {
+        if (!this.currentStation) return;
+        
+        const currentIndex = radioStations.findIndex(s => s.id === this.currentStation.id);
+        const prevIndex = currentIndex === 0 ? radioStations.length - 1 : currentIndex - 1;
+        const prevStation = radioStations[prevIndex];
+        
+        if (prevStation) {
+            selectRadioStation(prevStation.id);
         }
     }
 }
