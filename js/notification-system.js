@@ -55,12 +55,20 @@ class NotificationSystem {
             onClick = null
         } = options;
 
+        // Use language manager for message translation if available
+        const translatedMessage = typeof languageManager !== 'undefined' 
+            ? languageManager.getTranslation(message) 
+            : message;
+        const translatedTitle = title && typeof languageManager !== 'undefined' 
+            ? languageManager.getTranslation(title) 
+            : title;
+
         notification.innerHTML = `
             <div class="notification-content" ${onClick ? 'style="cursor: pointer;"' : ''}>
                 <i class="bi ${icon}"></i>
                 <div class="notification-text">
-                    ${title ? `<div class="notification-title">${title}</div>` : ''}
-                    <div class="notification-message">${message}</div>
+                    ${translatedTitle ? `<div class="notification-title">${translatedTitle}</div>` : ''}
+                    <div class="notification-message">${translatedMessage}</div>
                 </div>
                 ${showClose ? '<button class="notification-close" onclick="this.parentElement.parentElement.remove()">&times;</button>' : ''}
             </div>

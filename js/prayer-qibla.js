@@ -369,12 +369,12 @@ function createPrayerTimeElement(prayerId) {
 // Helper function to get prayer name in Arabic
 function getPrayerName(prayerId) {
     const names = {
-        'fajr': 'الفجر',
-        'sunrise': 'الشروق',
-        'dhuhr': 'الظهر',
-        'asr': 'العصر',
-        'maghrib': 'المغرب',
-        'isha': 'العشاء'
+        'fajr': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.fajr') : 'الفجر',
+        'sunrise': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.sunrise') : 'الشروق',
+        'dhuhr': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.dhuhr') : 'الظهر',
+        'asr': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.asr') : 'العصر',
+        'maghrib': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.maghrib') : 'المغرب',
+        'isha': typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.isha') : 'العشاء'
     };
     return names[prayerId] || prayerId;
 }
@@ -437,17 +437,17 @@ function updatePrayerStatus() {
 
                 if (index < currentPrayerIndex) {
                     // Past prayer
-                    statusElement.textContent = 'مرت';
+                    statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.passed') : 'مرت';
                     statusElement.classList.add('past');
                     //console.log(`${prayer.id}: Past prayer`);
                 } else if (index === currentPrayerIndex) {
                     // Current prayer
-                    statusElement.textContent = 'حالية';
+                    statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.current') : 'حالية';
                     statusElement.classList.add('current');
                     //console.log(`${prayer.id}: Current prayer`);
                 } else {
                     // Upcoming prayer
-                    statusElement.textContent = 'قادمة';
+                    statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.upcoming') : 'قادمة';
                     statusElement.classList.add('upcoming');
                     //console.log(`${prayer.id}: Upcoming prayer`);
                 }
@@ -485,12 +485,12 @@ function calculateNextPrayer() {
     }
 
     const prayerTimesArray = [
-        { name: 'الفجر', time: getPrayerTime('Fajr'), id: 'fajr' },
-        { name: 'الشروق', time: getPrayerTime('Sunrise'), id: 'sunrise' },
-        { name: 'الظهر', time: getPrayerTime('Dhuhr'), id: 'dhuhr' },
-        { name: 'العصر', time: getPrayerTime('Asr'), id: 'asr' },
-        { name: 'المغرب', time: getPrayerTime('Maghrib'), id: 'maghrib' },
-        { name: 'العشاء', time: getPrayerTime('Isha'), id: 'isha' }
+        { name: getPrayerName('fajr'), time: getPrayerTime('Fajr'), id: 'fajr' },
+        { name: getPrayerName('sunrise'), time: getPrayerTime('Sunrise'), id: 'sunrise' },
+        { name: getPrayerName('dhuhr'), time: getPrayerTime('Dhuhr'), id: 'dhuhr' },
+        { name: getPrayerName('asr'), time: getPrayerTime('Asr'), id: 'asr' },
+        { name: getPrayerName('maghrib'), time: getPrayerTime('Maghrib'), id: 'maghrib' },
+        { name: getPrayerName('isha'), time: getPrayerTime('Isha'), id: 'isha' }
     ].filter(prayer => prayer.time); // Only include prayers with valid times
 
     let nextPrayerTime = null;
@@ -999,23 +999,27 @@ function displayQiblaDirection(angle, distance) {
 // Get direction name in Arabic
 function getDirectionName(angle) {
     const directions = [
-        { name: 'شمال', range: [337.5, 22.5] },
-        { name: 'شمال شرق', range: [22.5, 67.5] },
-        { name: 'شرق', range: [67.5, 112.5] },
-        { name: 'جنوب شرق', range: [112.5, 157.5] },
-        { name: 'جنوب', range: [157.5, 202.5] },
-        { name: 'جنوب غرب', range: [202.5, 247.5] },
-        { name: 'غرب', range: [247.5, 292.5] },
-        { name: 'شمال غرب', range: [292.5, 337.5] }
+        { nameKey: 'prayer.north', range: [337.5, 22.5] },
+        { nameKey: 'prayer.northeast', range: [22.5, 67.5] },
+        { nameKey: 'prayer.east', range: [67.5, 112.5] },
+        { nameKey: 'prayer.southeast', range: [112.5, 157.5] },
+        { nameKey: 'prayer.south', range: [157.5, 202.5] },
+        { nameKey: 'prayer.southwest', range: [202.5, 247.5] },
+        { nameKey: 'prayer.west', range: [247.5, 292.5] },
+        { nameKey: 'prayer.northwest', range: [292.5, 337.5] }
     ];
 
     for (let dir of directions) {
         if (angle >= dir.range[0] && angle < dir.range[1]) {
-            return dir.name;
+            return typeof languageManager !== 'undefined' 
+                ? languageManager.getTranslation(dir.nameKey) 
+                : dir.nameKey;
         }
     }
 
-    return 'شمال';
+    return typeof languageManager !== 'undefined' 
+        ? languageManager.getTranslation('prayer.north') 
+        : 'شمال';
 }
 
 // Update hijri date
@@ -1308,11 +1312,11 @@ function restorePrayerTimesGrid() {
 
     // Recreate all prayer time items
     const prayerItems = [
-        { id: 'fajr', name: 'الفجر' },
-        { id: 'dhuhr', name: 'الظهر' },
-        { id: 'asr', name: 'العصر' },
-        { id: 'maghrib', name: 'المغرب' },
-        { id: 'isha', name: 'العشاء' }
+        { id: 'fajr', nameKey: 'prayer.fajr' },
+        { id: 'dhuhr', nameKey: 'prayer.dhuhr' },
+        { id: 'asr', nameKey: 'prayer.asr' },
+        { id: 'maghrib', nameKey: 'prayer.maghrib' },
+        { id: 'isha', nameKey: 'prayer.isha' }
     ];
 
     prayerItems.forEach(item => {
@@ -1321,7 +1325,9 @@ function restorePrayerTimesGrid() {
 
         const prayerName = document.createElement('div');
         prayerName.className = 'prayer-name';
-        prayerName.textContent = item.name;
+        prayerName.textContent = typeof languageManager !== 'undefined' 
+            ? languageManager.getTranslation(item.nameKey) 
+            : item.nameKey;
 
         const prayerTime = document.createElement('div');
         prayerTime.className = 'prayer-time';
@@ -1416,17 +1422,17 @@ function updatePrayerInfoCard() {
 
         if (prayerNameText) {
             const prayerNames = {
-                'الفجر': 'الفجر',
-                'الظهر': 'الظهر',
-                'العصر': 'العصر',
-                'المغرب': 'المغرب',
-                'العشاء': 'العشاء',
-                'Fajr': 'الفجر',
-                'Sunrise': 'الشروق',
-                'Dhuhr': 'الظهر',
-                'Asr': 'العصر',
-                'Maghrib': 'المغرب',
-                'Isha': 'العشاء'
+                'الفجر': getPrayerName('fajr'),
+                'الظهر': getPrayerName('dhuhr'),
+                'العصر': getPrayerName('asr'),
+                'المغرب': getPrayerName('maghrib'),
+                'العشاء': getPrayerName('isha'),
+                'Fajr': getPrayerName('fajr'),
+                'Sunrise': getPrayerName('sunrise'),
+                'Dhuhr': getPrayerName('dhuhr'),
+                'Asr': getPrayerName('asr'),
+                'Maghrib': getPrayerName('maghrib'),
+                'Isha': getPrayerName('isha')
             };
             const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
             //console.log('Setting prayer name:', displayName);
@@ -1482,17 +1488,17 @@ function updateMobileStats() {
 
     if (nextPrayerNameMobile) {
         const prayerNames = {
-            'الفجر': 'الفجر',
-            'الظهر': 'الظهر',
-            'العصر': 'العصر',
-            'المغرب': 'المغرب',
-            'العشاء': 'العشاء',
-            'Fajr': 'الفجر',
-            'Sunrise': 'الشروق',
-            'Dhuhr': 'الظهر',
-            'Asr': 'العصر',
-            'Maghrib': 'المغرب',
-            'Isha': 'العشاء'
+            'الفجر': getPrayerName('fajr'),
+            'الظهر': getPrayerName('dhuhr'),
+            'العصر': getPrayerName('asr'),
+            'المغرب': getPrayerName('maghrib'),
+            'العشاء': getPrayerName('isha'),
+            'Fajr': getPrayerName('fajr'),
+            'Sunrise': getPrayerName('sunrise'),
+            'Dhuhr': getPrayerName('dhuhr'),
+            'Asr': getPrayerName('asr'),
+            'Maghrib': getPrayerName('maghrib'),
+            'Isha': getPrayerName('isha')
         };
         const displayName = prayerNames[nextPrayer.name] || nextPrayer.name;
         nextPrayerNameMobile.textContent = displayName;
@@ -2302,17 +2308,17 @@ function updatePrayerStatusForTable() {
             // Update status
             if (timeDiff < 0) {
                 // Prayer time has passed
-                statusElement.textContent = 'مضت';
+                statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.ended') : 'مضت';
                 statusElement.className = 'prayer-status past';
                 if (countdownElement) countdownElement.textContent = '--:--';
             } else if (timeDiff < 300000) { // Less than 5 minutes
                 // Prayer time is now
-                statusElement.textContent = 'الآن';
+                statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.now') : 'الآن';
                 statusElement.className = 'prayer-status current';
-                if (countdownElement) countdownElement.textContent = 'الآن';
+                if (countdownElement) countdownElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.now') : 'الآن';
             } else {
                 // Prayer time is upcoming
-                statusElement.textContent = 'قادمة';
+                statusElement.textContent = typeof languageManager !== 'undefined' ? languageManager.getTranslation('prayer.upcoming') : 'قادمة';
                 statusElement.className = 'prayer-status upcoming';
 
                 // Update countdown
@@ -2329,12 +2335,12 @@ function updatePrayerStatusForTable() {
 // Set prayer reminder
 function setPrayerReminder(prayerType) {
     const prayerNames = {
-        'fajr': 'الفجر',
-        'sunrise': 'الشروق',
-        'dhuhr': 'الظهر',
-        'asr': 'العصر',
-        'maghrib': 'المغرب',
-        'isha': 'العشاء'
+        'fajr': getPrayerName('fajr'),
+        'sunrise': getPrayerName('sunrise'),
+        'dhuhr': getPrayerName('dhuhr'),
+        'asr': getPrayerName('asr'),
+        'maghrib': getPrayerName('maghrib'),
+        'isha': getPrayerName('isha')
     };
 
     const prayerName = prayerNames[prayerType];
@@ -2426,7 +2432,10 @@ function addCustomDhikr() {
     document.getElementById('customDhikrText').value = '';
     document.getElementById('customDhikrCount').value = '';
 
-    showEnhancedNotification(`تم إضافة الذكر: ${text} (${count} مرة)`, 'success');
+    const message = typeof languageManager !== 'undefined' 
+        ? languageManager.getTranslation('azkar.dhikrAdded').replace('{text}', text).replace('{count}', count)
+        : `تم إضافة الذكر: ${text} (${count} مرة)`;
+    showEnhancedNotification(message, 'success');
 }
 
 // Set custom dhikr
@@ -2492,7 +2501,10 @@ function resetTasbih() {
     updateCurrentDhikrDisplay();
     saveTasbihState();
 
-    showEnhancedNotification('تم إعادة تعيين العداد', 'info');
+    const message = typeof languageManager !== 'undefined' 
+        ? languageManager.getTranslation('azkar.counterReset')
+        : 'تم إعادة تعيين العداد';
+    showEnhancedNotification(message, 'info');
 
     // Haptic feedback
     if (navigator.vibrate) {
@@ -2712,7 +2724,10 @@ function hideTasbihProgress() {
 // Show completion celebration
 function showCompletionCelebration() {
     // Show celebration notification
-    showEnhancedNotification(` تم إكمال الذكر: ${currentDhikr.text}!`, 'success', 5000);
+    const message = typeof languageManager !== 'undefined' 
+        ? languageManager.getTranslation('azkar.dhikrCompleted').replace('{text}', currentDhikr.text)
+        : ` تم إكمال الذكر: ${currentDhikr.text}!`;
+    showEnhancedNotification(message, 'success', 5000);
 
     // Play celebration sound if available
     playCelebrationSound();
@@ -2721,7 +2736,7 @@ function showCompletionCelebration() {
     const celebrationContainer = document.createElement('div');
     celebrationContainer.className = 'celebration-container islamic-celebration';
     celebrationContainer.innerHTML = `
-        <div class="celebration-text">تم إكمال الذكر</div>
+        <div class="celebration-text" data-translate="azkar.dhikrCompleted">تم إكمال الذكر</div>
         <div class="celebration-patterns"></div>
         <div class="celebration-geometric"></div>
         <div class="celebration-ornaments"></div>
@@ -2837,7 +2852,10 @@ function linkAdhkarWithTasbih(dhikrText, count) {
     setCustomDhikr(dhikrText, count);
 
     // Show success message
-    showEnhancedNotification(`تم ربط الذكر: ${dhikrText} مع السبحة`, 'success');
+    const message = typeof languageManager !== 'undefined' 
+        ? languageManager.getTranslation('azkar.dhikrLinked').replace('{text}', dhikrText)
+        : `تم ربط الذكر: ${dhikrText} مع السبحة`;
+    showEnhancedNotification(message, 'success');
 
     // Scroll to tasbih section
     const tasbihSection = document.querySelector('.tasbih-card');

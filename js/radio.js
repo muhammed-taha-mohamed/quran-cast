@@ -3,35 +3,34 @@ const radioStations = [
     {
         id: 'egypt-quran',
         name: 'إذاعة القرآن الكريم – القاهرة',
+        nameKey: 'radio.egyptQuran',
         url: 'https://stream.radiojar.com/8s5u5tpdtwzuv',
         description: 'إذاعة القرآن الكريم من القاهرة - مصر',
         icon: 'bi-broadcast-pin',
         color: '#0f766e',
-
     },
-
     {
         id: 'tarateel',
         name: 'تراتيل',
+        nameKey: 'radio.tarateel',
         url: 'https://backup.qurango.net/radio/tarateel',
         description: 'تراتيل - تلاوات قصيرة متميزة',
         icon: 'bi-broadcast-pin',
         color: '#0f766e'
     },
-
     {
         id: 'tlawat',
         name: 'تلاوات خاشعة',
+        nameKey: 'radio.tlawat',
         url: 'https://backup.qurango.net/radio/salma',
         description: 'تلاوات مختارة من قراء متنوعين',
         icon: 'bi-broadcast-pin',
         color: '#0f766e'
     },
-
-
     {
         id: 'mukhtasartafsir',
         name: 'تفسير',
+        nameKey: 'radio.tafsir',
         url: 'https://backup.qurango.net/radio/mukhtasartafsir',
         description: 'المختصر في تفسير القرآن الكريم',
         icon: 'bi-broadcast-pin',
@@ -40,6 +39,7 @@ const radioStations = [
     {
         id: 'almukhtasar_fi_alsiyra',
         name: 'المختصر في السيرة النبوية',
+        nameKey: 'radio.sira',
         url: 'https://backup.qurango.net/radio/almukhtasar_fi_alsiyra',
         description: 'حلقات مختصرة عن سيرة نبيّنا محمد صلى الله عليه وسلم',
         icon: 'bi-broadcast-pin',
@@ -48,6 +48,7 @@ const radioStations = [
     {
         id: 'fi_zilal_alsiyra',
         name: 'في ظلال السيرة النبوية',
+        nameKey: 'radio.siraShadows',
         url: 'https://backup.qurango.net/radio/fi_zilal_alsiyra',
         description: '400 حلقة عن سيرة نبينا محمد صلى الله عليه وسلم',
         icon: 'bi-broadcast-pin',
@@ -56,6 +57,7 @@ const radioStations = [
     {
         id: 'sahaba-radio',
         name: 'صور من حياة الصحابة',
+        nameKey: 'radio.sahaba',
         url: 'https://backup.qurango.net/radio/sahabah',
         description: '',
         icon: 'bi-broadcast-pin',
@@ -64,6 +66,7 @@ const radioStations = [
     {
         id: 'abdulbasit_abdulsamad_moratal',
         name: 'إذاعة الشيخ عبدالباسط عبدالصمد – تلاوات خالدة',
+        nameKey: 'radio.abdulbasitMoratal',
         url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_moratal',
         description: 'إذاعة تلاوات مرتلة خالدة للشيخ عبدالباسط عبدالصمد',
         icon: 'bi-person',
@@ -72,6 +75,7 @@ const radioStations = [
     {
         id: 'abdulbasit_abdulsamad_mojawwad',
         name: 'إذاعة الشيخ عبدالباسط عبدالصمد',
+        nameKey: 'radio.abdulbasitMojawwad',
         url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
         description: 'إذاعة تلاوات مجودة خالدة للشيخ عبدالباسط عبدالصمد',
         icon: 'bi-person',
@@ -250,8 +254,14 @@ class RadioPlayer {
         }
 
         if (this.currentStation) {
-            if (stationName) stationName.textContent = this.currentStation.name;
-
+            if (stationName) {
+                // Use translated name if language manager is available
+                if (typeof languageManager !== 'undefined' && this.currentStation.nameKey) {
+                    stationName.textContent = languageManager.getTranslation(this.currentStation.nameKey);
+                } else {
+                    stationName.textContent = this.currentStation.name;
+                }
+            }
         }
     }
 
@@ -301,10 +311,15 @@ class RadioPlayer {
 
         if (this.currentStation) {
             if (radioMiniTitle) {
-                radioMiniTitle.textContent = this.currentStation.name;
+                // Use translated name if language manager is available
+                if (typeof languageManager !== 'undefined' && this.currentStation.nameKey) {
+                    radioMiniTitle.textContent = languageManager.getTranslation(this.currentStation.nameKey);
+                } else {
+                    radioMiniTitle.textContent = this.currentStation.name;
+                }
             }
             if (radioMiniSubtitle) {
-                radioMiniSubtitle.textContent = this.currentStation.country;
+                radioMiniSubtitle.textContent = this.currentStation.country || '';
             }
             if (radioMiniDescription) {
                 radioMiniDescription.textContent = this.currentStation.description;
@@ -453,9 +468,9 @@ function renderRadioStations() {
                 <div class="radio-hero-text">
                     <h1 class="radio-hero-title">
                         <i class="bi bi-broadcast"></i>
-                        الإذاعات الإسلامية
+                        <span data-translate="nav.radio">الإذاعات الإسلامية</span>
                     </h1>
-                    <p class="radio-hero-subtitle">
+                    <p class="radio-hero-subtitle" data-translate="radio.description">
                         استمع إلى أفضل الإذاعات الإسلامية من مختلف الدول العربية
                     </p>
                 </div>
@@ -468,13 +483,17 @@ function renderRadioStations() {
        
 
         <div class="radio-stations-grid">
-            ${radioStations.map(station => `
+            ${radioStations.map(station => {
+                const stationName = (typeof languageManager !== 'undefined' && station.nameKey) 
+                    ? languageManager.getTranslation(station.nameKey) 
+                    : station.name;
+                return `
                 <div class="radio-station-card" onclick="selectRadioStation('${station.id}')" data-station-id="${station.id}">
                     <div class="radio-station-icon" style="background: ${station.color}">
                         <i class="bi ${station.icon}"></i>
                     </div>
                     <div class="radio-station-info">
-                        <h4 class="radio-station-name">${station.name}</h4>
+                        <h4 class="radio-station-name">${stationName}</h4>
                         <p class="radio-station-description">${station.description}</p>
                     </div>
                     <div class="radio-station-controls" id="controls-${station.id}">
@@ -487,7 +506,8 @@ function renderRadioStations() {
                         </div>
                     </div>
                 </div>
-            `).join('')}
+            `;
+            }).join('')}
         </div>
     `;
 }

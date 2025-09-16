@@ -8,7 +8,7 @@ class SoundCloudQuranPlayer {
         this.playlist = [];
         this.isPlaying = false;
         this.isExpanded = false;
-        this.volume = 0.7;
+        this.volume = 1;
         this.playbackRate = 1.0;
         this.currentReciter = 'ar.alafasy';
         this.totalSurahs = 114; // إجمالي عدد السور
@@ -1012,20 +1012,22 @@ class SoundCloudQuranPlayer {
     }
 
     getReciterName(reciterCode) {
+        // Use language manager if available
+        if (typeof languageManager !== 'undefined') {
+            return languageManager.getQuranReaderName(reciterCode);
+        }
+        
+        // Fallback to original names
         const reciterNames = {
             'ar.alafasy': 'مشاري العفاسي',
             'ar.yasseraldossari': 'ياسر الدوسري',
-
             'ar.abdulbasitmurattal': 'عبد الباسط عبد الصمد (مرتل)',
             'ar.abdulbasitmujawwad': 'عبد الباسط عبد الصمد (مجود)',
-
             'ar.ahmedalajmi': 'أحمد العجمي',
             'ar.muhammadayyub': 'محمد أيوب',
             'ar.abdulazizazzahrani': 'عبد العزيز الزهراني',
             'ar.muhammadsiddiqalminshawimujawwad': 'محمد صديق المنشاوي (مجود)',
             'ar.mustafaismail': 'مصطفي اسماعيل',
-
-            // New reciters
             'ar.abdullahalmatrood': 'عبد الله المطرود',
             'ar.abdullahawadaljuhani': 'عبد الله عواد الجهني',
             'ar.abdullahbasfar': 'عبد الله بصفر',
@@ -1131,7 +1133,12 @@ class SoundCloudQuranPlayer {
         const playerSubtitle = document.getElementById('playerSubtitle');
         const trackTitle = document.querySelector('.track-title');
 
-        miniTitle.textContent = surah.name;
+        // Use language manager for surah name translation
+        const surahName = typeof languageManager !== 'undefined' 
+            ? languageManager.getSurahName(surah.number) 
+            : surah.name;
+
+        miniTitle.textContent = surahName;
         const subtitleSpan = miniSubtitle.querySelector('span');
         if (subtitleSpan) {
             subtitleSpan.textContent = '';
@@ -1142,7 +1149,7 @@ class SoundCloudQuranPlayer {
 
         // Update surah name in the new player
         if (trackTitle) {
-            trackTitle.textContent = surah.name;
+            trackTitle.textContent = surahName;
         }
     }
 
@@ -1391,9 +1398,15 @@ class SoundCloudQuranPlayer {
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `player-notification ${type}`;
+        
+        // Use language manager for message translation if available
+        const translatedMessage = typeof languageManager !== 'undefined' 
+            ? languageManager.getTranslation(message) 
+            : message;
+            
         notification.innerHTML = `
             <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'error' ? 'bi-exclamation-circle' : type === 'warning' ? 'bi-exclamation-triangle' : 'bi-info-circle'}"></i>
-            <span>${message}</span>
+            <span>${translatedMessage}</span>
         `;
 
         document.body.appendChild(notification);
@@ -1662,9 +1675,14 @@ class SoundCloudQuranPlayer {
                 item.classList.add('active');
             }
 
+            // Use language manager for surah name translation
+            const surahName = typeof languageManager !== 'undefined' 
+                ? languageManager.getSurahName(surah.number) 
+                : surah.name;
+
             item.innerHTML = `
                 <i class="bi bi-book"></i>
-                <span> ${surah.name}</span>
+                <span> ${surahName}</span>
                 <span class="item-number">${surah.numberOfAyahs} آية</span>
             `;
 
@@ -1727,6 +1745,9 @@ class SoundCloudQuranPlayer {
         reciterGrid.innerHTML = '';
 
         displayedReciters.forEach(reciter => {
+            const reciterName = typeof languageManager !== 'undefined' 
+                ? languageManager.getQuranReaderName(reciter.value) 
+                : reciter.name;
             const card = document.createElement('div');
             card.className = 'reciter-card';
             if (this.currentReciter === reciter.value) {
@@ -1734,8 +1755,8 @@ class SoundCloudQuranPlayer {
             }
 
             card.innerHTML = `
-                <img src="${reciter.image}" alt="${reciter.name}" class="reciter-image" onerror="this.src='media/images/logo.jpg'">
-                <p class="reciter-name">${reciter.name}</p>
+                <img src="${reciter.image}" alt="${reciterName}" class="reciter-image" onerror="this.src='media/images/logo.jpg'">
+                <p class="reciter-name">${reciterName}</p>
             `;
 
             card.addEventListener('click', () => {
@@ -1752,7 +1773,7 @@ class SoundCloudQuranPlayer {
         showMoreBtn.className = 'reciter-card show-more-btn';
         showMoreBtn.innerHTML = `
             <div class="show-more-content">
-                <span>عرض ${allReciters.length} قارئ آخرين</span>
+                <span data-translate="player.showMoreReaders">عرض ${allReciters.length} قارئ آخرين</span>
             </div>
         `;
 
@@ -1769,13 +1790,13 @@ class SoundCloudQuranPlayer {
             <div class="reciter-modal-overlay" id="reciterModalOverlay">
                 <div class="reciter-modal">
                     <div class="reciter-modal-header">
-                        <h3>اختر القارئ</h3>
+                        <h3 data-translate="player.selectReader">اختر القارئ</h3>
                         <button class="reciter-modal-close" id="reciterModalClose">
                             <i class="bi bi-x"></i>
                         </button>
                     </div>
                     <div class="reciter-search-container">
-                        <input type="text" id="reciterSearchInput" placeholder="ابحث عن قارئ..." class="reciter-search-input">
+                        <input type="text" id="reciterSearchInput" placeholder="ابحث عن قارئ..." class="reciter-search-input" data-translate="player.searchReader">
                         <i class="bi bi-search reciter-search-icon"></i>
                         <button class="reciter-clear-btn" id="reciterClearBtn" style="display: none;">
                             <i class="bi bi-x"></i>
@@ -1860,6 +1881,9 @@ class SoundCloudQuranPlayer {
         container.innerHTML = '';
 
         reciters.forEach(reciter => {
+            const reciterName = typeof languageManager !== 'undefined' 
+                ? languageManager.getQuranReaderName(reciter.value) 
+                : reciter.name;
             const card = document.createElement('div');
             card.className = 'reciter-modal-card';
             if (this.currentReciter === reciter.value) {
@@ -1867,8 +1891,8 @@ class SoundCloudQuranPlayer {
             }
 
             card.innerHTML = `
-                <img src="${reciter.image}" alt="${reciter.name}" class="reciter-modal-image" onerror="this.src='media/images/logo.jpg'">
-                <p class="reciter-modal-name">${reciter.name}</p>
+                <img src="${reciter.image}" alt="${reciterName}" class="reciter-modal-image" onerror="this.src='media/images/logo.jpg'">
+                <p class="reciter-modal-name">${reciterName}</p>
             `;
 
             card.addEventListener('click', () => {
@@ -1883,9 +1907,12 @@ class SoundCloudQuranPlayer {
     }
 
     filterModalReciters(query, container, allReciters) {
-        const filteredReciters = allReciters.filter(reciter =>
-            reciter.name.toLowerCase().includes(query.toLowerCase())
-        );
+        const filteredReciters = allReciters.filter(reciter => {
+            const reciterName = typeof languageManager !== 'undefined' 
+                ? languageManager.getQuranReaderName(reciter.value) 
+                : reciter.name;
+            return reciterName.toLowerCase().includes(query.toLowerCase());
+        });
         this.populateModalReciters(filteredReciters, container);
     }
 

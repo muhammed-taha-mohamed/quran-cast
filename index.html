@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/player.css">
     
+    <!-- Language Manager -->
+    <script src="js/language.js"></script>
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
@@ -29,6 +32,11 @@
     <meta name="apple-mobile-web-app-title" content="Quran Cast">
     <meta name="msapplication-TileColor" content="#1976d2">
     <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Prevent Pull-to-Refresh -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
     
     <!-- Apple Touch Icons -->
     <link rel="apple-touch-icon" href="media/images/logo.jpg">
@@ -51,31 +59,31 @@
 
         <div class="nav-item active" onclick="location.hash='#home'">
             <i class="bi bi-house-door-fill"></i>
-            <span>الرئيسية</span>
+            <span data-translate="nav.home">الرئيسية</span>
         </div>
 
 
         <div class="nav-item" onclick="location.hash='#radio'">
             <i class="bi bi-mic-fill"></i>
-            <span>الراديو</span>
+            <span data-translate="nav.radio">الراديو</span>
         </div>
 
 
         <div class="nav-item" id="communityNavItem" onclick="handleCommunityNavClick()">
             <i class="bi bi-people-fill" id="communityNavIcon"></i>
-            <span id="communityNavText">المجتمع</span>
+            <span id="communityNavText" data-translate="nav.community">المجتمع</span>
         </div>
 
 
         <div class="nav-item" onclick="location.hash='#azkar'">
             <i class="bi bi-clock-fill"></i>
-            <span>الاذكار</span>
+            <span data-translate="nav.azkar">الاذكار</span>
         </div>
 
 
         <div class="nav-item more-btn" onclick="toggleSidebar()">
             <i class="bi bi-list-stars"></i>
-            <span>المزيد</span>
+            <span data-translate="nav.more">المزيد</span>
         </div>
     </nav>
 
@@ -97,66 +105,73 @@
 
                 <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#home'">
                     <i class="bi bi-house-door-fill"></i>
-                    <span>الرئيسية</span>
+                    <span data-translate="nav.home">الرئيسية</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
 
                 <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#radio'">
                     <i class="bi bi-broadcast"></i>
-                    <span>الراديو</span>
+                    <span data-translate="nav.radio">الراديو</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
 
                 <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#reels'">
                     <i class="bi bi-people-fill"></i>
-                    <span>المجتمع</span>
+                    <span data-translate="nav.community">المجتمع</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
 
                 <button class="sidebar-nav-item" onclick="toggleSidebar();location.hash='#azkar'">
                     <i class="bi bi-clock-fill"></i>
-                    <span>الاذكار</span>
+                    <span data-translate="nav.azkar">الاذكار</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
 
                 <div class="sidebar-nav-item" id="mobileLoginBtn" onclick="openAuthModal(); toggleSidebar()">
                     <i class="bi bi-person-circle"></i>
-                    <span>تسجيل الدخول</span>
+                    <span data-translate="sidebar.login">تسجيل الدخول</span>
                     <i class="bi bi-chevron-left"></i>
                 </div>
 
                 <div class="sidebar-nav-item" id="mobileUserBtn" onclick="showUserMenu()" style="display: none;">
                     <i class="bi bi-person-circle"></i>
-                    <span id="mobileUserName">المستخدم</span>
+                    <span id="mobileUserName" data-translate="sidebar.user">المستخدم</span>
                     <i class="bi bi-chevron-left"></i>
                 </div>
 
                 <div class="sidebar-nav-item" id="mobileLogoutBtn" onclick="confirmLogout(); toggleSidebar()"
                     style="display: none;">
                     <i class="bi bi-box-arrow-right"></i>
-                    <span>تسجيل الخروج</span>
+                    <span data-translate="sidebar.logout">تسجيل الخروج</span>
                     <i class="bi bi-chevron-left"></i>
                 </div>
 
                 <button class="sidebar-nav-item" onclick="toggleTheme()">
                     <i class="bi bi-moon-stars"></i>
-                    <span>تبديل الوضع</span>
+                    <span data-translate="sidebar.toggleTheme">تبديل الوضع</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
                 <button class="sidebar-nav-item" id="installAppBtn" onclick="installApp()">
                     <i class="bi bi-download"></i>
-                    <span>تثبيت التطبيق</span>
+                    <span data-translate="sidebar.installApp">تثبيت التطبيق</span>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <!-- رابط الإدارة للمديرين فقط -->
+                <button class="sidebar-nav-item" id="adminSettingsBtn" onclick="openAdminSettings(); toggleSidebar()" style="display: none;">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>إعدادات الإدارة</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
                 <button style="background-color: rgba(197, 7, 7, 0.212); " class="sidebar-nav-item"
                     onclick="toggleSidebar()">
-                    <span> اغلاق</span>
+                    <span data-translate="sidebar.close">اغلاق</span>
                     <i class="bi bi-chevron-left"></i>
                 </button>
             </div>
@@ -210,8 +225,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="footer-section">
-                        <h5>Quran Cast</h5>
-                        <p>تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                        <h6>Quran Cast</h6>
+                        <p data-translate="footer.description">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
                         <div class="social-links">
                             <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
                             <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
@@ -220,34 +235,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="social-links">
-                        <ul class="footer-links">
-                            <li><a href="#section-home">الرئيسية</a></li>
-                            <li><a href="#section-azkar">الأذكار</a></li>
-                            <li><a href="#section-player">المشغل</a></li>
-                            <li><a href="#section-radio">الراديو</a></li>
-                        </ul>
-
-                        <ul class="footer-links">
-                            <li><a href="#section-reels">المنشورات</a></li>
-                            <li><a href="#section-prayer">الصلاة</a></li>
-                            <li><a href="#section-qibla">القبلة</a></li>
-                            <li><a href="#section-reading">القراءة</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="footer-section">
-                        <h6>تواصل معنا</h6>
-                        <div class="contact-info">
-                            <p><i class="bi bi-envelope"></i> info@qurancast.com</p>
-                            <p><i class="bi bi-phone"></i> +201111392984</p>
-                            <p><i class="bi bi-geo-alt"></i> القاهرة جمهوية مصر العربية</p>
-                        </div>
-                    </div>
-                </div>
+               
+            
             </div>
             <hr class="footer-divider">
             <div class="footer-bottom">
@@ -260,6 +249,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- Auto-play Audio -->
+    <audio id="autoPlayAudio" preload="auto">
+        <source src="media/audio/landing_audio.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Audio Control Button -->
+    <button id="audioToggleBtn" class="audio-toggle-btn" onclick="toggleBackgroundAudio()" title="تشغيل/إيقاف الموسيقى الخلفية">
+        <i class="bi bi-music-note-beamed" id="audioIcon"></i>
+    </button>
 
     <!-- Floating Action Button for Mobile -->
     <button class="floating-player-btn" id="floatingPlayerBtn" onclick="showPlayer()" style="display: none;">
@@ -280,8 +279,8 @@
                     <i class="bi bi-broadcast"></i>
                 </div>
                 <div class="radio-mini-player-text">
-                    <h4 id="radioMiniTitle">اختر محطة إذاعية</h4>
-                    <p id="radioMiniSubtitle">من القائمة</p>
+                    <h4 id="radioMiniTitle" data-translate="radio.selectStation">اختر محطة إذاعية</h4>
+                    <p id="radioMiniSubtitle" data-translate="radio.fromList">من القائمة</p>
                     <p id="radioMiniDescription" class="radio-mini-description"></p>
                 </div>
             </div>
@@ -309,7 +308,7 @@
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="authModalLabel">تسجيل الدخول</h5>
+                    <h5 class="modal-title" id="authModalLabel" data-translate="auth.login">تسجيل الدخول</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -317,68 +316,68 @@
                     <div id="loginForm">
                         <div class="mb-3">
                             <input type="email" class="form-control" id="loginEmail"
-                                placeholder="أدخل بريدك الإلكتروني">
+                                placeholder="أدخل بريدك الإلكتروني" data-translate="auth.email">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="loginPassword"
-                                placeholder="أدخل كلمة المرور">
+                                placeholder="أدخل كلمة المرور" data-translate="auth.password">
                         </div>
                         <div class="d-grid mb-3">
-                            <button type="button" class="btn btn-primary" onclick="loginWithEmail()">تسجيل
+                            <button type="button" class="btn btn-primary" onclick="loginWithEmail()" data-translate="auth.login">تسجيل
                                 الدخول</button>
                         </div>
                         
                         <!-- Google Login Button -->
                         <div class="d-grid mb-3">
                             <button type="button" class="btn btn-outline-danger" onclick="loginWithGoogleFromModal()">
-                                <i class="bi bi-google"></i> تسجيل الدخول بجوجل
+                                <i class="bi bi-google"></i> <span data-translate="auth.loginWithGoogle">تسجيل الدخول بجوجل</span>
                             </button>
                         </div>
                         
                         <div class="text-center">
-                            <small class="text-muted">ليس لديك حساب؟ <a href="#" onclick="switchToSignup()"
-                                    class="text-primary">سجل الآن</a></small>
+                            <small class="text-muted"><span data-translate="auth.noAccount">ليس لديك حساب؟</span> <a href="#" onclick="switchToSignup()"
+                                    class="text-primary" data-translate="auth.registerNow">سجل الآن</a></small>
                         </div>
                     </div>
 
                     <!-- Signup Form -->
                     <div id="signupForm" style="display: none;">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="signupName" placeholder="أدخل اسمك">
+                            <input type="text" class="form-control" id="signupName" placeholder="أدخل اسمك" data-translate="auth.name">
                         </div>
                         <div class="mb-3">
                             <input type="email" class="form-control" id="signupEmail"
-                                placeholder="أدخل بريدك الإلكتروني">
+                                placeholder="أدخل بريدك الإلكتروني" data-translate="auth.email">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="signupPassword"
-                                placeholder="أدخل كلمة المرور">
+                                placeholder="أدخل كلمة المرور" data-translate="auth.password">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="confirmPassword"
-                                placeholder="أعد إدخال كلمة المرور">
+                                placeholder="أعد إدخال كلمة المرور" data-translate="auth.confirmPassword">
                         </div>
                         <div class="mb-3">
-                            <label for="profilePicture" class="form-label">الصورة الشخصية (اختياري)</label>
+                            <label for="profilePicture" class="form-label" data-translate="auth.profilePicture">الصورة الشخصية (اختياري)</label>
                             <input type="file" class="form-control" id="profilePicture" accept="image/*">
-                            <div class="form-text">يمكنك اختيار صورة شخصية أو تركها فارغة لاستخدام الأيقونة الافتراضية
+                            <div class="form-text" data-translate="auth.profilePictureHelp">يمكنك اختيار صورة شخصية أو تركها فارغة لاستخدام الأيقونة الافتراضية
                             </div>
                         </div>
                         <div class="d-grid mb-3">
-                            <button type="button" class="btn btn-primary" onclick="signupWithEmail()">إنشاء
+                            <button type="button" class="btn btn-primary" onclick="signupWithEmail()" data-translate="auth.signup">إنشاء
                                 حساب</button>
                         </div>
                         
                         <!-- Google Signup Button -->
                         <div class="d-grid mb-3">
                             <button type="button" class="btn btn-outline-danger" onclick="signupWithGoogle()">
-                                <i class="bi bi-google"></i> إنشاء حساب بجوجل
+                                <i class="bi bi-google"></i> <span data-translate="auth.signupWithGoogle">إنشاء حساب بجوجل</span>
                             </button>
                         </div>
                         
                         <div class="text-center">
-                            <small class="text-muted">لديك حساب؟ <a href="#" onclick="switchToLogin()"
-                                    class="text-primary">تسجيل الدخول</a></small>
+                            <small class="text-muted"><span data-translate="auth.hasAccount">لديك حساب؟</span> <a href="#" onclick="switchToLogin()"
+                                    class="text-primary" data-translate="auth.loginNow">تسجيل الدخول</a></small>
                         </div>
                     </div>
 
@@ -395,7 +394,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadModalLabel">
+                    <h5 class="modal-title" id="uploadModalLabel" data-translate="upload.newPost">
                         منشور جديد
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -405,7 +404,7 @@
                         <div class="mb-3" id="usernameField" style="display: none;">
                             <input type="text" class="form-control" id="modalUsername" placeholder="أدخل اسمك"
                                 style="white-space: pre-wrap; word-wrap: break-word;" onkeydown="return true;"
-                                onpaste="return true;">
+                                onpaste="return true;" data-translate="auth.name">
                         </div>
 
                         <!-- Content Type Selection -->
@@ -413,37 +412,37 @@
                             <div class="content-type-selector">
                                 <div class="content-type-option" data-type="text">
                                     <i class="bi bi-pencil-square"></i>
-                                    <span>نص</span>
+                                    <span data-translate="upload.text">نص</span>
                                 </div>
                                 <div class="content-type-option" data-type="image">
                                     <i class="bi bi-image"></i>
-                                    <span>صورة</span>
+                                    <span data-translate="upload.image">صورة</span>
                                 </div>
                                 <div class="content-type-option" data-type="video">
                                     <i class="bi bi-camera-video"></i>
-                                    <span>فيديو</span>
+                                    <span data-translate="upload.video">فيديو</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Text Content -->
                         <div class="mb-3" id="textContent" style="display: none;">
-                            <label for="modalTextContent" class="form-label">النص</label>
+                            <label for="modalTextContent" class="form-label" data-translate="upload.textContent">النص</label>
                             <textarea class="form-control" id="modalTextContent" rows="4"
                                 placeholder="اكتب منشورك هنا..."
                                 style="resize: vertical; white-space: pre-wrap; word-wrap: break-word;"
-                                onkeydown="return true;" onpaste="return true;"></textarea>
+                                onkeydown="return true;" onpaste="return true;" data-translate="upload.textPlaceholder"></textarea>
                         </div>
 
                         <!-- Image Content -->
                         <div class="mb-3" id="imageContent" style="display: none;">
-                            <label for="modalImageInput" class="form-label">اختر الصورة</label>
+                            <label for="modalImageInput" class="form-label" data-translate="upload.selectImage">اختر الصورة</label>
                             <input type="file" class="form-control" id="modalImageInput" accept="image/*">
                         </div>
 
                         <!-- Video Content -->
                         <div class="mb-3" id="videoContent" style="display: none;">
-                            <label for="modalVideoInput" class="form-label">اختر الفيديو</label>
+                            <label for="modalVideoInput" class="form-label" data-translate="upload.selectVideo">اختر الفيديو</label>
                             <input type="file" class="form-control" id="modalVideoInput" accept="video/*">
                         </div>
 
@@ -451,10 +450,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="reelsManager.uploadContentFromModal()">
+                    <button type="button" class="btn btn-primary" onclick="reelsManager.uploadContentFromModal()" data-translate="upload.publish">
                         نشر
                     </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="upload.cancel">إلغاء</button>
                 </div>
             </div>
         </div>
@@ -471,6 +470,7 @@
     <script src="js/home.js"></script>
     <script src="js/player.js"></script>
     <script src="js/radio.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/reels.js"></script>
 
 
@@ -527,7 +527,7 @@
                     communityNavIcon.className = 'bi bi-plus-circle-fill';
                 }
                 if (communityNavText) {
-                    communityNavText.textContent = 'إضافة منشور';
+                    communityNavText.textContent = languageManager.getTranslation('nav.addPost');
                 }
                 // Initialize reels page when shown
                 console.log('Reels section selected, initializing...');
@@ -545,7 +545,7 @@
                     communityNavIcon.className = 'bi bi-people-fill';
                 }
                 if (communityNavText) {
-                    communityNavText.textContent = 'المجتمع';
+                    communityNavText.textContent = languageManager.getTranslation('nav.community');
                 }
             }
             if (hash === '#azkar') {
@@ -757,11 +757,143 @@
             }
         });
 
+        // Background Audio Control
+        let isAudioPlaying = false;
+        
+        function triggerBackgroundAudio() {
+            const audio = document.getElementById('autoPlayAudio');
+            if (!audio) return;
+            
+            if (!isAudioPlaying) {
+                audio.volume = 0.3;
+                audio.play().then(() => {
+                    isAudioPlaying = true;
+                    console.log('Background audio started playing from video click');
+                }).catch(error => {
+                    console.log('Error playing audio from video click:', error);
+                });
+            }
+        }
+        
+        function toggleBackgroundAudio() {
+            const audio = document.getElementById('autoPlayAudio');
+            const btn = document.getElementById('audioToggleBtn');
+            const icon = document.getElementById('audioIcon');
+            
+            if (!audio) return;
+            
+            if (isAudioPlaying) {
+                audio.pause();
+                isAudioPlaying = false;
+                if (btn) btn.classList.remove('playing');
+                if (icon) icon.className = 'bi bi-music-note-beamed';
+            } else {
+                audio.volume = 0.3;
+                audio.play().then(() => {
+                    isAudioPlaying = true;
+                    if (btn) btn.classList.add('playing');
+                    if (icon) icon.className = 'bi bi-pause-fill';
+                    console.log('Background audio started playing');
+                }).catch(error => {
+                    console.log('Error playing audio:', error);
+                    showError('لا يمكن تشغيل الأوديو. تأكد من السماح بتشغيل الصوت في المتصفح.');
+                });
+            }
+        }
+        
+        // Check if audio is playing
+        function checkAudioStatus() {
+            const audio = document.getElementById('autoPlayAudio');
+            const btn = document.getElementById('audioToggleBtn');
+            const icon = document.getElementById('audioIcon');
+            
+            if (audio && !audio.paused && !audio.ended) {
+                isAudioPlaying = true;
+                btn.classList.add('playing');
+                icon.className = 'bi bi-pause-fill';
+            } else {
+                isAudioPlaying = false;
+                btn.classList.remove('playing');
+                icon.className = 'bi bi-music-note-beamed';
+            }
+        }
+
+        // Auto-play audio with multiple strategies
+        async function tryAutoPlayAudio() {
+            const autoPlayAudio = document.getElementById('autoPlayAudio');
+            if (!autoPlayAudio) return false;
+            
+            autoPlayAudio.volume = 0.3;
+            
+            try {
+                await autoPlayAudio.play();
+                isAudioPlaying = true;
+                document.getElementById('audioToggleBtn').classList.add('playing');
+                document.getElementById('audioIcon').className = 'bi bi-pause-fill';
+                console.log('Background audio started playing automatically');
+                return true;
+            } catch (error) {
+                console.log('Auto-play failed:', error);
+                return false;
+            }
+        }
+
+        // Multiple auto-play strategies
+        function attemptAutoPlay() {
+            // Strategy 1: Try immediately
+            tryAutoPlayAudio().then(success => {
+                if (success) {
+                    // Hide the button after successful auto-play
+                    setTimeout(() => {
+                        const btn = document.getElementById('audioToggleBtn');
+                        if (btn) {
+                            btn.style.opacity = '0.3';
+                            btn.style.pointerEvents = 'none';
+                        }
+                    }, 3000);
+                } else {
+                    // Strategy 2: Try after user interaction
+                    const tryAfterInteraction = () => {
+                        tryAutoPlayAudio().then(success => {
+                            if (success) {
+                                document.removeEventListener('click', tryAfterInteraction);
+                                document.removeEventListener('touchstart', tryAfterInteraction);
+                                document.removeEventListener('keydown', tryAfterInteraction);
+                                // Hide button after success
+                                setTimeout(() => {
+                                    const btn = document.getElementById('audioToggleBtn');
+                                    if (btn) {
+                                        btn.style.opacity = '0.3';
+                                        btn.style.pointerEvents = 'none';
+                                    }
+                                }, 3000);
+                            }
+                        });
+                    };
+                    
+                    document.addEventListener('click', tryAfterInteraction, { once: true });
+                    document.addEventListener('touchstart', tryAfterInteraction, { once: true });
+                    document.addEventListener('keydown', tryAfterInteraction, { once: true });
+                }
+            });
+        }
+
         // Request notification permission on first load
         document.addEventListener('DOMContentLoaded', async function () {
             showSectionByHash();
             loadSavedTheme();
             toggleFloatButton();
+            
+            // Initialize language system
+            if (typeof languageManager !== 'undefined') {
+                languageManager.applyLanguage();
+            }
+            
+            // Attempt auto-play with multiple strategies
+            attemptAutoPlay();
+            
+            // Check audio status periodically
+            setInterval(checkAudioStatus, 1000);
             
             // Request notification permission
             if ('Notification' in window && Notification.permission === 'default') {

@@ -3,18 +3,66 @@ function initializeHomeSection() {
     const homeSection = document.getElementById('section-home');
     if (!homeSection) return;
 
+    // Auto-play background audio with enhanced strategies
+    const autoPlayAudio = document.getElementById('autoPlayAudio');
+    if (autoPlayAudio) {
+        // Set volume to a reasonable level (30%)
+        autoPlayAudio.volume = 0.3;
+        
+        // Try to play the audio immediately
+        const playPromise = autoPlayAudio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('Background audio started playing automatically from home section');
+                // Update button state
+                const btn = document.getElementById('audioToggleBtn');
+                const icon = document.getElementById('audioIcon');
+                if (btn && icon) {
+                    btn.classList.add('playing');
+                    icon.className = 'bi bi-pause-fill';
+                    // Hide button after successful auto-play
+                    setTimeout(() => {
+                        btn.style.opacity = '0.3';
+                        btn.style.pointerEvents = 'none';
+                    }, 3000);
+                }
+            }).catch(error => {
+                console.log('Auto-play was prevented by browser from home section:', error);
+                // Try again after a short delay
+                setTimeout(() => {
+                    autoPlayAudio.play().then(() => {
+                        console.log('Background audio started playing after delay');
+                        const btn = document.getElementById('audioToggleBtn');
+                        const icon = document.getElementById('audioIcon');
+                        if (btn && icon) {
+                            btn.classList.add('playing');
+                            icon.className = 'bi bi-pause-fill';
+                            setTimeout(() => {
+                                btn.style.opacity = '0.3';
+                                btn.style.pointerEvents = 'none';
+                            }, 3000);
+                        }
+                    }).catch(err => {
+                        console.log('Second attempt also failed:', err);
+                    });
+                }, 1000);
+            });
+        }
+    }
+
     // The complete home section HTML content
     const homeHTML = `
         <!-- Hero Section -->
         <div style="border-radius: 0%; width: 100%;"
             class="hero-section prayer-hero bg-image text-center py-5 mb-5">
             <!-- Desktop Image Background -->
-            <div class="d-none d-md-block">
+            <div class="d-none d-md-block" onclick="triggerBackgroundAudio()" style="cursor: pointer; height: 100%; width: 100%;">
 
             </div>
 
             <!-- Mobile Video Background -->
-            <video autoplay muted loop playsinline class="d-md-none hero-video">
+            <video autoplay muted loop playsinline class="d-md-none hero-video" id="heroVideo" onclick="triggerBackgroundAudio()">
                 <source src="media/vedios/quran_page_mobile.mp4" type="video/mp4">
             </video>
 
@@ -23,13 +71,13 @@ function initializeHomeSection() {
                 <div class="prayer-stats-row-mobile">
                     <div class="prayer-stat-item-mobile">
                         <div class="stat-content">
-                            <div class="stat-label">الصلاة القادمة</div>
+                            <div class="stat-label" data-translate="prayer.nextPrayer">الصلاة القادمة</div>
                             <div class="stat-value" id="nextPrayerNameMobile">--</div>
                         </div>
                     </div>
                     <div class="prayer-stat-item-mobile">
                         <div class="stat-content">
-                            <div class="stat-label">المؤقت</div>
+                            <div class="stat-label" data-translate="prayer.timeRemaining">المؤقت</div>
                             <div class="stat-value" id="prayerCountdownMobile">--:--:--</div>
                         </div>
                     </div>
@@ -47,7 +95,7 @@ function initializeHomeSection() {
                                     <div class="prayer-stat-item">
 
                                         <div class="stat-content">
-                                            <div class="stat-label">الصلاة القادمة</div>
+                                            <div class="stat-label" data-translate="prayer.nextPrayer">الصلاة القادمة</div>
 
                                             <div class="stat-value" id="nextPrayerName">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
@@ -66,7 +114,7 @@ function initializeHomeSection() {
                                     <div class="prayer-stat-item">
 
                                         <div class="stat-content">
-                                            <div class="stat-label">الوقت المتبقي</div>
+                                            <div class="stat-label" data-translate="prayer.timeRemaining">الوقت المتبقي</div>
                                             <div class="stat-value" id="heroPrayerCountdown">
 
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
@@ -99,7 +147,7 @@ function initializeHomeSection() {
                     <div class="card-header enhanced-card-header">
                         <div class="d-flex align-items-center">
                             <div class="header-content">
-                                <h5 class="salah-title" style="color: #0f766e;" class="mb-0">مواقيت الصلاة اليوم
+                                <h5 class="salah-title" style="color: #0f766e;" class="mb-0" data-translate="prayer.todayTimes">مواقيت الصلاة اليوم
                                 </h5>
                             </div>
                         </div>
@@ -112,42 +160,42 @@ function initializeHomeSection() {
                         <div class="prayer-times-grid enhanced-prayer-grid" id="prayerTimesGrid">
                             <div class="prayer-time-item fajr enhanced-prayer-item fajr">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">الفجر</div>
+                                    <div class="prayer-name" data-translate="prayer.fajr">الفجر</div>
                                     <div class="prayer-time" id="fajr">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
                             </div>
                             <div class="prayer-time-item sunrise enhanced-prayer-item sunrise">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">الشروق</div>
+                                    <div class="prayer-name" data-translate="prayer.sunrise">الشروق</div>
                                     <div class="prayer-time" id="sunrise">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
                             </div>
                             <div class="prayer-time-item dhuhr enhanced-prayer-item duhr">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">الظهر</div>
+                                    <div class="prayer-name" data-translate="prayer.dhuhr">الظهر</div>
                                     <div class="prayer-time" id="dhuhr">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
                             </div>
                             <div class="prayer-time-item asr enhanced-prayer-item asr">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">العصر</div>
+                                    <div class="prayer-name" data-translate="prayer.asr">العصر</div>
                                     <div class="prayer-time" id="asr">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
                             </div>
                             <div class="prayer-time-item maghrib enhanced-prayer-item maghrib">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">المغرب</div>
+                                    <div class="prayer-name" data-translate="prayer.maghrib">المغرب</div>
                                     <div class="prayer-time" id="maghrib">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
                             </div>
                             <div class="prayer-time-item isha enhanced-prayer-item ishaa">
                                 <div class="prayer-info">
-                                    <div class="prayer-name">العشاء</div>
+                                    <div class="prayer-name" data-translate="prayer.isha">العشاء</div>
                                     <div class="prayer-time" id="isha">--:--</div>
                                     <div class="prayer-status"> </div>
                                 </div>
@@ -165,7 +213,7 @@ function initializeHomeSection() {
                             <div class="header-content">
                                 <h5 style="color: #0f766e;" class="mb-0">
                                     <i class="bi text-success me-2"></i>
-                                     اذكار الصلاة
+                                     <span data-translate="azkar.prayerRemembrance">اذكار الصلاة</span>
                                 </h5>
                             </div>
                             
@@ -241,7 +289,7 @@ function initializeHomeSection() {
                     <div class="card-header enhanced-card-header">
                         <div class="d-flex align-items-center">
                             <div class="header-content">
-                                <h5 style="color: #0f766e;" class="mb-0">
+                                <h5 style="color: #0f766e;" class="mb-0" data-translate="azkar.tasbih">
                                     المسبحـة
                                 </h5>
                             </div>
@@ -250,7 +298,7 @@ function initializeHomeSection() {
                            
                             <button class="btn btn-outline-success btn-sm" onclick="showCustomDhikrModal()">
                                
-                                تخصيص
+                                <span data-translate="azkar.customize">تخصيص</span>
                             </button>
                         </div>
                     </div>
@@ -260,17 +308,17 @@ function initializeHomeSection() {
                                 <div class="tasbih-counter" onclick="incrementTasbih()" style="cursor: pointer;" title="اضغط لزيادة العداد">
                                     <div class="counter-display" id="tasbihCounter">0</div>
                                     <br>
-                                    <div class="current-dhikr" id="currentDhikr">اختر ذكراً للبدء</div>
+                                    <div class="current-dhikr" id="currentDhikr" data-translate="azkar.selectDhikr">اختر ذكراً للبدء</div>
                                 </div>
 
                                 <!-- Circular Control Buttons -->
                                 <div class="tasbih-controls-circular">
                                     <button class="btn btn-success btn-lg tasbih-btn-circular increment-btn"
-                                        onclick="incrementTasbih()" title="زيادة">
+                                        onclick="incrementTasbih()" title="زيادة" data-translate-title="azkar.count">
                                         <i class="bi bi-plus-circle-fill"></i>
                                     </button>
                                     <button class="btn btn-danger btn-lg tasbih-btn-circular reset-btn"
-                                        onclick="resetTasbih()" title="إعادة تعيين">
+                                        onclick="resetTasbih()" title="إعادة تعيين" data-translate-title="azkar.reset">
                                         <i class="bi bi-arrow-clockwise"></i>
                                     </button>
                                 </div>
@@ -287,29 +335,29 @@ function initializeHomeSection() {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="customDhikrModalLabel">
-                                إضافة ذكر مخصص
+                                <span data-translate="azkar.addCustomDhikr">إضافة ذكر مخصص</span>
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-translate-aria="common.close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="customDhikrText" class="form-label">نص الذكر</label>
+                                <label for="customDhikrText" class="form-label" data-translate="azkar.dhikrText">نص الذكر</label>
                                 <input type="text" class="form-control" id="customDhikrText"
-                                    placeholder="مثال: لا حول ولا قوة إلا بالله">
+                                    placeholder="مثال: لا حول ولا قوة إلا بالله" data-translate="azkar.dhikrExample">
                             </div>
                             <div class="mb-3">
-                                <label for="customDhikrCount" class="form-label">عدد مرات التكرار</label>
+                                <label for="customDhikrCount" class="form-label" data-translate="azkar.repeatCount">عدد مرات التكرار</label>
                                 <input type="number" class="form-control" id="customDhikrCount"
-                                    placeholder="مثال: 99" min="1" max="999">
+                                    placeholder="مثال: 99" min="1" max="999" data-translate="azkar.countExample">
                             </div>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="addCustomDhikr()">
                               
-                                إضافة
+                                <span data-translate="common.save">حفظ</span>
                             </button>
                             
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="common.cancel">إلغاء</button>
                             
                         </div>
                     </div>
@@ -416,7 +464,129 @@ document.addEventListener('DOMContentLoaded', function() {
     updateActiveNavItem();
 });
 
+// إدارة عرض رابط الإدارة للمديرين
+function checkAdminAccess() {
+    // قائمة المديرين المصرح لهم
+    const adminEmails = [
+        'admin@mail.com',
+        'mohamedtahaomk35@gmail.com'
+    ];
+    
+    // فحص إذا كان المستخدم مسجل دخول
+    if (typeof reelsManager !== 'undefined' && reelsManager.currentUser) {
+        const userEmail = reelsManager.currentUser.email;
+        
+        if (adminEmails.includes(userEmail)) {
+            // إظهار رابط الإدارة
+            const adminBtn = document.getElementById('adminSettingsBtn');
+            if (adminBtn) {
+                adminBtn.style.display = 'block';
+            }
+        } else {
+            // إخفاء رابط الإدارة
+            const adminBtn = document.getElementById('adminSettingsBtn');
+            if (adminBtn) {
+                adminBtn.style.display = 'none';
+            }
+        }
+    } else {
+        // إخفاء رابط الإدارة إذا لم يكن مسجل دخول
+        const adminBtn = document.getElementById('adminSettingsBtn');
+        if (adminBtn) {
+            adminBtn.style.display = 'none';
+        }
+    }
+}
+
+// فتح صفحة الإدارة
+function openAdminSettings() {
+    window.location.href = 'admin-settings.html';
+}
+
+// مراقبة تغيير حالة تسجيل الدخول
+function monitorAuthState() {
+    if (typeof reelsManager !== 'undefined' && reelsManager.auth) {
+        reelsManager.auth.onAuthStateChanged((user) => {
+            // تحديث حالة رابط الإدارة عند تغيير تسجيل الدخول
+            setTimeout(() => {
+                checkAdminAccess();
+            }, 1000); // تأخير قصير للتأكد من تحديث reelsManager.currentUser
+        });
+    }
+}
+
+
+// تحديث لون شريط الحالة حسب المود
+function updateStatusBarTheme() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const appleStatusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    
+    if (theme === 'dark') {
+        // المود الداكن - شريط الحالة بنفس لون الميني بلاير
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', '#2d2d2d');
+        }
+        if (appleStatusBarMeta) {
+            appleStatusBarMeta.setAttribute('content', 'black-translucent');
+        }
+    } else {
+        // المود الفاتح - شريط الحالة فاتح
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', '#f4f5fa');
+        }
+        if (appleStatusBarMeta) {
+            appleStatusBarMeta.setAttribute('content', 'default');
+        }
+    }
+}
+
+// مراقبة تغيير المود
+function watchThemeChanges() {
+    // مراقب تغيير المود
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                updateStatusBarTheme();
+            }
+        });
+    });
+    
+    // بدء المراقبة
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+    
+    // تحديث فوري عند التحميل
+    updateStatusBarTheme();
+}
+
+// تهيئة مراقبة حالة المصادقة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    // فحص فوري
+    checkAdminAccess();
+    
+    // مراقبة التغييرات
+    monitorAuthState();
+    
+    
+    // مراقبة تغيير المود
+    watchThemeChanges();
+    
+    // فحص دوري كل 5 ثوان
+    setInterval(checkAdminAccess, 5000);
+});
+
 // Export for module usage if needed
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { initializeHomeSection, toggleBottomNavbar, hideBottomNavbar, updateActiveNavItem };
+    module.exports = { 
+        initializeHomeSection, 
+        toggleBottomNavbar, 
+        hideBottomNavbar, 
+        updateActiveNavItem,
+        checkAdminAccess,
+        openAdminSettings,
+        monitorAuthState
+    };
 }

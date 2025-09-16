@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>إعدادات الإدارة - Quran Cast</title>
+    
+    <!-- Prevent Pull-to-Refresh -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <!-- Status Bar Theme -->
+    <meta name="theme-color" content="#f4f5fa">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: linear-gradient(135deg, #17a2b8, #0f766e);
+            --primary-dark: #0f766e;
+            --primary-light: #17a2b8;
+            --secondary: #8a8d93;
+            --accent: #ffab00;
+            --success: #56ca00;
+            --warning: #ffb400;
+            --error: #ff4d49;
+            --info: #16b1ff;
+            --bg: #f4f5fa;
+            --bg-card: #ffffff;
+            --bg-elevated: #f8f9fa;
+            --bg-hover: #f1f3f4;
+            --text: #3a3541;
+            --text-muted: #6e6b7b;
+            --text-secondary: linear-gradient(135deg, #17a2b8, #0f766e);
+            --text-disabled: #b9b9c3;
+            --border: #e7e7e9;
+            --border-light: #f3f2f7;
+            --border-hover: linear-gradient(135deg, #17a2b8, #0f766e);
+            --border-input: #d8d6de;
+            --shadow: 0 2px 8px rgba(58, 53, 65, 0.14);
+            --shadow-hover: 0 4px 25px rgba(58, 53, 65, 0.15);
+            --shadow-card: 0 2px 8px rgba(58, 53, 65, 0.14);
+            --gradient-primary: linear-gradient(135deg, #17a2b8, #0f766e);
+            --gradient-secondary: linear-gradient(135deg, #8a8d93 0%, #6e6b7b 100%);
+            --gradient-bg: linear-gradient(135deg, #f4f5fa 0%, #e7e7e9 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            font-family: 'Cairo', 'Amiri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            direction: rtl;
+            overflow-x: hidden;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+        }
+        
+        .admin-container {
+            background: transparent;
+            margin: 0;
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, rgba(23, 162, 184, 0.15) 0%, rgba(15, 118, 110, 0.15) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: heroSlideIn 1s ease-out;
+        }
+        
+        .admin-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../media/images/landscape_1.jpg') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: titleFadeIn 1.2s ease-out 0.3s both;
+        }
+        
+        .admin-header h1 i {
+            color: var(--primary-dark);
+            margin-left: 0.5rem;
+        }
+        
+        .admin-header p {
+            margin: 1rem 0 0 0;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.6;
+            animation: subtitleFadeIn 1.2s ease-out 0.6s both;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 2rem;
+            }
+            
+            .admin-header p {
+                font-size: 1rem;
+            }
+        }
+        
+        .settings-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: cardSlideIn 1s ease-out;
+        }
+        
+        .settings-section:last-child {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--text);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+            justify-content: center;
+        }
+        
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            display: block;
+        }
+        
+        .form-control {
+            border: 2px solid var(--border-input);
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            background: var(--bg-card);
+            color: var(--text);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+            background: var(--bg-elevated);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .settings-section {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .form-control {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .btn-admin {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-size: 1rem;
+            box-shadow: 0 4px 16px rgba(15, 118, 110, 0.3);
+        }
+        
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4);
+            color: white;
+        }
+        
+        .btn-test {
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 12px rgba(86, 202, 0, 0.3);
+        }
+        
+        .btn-test:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(86, 202, 0, 0.4);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 12px rgba(138, 141, 147, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(138, 141, 147, 0.4);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .btn-admin {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                margin: 2px;
+            }
+            
+            .btn-test, .btn-secondary {
+                padding: 6px 16px;
+                font-size: 0.75rem;
+            }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        
+        .status-success {
+            background-color: #28a745;
+        }
+        
+        .status-error {
+            background-color: #dc3545;
+        }
+        
+        .status-warning {
+            background-color: #ffc107;
+        }
+        
+        .alert-custom {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, rgba(22, 177, 255, 0.1), rgba(22, 177, 255, 0.05));
+            border: 1px solid rgba(22, 177, 255, 0.2);
+            color: var(--info);
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, rgba(86, 202, 0, 0.1), rgba(86, 202, 0, 0.05));
+            border: 1px solid rgba(86, 202, 0, 0.2);
+            color: var(--success);
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(255, 77, 73, 0.1), rgba(255, 77, 73, 0.05));
+            border: 1px solid rgba(255, 77, 73, 0.2);
+            color: var(--error);
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(255, 180, 0, 0.1), rgba(255, 180, 0, 0.05));
+            border: 1px solid rgba(255, 180, 0, 0.2);
+            color: var(--warning);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            margin: 1rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: cardSlideIn 1s ease-out;
+        }
+        
+        .spinner-border {
+            color: var(--primary-light);
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3em;
+        }
+        
+        .loading p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--primary-dark);
+            padding: 10px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 118, 110, 0.3);
+        }
+        
+        
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        .admin-only {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(238, 90, 36, 0.9));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 1rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            animation: cardSlideIn 1s ease-out;
+        }
+        
+        .admin-only h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-only p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .admin-only .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-only .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .tabs {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 0.5rem;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: 2px solid transparent;
+            padding: 12px 24px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            min-width: fit-content;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+        }
+        
+        .tab-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+        
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+        }
+        
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                margin: 0.5rem;
+                padding: 0.75rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        .gap-2 {
+            gap: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .gap-2 {
+                gap: 0.25rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes heroSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes titleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes subtitleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* بطاقات الإحصائيات */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        /* جدول المستخدمين */
+        .users-table-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .users-table {
+            margin-bottom: 0;
+            background: transparent;
+        }
+        
+        .users-table thead th {
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 1rem 0.75rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .users-table tbody td {
+            border: none;
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .users-table tbody tr:hover {
+            background: rgba(23, 162, 184, 0.05);
+        }
+        
+        .users-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Mobile View - Cards instead of table */
+        @media (max-width: 768px) {
+            .users-table-container {
+                padding: 0.5rem;
+                margin: 0.25rem;
+                border-radius: 12px;
+            }
+            
+            .users-table thead {
+                display: none;
+            }
+            
+            .users-table tbody tr {
+                display: block;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 12px;
+                margin-bottom: 0.75rem;
+                padding: 0.75rem;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+            
+            .users-table tbody td {
+                display: block;
+                border: none;
+                padding: 0.25rem 0;
+                text-align: right;
+                position: relative;
+            }
+            
+            .users-table tbody td:before {
+                content: attr(data-label) ":";
+                font-weight: 600;
+                color: var(--text);
+                display: inline-block;
+                margin-left: 0.5rem;
+                font-size: 0.75rem;
+            }
+            
+            .users-table tbody td:first-child {
+                text-align: center;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                margin-bottom: 0.5rem;
+            }
+            
+            .users-table tbody td:first-child:before {
+                display: none;
+            }
+            
+            .users-table tbody td:last-child {
+                text-align: center;
+                padding-top: 0.5rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                margin-top: 0.5rem;
+            }
+            
+            .users-table tbody td:last-child:before {
+                display: none;
+            }
+            
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+                margin-left: 0.25rem;
+            }
+            
+            .user-name {
+                font-size: 0.9rem;
+                margin-bottom: 0;
+            }
+            
+            .user-email {
+                font-size: 0.8rem;
+                word-break: break-all;
+            }
+            
+            .user-role, .user-status {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.5rem;
+            }
+            
+            .user-actions {
+                gap: 0.25rem;
+            }
+            
+            .btn-edit, .btn-delete {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        /* Extra Small Mobile */
+        @media (max-width: 480px) {
+            .users-table-container {
+                padding: 0.25rem;
+                margin: 0.1rem;
+            }
+            
+            .users-table tbody tr {
+                padding: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            
+            .user-name {
+                font-size: 0.8rem;
+            }
+            
+            .user-email {
+                font-size: 0.7rem;
+            }
+            
+            .user-role, .user-status {
+                font-size: 0.65rem;
+                padding: 0.15rem 0.4rem;
+            }
+            
+            .btn-edit, .btn-delete {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.4rem;
+            }
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+        
+        .user-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        
+        .user-email {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .user-role.admin {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .user-role.user {
+            background: linear-gradient(135deg, #17a2b8, #0f766e);
+            color: white;
+        }
+        
+        .user-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .user-status.active {
+            background: linear-gradient(135deg, #56ca00, #2ecc71);
+            color: white;
+        }
+        
+        .user-status.inactive {
+            background: linear-gradient(135deg, #ffb400, #f39c12);
+            color: white;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #ff4d49, #e74c3c);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 77, 73, 0.4);
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #ffb400, #f39c12);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-edit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 180, 0, 0.4);
+        }
+        
+        .loading-users {
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .user-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="admin-container">
+            <div class="admin-header">
+                <button class="back-btn" onclick="goBack()">
+                    العودة
+                </button>
+                <h1>إعدادات الإدارة</h1>
+                <p>لوحة تحكم إدارة التطبيق</p>
+            </div>
+            
+            <!-- تحقق من صلاحيات المدير -->
+            <div id="adminCheck" class="admin-only" style="display: none;">
+                <h4>هذه الصفحة مخصصة للمديرين فقط</h4>
+                <p>يرجى تسجيل الدخول بحساب مدير للوصول إلى هذه الصفحة</p>
+                <button class="btn btn-light" onclick="goToLogin()">تسجيل الدخول</button>
+            </div>
+            
+            <!-- محتوى الإدارة -->
+            <div id="adminContent" style="display: none;">
+                <!-- التبويبات -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('github')">
+                        إعدادات GitHub
+                    </button>
+                    <button class="tab-btn" onclick="showTab('general')">
+                        الإعدادات العامة
+                    </button>
+                    <button class="tab-btn" onclick="showTab('users')">
+                        إدارة المستخدمين
+                    </button>
+                </div>
+                
+                <!-- تبويب GitHub -->
+                <div id="github-tab" class="tab-content active">
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            إعدادات GitHub
+                        </h3>
+                        
+                        <div id="githubAlert" class="alert alert-info alert-custom" style="display: none;">
+                            <span id="githubAlertText"></span>
+                        </div>
+                        
+                        <form id="githubForm">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="githubToken" class="form-label">
+                                            GitHub Token
+                                        </label>
+                                        <input type="password" class="form-control" id="githubToken" 
+                                               placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                                        <small class="form-text text-muted">
+                                            Personal Access Token من GitHub
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="githubRepo" class="form-label">
+                                            Repository URL
+                                        </label>
+                                        <input type="url" class="form-control" id="githubRepo" 
+                                               placeholder="https://github.com/username/repo">
+                                        <small class="form-text text-muted">
+                                            رابط المستودع على GitHub
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="githubBranch" class="form-label">
+                                            Branch
+                                        </label>
+                                        <input type="text" class="form-control" id="githubBranch" 
+                                               value="main" placeholder="main">
+                                        <small class="form-text text-muted">
+                                            الفرع المستخدم في المستودع
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">حالة الاتصال</label>
+                                        <div class="d-flex align-items-center">
+                                            <span id="connectionStatus">غير محدد</span>
+                                            <span id="connectionIndicator" class="status-indicator status-warning"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="button" class="btn btn-test" onclick="testGitHubConnection()">
+                                        اختبار الاتصال
+                                    </button>
+                                    <button type="button" class="btn btn-test" onclick="loadGitHubSettings()">
+                                        تحميل الإعدادات الحالية
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="submit" class="btn btn-admin">
+                                        حفظ الإعدادات
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetGitHubForm()">
+                                        إعادة تعيين
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- تبويب الإعدادات العامة -->
+                <div id="general-tab" class="tab-content">
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            الإعدادات العامة
+                        </h3>
+                        <p class="text-muted">سيتم إضافة المزيد من الإعدادات قريباً...</p>
+                    </div>
+                </div>
+                
+                <!-- تبويب إدارة المستخدمين -->
+                <div id="users-tab" class="tab-content">
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            إدارة المستخدمين
+                        </h3>
+                        
+                        <!-- شريط البحث والفلترة -->
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="userSearch" class="form-label">البحث عن مستخدم</label>
+                                    <input type="text" class="form-control" id="userSearch" 
+                                           placeholder="ابحث بالاسم أو البريد الإلكتروني...">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="userFilter" class="form-label">فلترة المستخدمين</label>
+                                    <select class="form-control" id="userFilter">
+                                        <option value="all">جميع المستخدمين</option>
+                                        <option value="active">المستخدمون النشطون</option>
+                                        <option value="inactive">المستخدمون غير النشطين</option>
+                                        <option value="admin">المديرون</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- إحصائيات المستخدمين -->
+                        <div class="row mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="totalUsers">0</div>
+                                    <div class="stat-label">إجمالي المستخدمين</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="activeUsers">0</div>
+                                    <div class="stat-label">المستخدمون النشطون</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="adminUsers">0</div>
+                                    <div class="stat-label">المديرون</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="newUsers">0</div>
+                                    <div class="stat-label">مستخدمون جدد اليوم</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- جدول المستخدمين -->
+                        <div class="users-table-container">
+                            <div class="table-responsive">
+                                <table class="table users-table" id="usersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>المستخدم</th>
+                                            <th>البريد الإلكتروني</th>
+                                            <th>الدور</th>
+                                            <th>تاريخ التسجيل</th>
+                                            <th>الحالة</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">
+                                                <div class="loading-users">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">جاري التحميل...</span>
+                                                    </div>
+                                                    <p class="mt-2">جاري تحميل المستخدمين...</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- رسالة عدم وجود مستخدمين -->
+                        <div id="noUsersMessage" class="text-center py-5" style="display: none;">
+                            <h5 class="text-muted">لا توجد مستخدمين</h5>
+                            <p class="text-muted">لم يتم العثور على أي مستخدمين</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">جاري التحميل...</span>
+                </div>
+                <p>جاري التحميل...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhlJMOnTcJeohztnvYC2SMJU7NOAxKmus",
+            authDomain: "quran-cast.firebaseapp.com",
+            projectId: "quran-cast",
+            storageBucket: "quran-cast.firebasestorage.app",
+            messagingSenderId: "782388777938",
+            appId: "1:782388777938:web:1204e3fbd58d7ad9ed2e0b",
+            measurementId: "G-4J9108LV23"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // قائمة المديرين المصرح لهم
+        const adminEmails = [
+            'admin@mail.com',
+            'mohamedtahaomk35@gmail.com'
+        ];
+
+        // متغيرات عامة
+        let currentUser = null;
+
+        // متغيرات إدارة المستخدمين
+        let allUsers = [];
+        let filteredUsers = [];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAccess();
+            initializeUsersManagement();
+            watchThemeChanges();
+        });
+
+        // فحص صلاحيات المدير
+        async function checkAdminAccess() {
+            try {
+                showLoading(true);
+                
+                // انتظار تسجيل الدخول
+                await new Promise((resolve) => {
+                    const unsubscribe = auth.onAuthStateChanged((user) => {
+                        unsubscribe();
+                        currentUser = user;
+                        resolve();
+                    });
+                });
+
+                if (!currentUser) {
+                    showAdminCheck();
+                    return;
+                }
+
+                // فحص إذا كان المستخدم مدير
+                if (adminEmails.includes(currentUser.email)) {
+                    showAdminContent();
+                    loadGitHubSettings();
+                } else {
+                    showAdminCheck();
+                }
+            } catch (error) {
+                console.error('خطأ في فحص الصلاحيات:', error);
+                showAdminCheck();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // إظهار رسالة عدم الصلاحية
+        function showAdminCheck() {
+            document.getElementById('adminCheck').style.display = 'block';
+            document.getElementById('adminContent').style.display = 'none';
+        }
+
+        // إظهار محتوى الإدارة
+        function showAdminContent() {
+            document.getElementById('adminCheck').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+        }
+
+        // إظهار/إخفاء التحميل
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // تبديل التبويبات
+        function showTab(tabName) {
+            // إخفاء جميع التبويبات
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // إظهار التبويب المحدد
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // تحميل إعدادات GitHub الحالية
+        async function loadGitHubSettings() {
+            try {
+                showLoading(true);
+                
+                const settingsDoc = await db.collection('admin_settings').doc('github').get();
+                
+                if (settingsDoc.exists) {
+                    const settings = settingsDoc.data();
+                    
+                    document.getElementById('githubToken').value = settings.token || '';
+                    document.getElementById('githubRepo').value = settings.repo || '';
+                    document.getElementById('githubBranch').value = settings.branch || 'main';
+                    
+                    updateConnectionStatus('تم تحميل الإعدادات', 'success');
+                } else {
+                    updateConnectionStatus('لم يتم العثور على إعدادات', 'warning');
+                }
+            } catch (error) {
+                console.error('خطأ في تحميل الإعدادات:', error);
+                updateConnectionStatus('خطأ في تحميل الإعدادات', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // اختبار اتصال GitHub
+        async function testGitHubConnection() {
+            try {
+                showLoading(true);
+                updateConnectionStatus('جاري الاختبار...', 'warning');
+                
+                const token = document.getElementById('githubToken').value;
+                const repo = document.getElementById('githubRepo').value;
+                
+                if (!token || !repo) {
+                    updateConnectionStatus('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                // استخراج اسم المستودع من الرابط
+                const repoName = repo.replace('https://github.com/', '');
+                const url = `https://api.github.com/repos/${repoName}`;
+                
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/vnd.github.v3+json"
+                    }
+                });
+                
+                if (response.ok) {
+                    updateConnectionStatus('الاتصال ناجح!', 'success');
+                } else {
+                    const error = await response.json();
+                    updateConnectionStatus(`خطأ: ${error.message || 'غير معروف'}`, 'error');
+                }
+            } catch (error) {
+                console.error('خطأ في اختبار الاتصال:', error);
+                updateConnectionStatus('خطأ في الاتصال', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // تحديث حالة الاتصال
+        function updateConnectionStatus(message, type) {
+            document.getElementById('connectionStatus').textContent = message;
+            const indicator = document.getElementById('connectionIndicator');
+            
+            indicator.className = 'status-indicator';
+            if (type === 'success') {
+                indicator.classList.add('status-success');
+            } else if (type === 'error') {
+                indicator.classList.add('status-error');
+            } else {
+                indicator.classList.add('status-warning');
+            }
+        }
+
+        // حفظ إعدادات GitHub
+        document.getElementById('githubForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                showLoading(true);
+                
+                const token = document.getElementById('githubToken').value;
+                const repo = document.getElementById('githubRepo').value;
+                const branch = document.getElementById('githubBranch').value;
+                
+                if (!token || !repo || !branch) {
+                    showAlert('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                const settings = {
+                    token: token,
+                    repo: repo,
+                    branch: branch,
+                    updatedAt: new Date(),
+                    updatedBy: currentUser.email
+                };
+
+                await db.collection('admin_settings').doc('github').set(settings);
+                
+                showAlert('تم حفظ الإعدادات بنجاح!', 'success');
+                updateConnectionStatus('تم الحفظ', 'success');
+                
+            } catch (error) {
+                console.error('خطأ في حفظ الإعدادات:', error);
+                showAlert('خطأ في حفظ الإعدادات', 'error');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // إعادة تعيين نموذج GitHub
+        function resetGitHubForm() {
+            document.getElementById('githubForm').reset();
+            updateConnectionStatus('غير محدد', 'warning');
+        }
+
+        // إظهار التنبيهات
+        function showAlert(message, type) {
+            const alert = document.getElementById('githubAlert');
+            const alertText = document.getElementById('githubAlertText');
+            
+            alertText.textContent = message;
+            alert.className = `alert alert-${type === 'error' ? 'danger' : type} alert-custom`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // العودة للصفحة الرئيسية
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // الذهاب لصفحة تسجيل الدخول
+        function goToLogin() {
+            window.location.href = 'index.html#login';
+        }
+
+        // تهيئة إدارة المستخدمين
+        function initializeUsersManagement() {
+            // إضافة مستمعي الأحداث
+            document.getElementById('userSearch').addEventListener('input', filterUsers);
+            document.getElementById('userFilter').addEventListener('change', filterUsers);
+            
+            // تحميل المستخدمين عند فتح التبويب
+            document.querySelector('[onclick="showTab(\'users\')"]').addEventListener('click', function() {
+                setTimeout(loadUsers, 100);
+            });
+        }
+
+        // تحميل المستخدمين
+        async function loadUsers() {
+            try {
+                showUsersLoading(true);
+                
+                // جلب المستخدمين من Firestore
+                const usersSnapshot = await db.collection('users').get();
+                allUsers = [];
+                
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    allUsers.push({
+                        id: doc.id,
+                        ...userData,
+                        isAdmin: adminEmails.includes(userData.email)
+                    });
+                });
+                
+                // ترتيب المستخدمين (المديرون أولاً)
+                allUsers.sort((a, b) => {
+                    if (a.isAdmin && !b.isAdmin) return -1;
+                    if (!a.isAdmin && b.isAdmin) return 1;
+                    return a.displayName?.localeCompare(b.displayName) || 0;
+                });
+                
+                filteredUsers = [...allUsers];
+                updateUsersStats();
+                displayUsers();
+                
+            } catch (error) {
+                console.error('خطأ في تحميل المستخدمين:', error);
+                showUsersError('فشل في تحميل المستخدمين');
+            } finally {
+                showUsersLoading(false);
+            }
+        }
+
+        // فلترة المستخدمين
+        function filterUsers() {
+            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+            const filterType = document.getElementById('userFilter').value;
+            
+            filteredUsers = allUsers.filter(user => {
+                // البحث
+                const matchesSearch = !searchTerm || 
+                    user.displayName?.toLowerCase().includes(searchTerm) ||
+                    user.email?.toLowerCase().includes(searchTerm);
+                
+                // الفلترة
+                let matchesFilter = true;
+                switch (filterType) {
+                    case 'active':
+                        matchesFilter = user.isActive !== false;
+                        break;
+                    case 'inactive':
+                        matchesFilter = user.isActive === false;
+                        break;
+                    case 'admin':
+                        matchesFilter = user.isAdmin;
+                        break;
+                    case 'all':
+                    default:
+                        matchesFilter = true;
+                        break;
+                }
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            displayUsers();
+        }
+
+        // عرض المستخدمين
+        function displayUsers() {
+            const usersTableBody = document.getElementById('usersTableBody');
+            const noUsersMessage = document.getElementById('noUsersMessage');
+            
+            if (filteredUsers.length === 0) {
+                usersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <h5 class="text-muted">لا توجد مستخدمين</h5>
+                            <p class="text-muted">لم يتم العثور على أي مستخدمين</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            usersTableBody.innerHTML = filteredUsers.map(user => `
+                <tr data-user-id="${user.id}">
+                    <td data-label="المستخدم">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="user-avatar">
+                                ${getUserInitials(user.displayName || user.email)}
+                            </div>
+                            <div class="text-right">
+                                <div class="user-name">${user.displayName || 'بدون اسم'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-label="البريد الإلكتروني">
+                        <div class="user-email">${user.email}</div>
+                    </td>
+                    <td data-label="الدور">
+                        <div class="user-role ${user.isAdmin ? 'admin' : 'user'}">
+                            ${user.isAdmin ? 'مدير' : 'مستخدم'}
+                        </div>
+                    </td>
+                    <td data-label="تاريخ التسجيل">
+                        <div class="text-muted">
+                            ${formatDate(user.createdAt)}
+                        </div>
+                    </td>
+                    <td data-label="الحالة">
+                        <div class="user-status ${user.isActive !== false ? 'active' : 'inactive'}">
+                            ${user.isActive !== false ? 'نشط' : 'غير نشط'}
+                        </div>
+                    </td>
+                    <td data-label="الإجراءات">
+                        <div class="user-actions">
+                            <button class="btn-edit" onclick="editUser('${user.id}')">
+                                تعديل
+                            </button>
+                            ${!user.isAdmin ? `
+                                <button class="btn-delete" onclick="deleteUser('${user.id}', '${user.displayName || user.email}')">
+                                    حذف
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // الحصول على الأحرف الأولى من الاسم
+        function getUserInitials(name) {
+            if (!name) return '?';
+            return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase().substring(0, 2);
+        }
+
+        // تنسيق التاريخ
+        function formatDate(date) {
+            if (!date) return 'غير محدد';
+            
+            try {
+                let userDate;
+                if (date.toDate && typeof date.toDate === 'function') {
+                    userDate = date.toDate();
+                } else if (date instanceof Date) {
+                    userDate = date;
+                } else if (typeof date === 'string') {
+                    userDate = new Date(date);
+                } else {
+                    return 'غير محدد';
+                }
+                
+                return userDate.toLocaleDateString('ar-SA', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch (error) {
+                console.warn('خطأ في تنسيق التاريخ:', date, error);
+                return 'غير محدد';
+            }
+        }
+
+        // تحديث الإحصائيات
+        function updateUsersStats() {
+            const totalUsers = allUsers.length;
+            const activeUsers = allUsers.filter(user => user.isActive !== false).length;
+            const adminUsers = allUsers.filter(user => user.isAdmin).length;
+            
+            // حساب المستخدمين الجدد اليوم
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const newUsers = allUsers.filter(user => {
+                if (!user.createdAt) return false;
+                
+                let userDate;
+                try {
+                    // التحقق من نوع البيانات
+                    if (user.createdAt.toDate && typeof user.createdAt.toDate === 'function') {
+                        // Firestore Timestamp
+                        userDate = user.createdAt.toDate();
+                    } else if (user.createdAt instanceof Date) {
+                        // Date object
+                        userDate = user.createdAt;
+                    } else if (typeof user.createdAt === 'string') {
+                        // String date
+                        userDate = new Date(user.createdAt);
+                    } else {
+                        return false;
+                    }
+                    
+                    userDate.setHours(0, 0, 0, 0);
+                    return userDate.getTime() === today.getTime();
+                } catch (error) {
+                    console.warn('خطأ في تحويل تاريخ المستخدم:', user.createdAt, error);
+                    return false;
+                }
+            }).length;
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('activeUsers').textContent = activeUsers;
+            document.getElementById('adminUsers').textContent = adminUsers;
+            document.getElementById('newUsers').textContent = newUsers;
+        }
+
+        // حذف مستخدم
+        async function deleteUser(userId, userName) {
+            if (!confirm(`هل أنت متأكد من حذف المستخدم "${userName}"؟\n\nسيتم حذف:\n- المستخدم\n- جميع منشوراته\n- جميع تعليقاته\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
+                return;
+            }
+            
+            try {
+                showLoading(true);
+                
+                // حذف منشورات المستخدم
+                await deleteUserPosts(userId);
+                
+                // حذف تعليقات المستخدم
+                await deleteUserComments(userId);
+                
+                // حذف المستخدم من Firestore
+                await db.collection('users').doc(userId).delete();
+                
+                // إزالة المستخدم من القائمة
+                allUsers = allUsers.filter(user => user.id !== userId);
+                filteredUsers = filteredUsers.filter(user => user.id !== userId);
+                
+                updateUsersStats();
+                displayUsers();
+                
+                showAlert('تم حذف المستخدم وجميع منشوراته بنجاح', 'success');
+                
+            } catch (error) {
+                console.error('خطأ في حذف المستخدم:', error);
+                showAlert('فشل في حذف المستخدم', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // حذف منشورات المستخدم
+        async function deleteUserPosts(userId) {
+            try {
+                console.log('جاري حذف منشورات المستخدم:', userId);
+                
+                // البحث عن منشورات المستخدم
+                const postsSnapshot = await db.collection('posts')
+                    .where('userId', '==', userId)
+                    .get();
+                
+                if (postsSnapshot.empty) {
+                    console.log('لا توجد منشورات للمستخدم');
+                    return;
+                }
+                
+                console.log(`تم العثور على ${postsSnapshot.size} منشور للمستخدم`);
+                
+                // حذف كل منشور
+                const deletePromises = [];
+                postsSnapshot.forEach(doc => {
+                    deletePromises.push(doc.ref.delete());
+                });
+                
+                await Promise.all(deletePromises);
+                console.log('تم حذف جميع منشورات المستخدم');
+                
+            } catch (error) {
+                console.error('خطأ في حذف منشورات المستخدم:', error);
+                throw error;
+            }
+        }
+
+        // حذف تعليقات المستخدم
+        async function deleteUserComments(userId) {
+            try {
+                console.log('جاري حذف تعليقات المستخدم:', userId);
+                
+                // البحث عن تعليقات المستخدم في جميع المنشورات
+                const postsSnapshot = await db.collection('posts').get();
+                
+                const updatePromises = [];
+                postsSnapshot.forEach(postDoc => {
+                    const postData = postDoc.data();
+                    if (postData.comments && Array.isArray(postData.comments)) {
+                        const filteredComments = postData.comments.filter(comment => comment.userId !== userId);
+                        if (filteredComments.length !== postData.comments.length) {
+                            updatePromises.push(
+                                postDoc.ref.update({ comments: filteredComments })
+                            );
+                        }
+                    }
+                });
+                
+                if (updatePromises.length > 0) {
+                    await Promise.all(updatePromises);
+                    console.log(`تم حذف تعليقات المستخدم من ${updatePromises.length} منشور`);
+                } else {
+                    console.log('لا توجد تعليقات للمستخدم');
+                }
+                
+            } catch (error) {
+                console.error('خطأ في حذف تعليقات المستخدم:', error);
+                throw error;
+            }
+        }
+
+        // تعديل مستخدم (مؤقت)
+        function editUser(userId) {
+            showAlert('ميزة التعديل ستكون متاحة قريباً', 'info');
+        }
+
+        // إظهار/إخفاء تحميل المستخدمين
+        function showUsersLoading(show) {
+            const loadingElement = document.querySelector('.loading-users');
+            if (loadingElement) {
+                loadingElement.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        // إظهار خطأ في تحميل المستخدمين
+        function showUsersError(message) {
+            const usersTableBody = document.getElementById('usersTableBody');
+            usersTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-4">
+                        <h5 class="text-danger">خطأ في التحميل</h5>
+                        <p class="text-muted">${message}</p>
+                        <button class="btn btn-test" onclick="loadUsers()">إعادة المحاولة</button>
+                    </td>
+                </tr>
+            `;
+        }
+
+
+        // تحديث لون شريط الحالة حسب المود
+        function updateStatusBarTheme() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            const appleStatusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+            
+            if (theme === 'dark') {
+                // المود الداكن - شريط الحالة بنفس لون الميني بلاير
+                if (themeColorMeta) {
+                    themeColorMeta.setAttribute('content', '#2d2d2d');
+                }
+                if (appleStatusBarMeta) {
+                    appleStatusBarMeta.setAttribute('content', 'black-translucent');
+                }
+            } else {
+                // المود الفاتح - شريط الحالة فاتح
+                if (themeColorMeta) {
+                    themeColorMeta.setAttribute('content', '#f4f5fa');
+                }
+                if (appleStatusBarMeta) {
+                    appleStatusBarMeta.setAttribute('content', 'default');
+                }
+            }
+        }
+
+        // مراقبة تغيير المود
+        function watchThemeChanges() {
+            // مراقب تغيير المود
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                        updateStatusBarTheme();
+                    }
+                });
+            });
+            
+            // بدء المراقبة
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-theme']
+            });
+            
+            // تحديث فوري عند التحميل
+            updateStatusBarTheme();
+        }
+    </script>
+</body>
+</html>

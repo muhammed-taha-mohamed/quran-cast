@@ -307,7 +307,7 @@ class ReelsManager {
         // إنشاء HTML للصورة الشخصية
         const avatarHTML = userProfilePicture
             ? `<img src="${userProfilePicture}" alt="صورة المستخدم" class="post-avatar-img" onclick="showUserProfile('${post.userId || ''}', '${post.username || 'مجهول'}')">`
-            : `<i class="bi bi-person-circle" onclick="showUserProfile('${post.userId || ''}', '${post.username || 'مجهول'}')"></i>`;
+            : `<img src="${this.createDefaultAvatar(post.username || 'مجهول')}" alt="صورة المستخدم" class="post-avatar-img" onclick="showUserProfile('${post.userId || ''}', '${post.username || 'مجهول'}')">`;
 
         return `
             <div class="facebook-post" data-post-index="${index}">
@@ -635,6 +635,12 @@ class ReelsManager {
         showNotification('جاري النشر...', 'info');
 
         try {
+            // اختبار النظام أولاً
+            const isConnected = await reelsManager.testSystemConnection();
+            if (!isConnected) {
+                throw new Error('فشل في تحميل الإعدادات أو الاتصال بـ GitHub');
+            }
+            
             const rawUrl = await reelsManager.uploadToGitHub(file);
             const date = new Date().toISOString();
 
@@ -687,6 +693,12 @@ class ReelsManager {
         showNotification('جاري النشر...', 'info');
 
         try {
+            // اختبار النظام أولاً
+            const isConnected = await reelsManager.testSystemConnection();
+            if (!isConnected) {
+                throw new Error('فشل في تحميل الإعدادات أو الاتصال بـ GitHub');
+            }
+            
             const rawUrl = await reelsManager.uploadToGitHub(file);
             const date = new Date().toISOString();
 
@@ -785,6 +797,13 @@ class ReelsManager {
                 rawUrl = `data:text/plain;base64,${base64Data}`;
             } else {
                 // For image/video files - upload to GitHub
+                console.log('اختبار النظام...');
+                const isConnected = await this.testSystemConnection();
+                if (!isConnected) {
+                    throw new Error('فشل في تحميل الإعدادات أو الاتصال بـ GitHub. تحقق من Firestore والاتصال بالإنترنت.');
+                }
+                
+                console.log('بدء رفع الملف إلى GitHub...');
                 rawUrl = await this.uploadToGitHub(contentData);
             }
 
@@ -1254,26 +1273,6 @@ class ReelsManager {
         }
     }
 
-    updateReplyButtonState(commentId) {
-        const replyInput = document.getElementById(`reply-input-${commentId}`);
-        const sendButton = document.querySelector(`#reply-input-${commentId}`).parentElement.querySelector('.btn-send-reply');
-
-        if (replyInput && sendButton) {
-            const hasText = replyInput.value.trim().length > 0;
-            sendButton.disabled = !hasText;
-
-            // زر الإرسال يبقى مرئياً دائماً مع تغيير اللون فقط
-            if (hasText) {
-                sendButton.style.opacity = '1';
-                sendButton.style.transform = 'scale(1)';
-                sendButton.style.background = 'var(--primary-color)';
-            } else {
-                sendButton.style.opacity = '1';
-                sendButton.style.transform = 'scale(1)';
-                sendButton.style.background = 'var(--text-muted)';
-            }
-        }
-    }
 
     fallbackCopyText(text) {
         const textArea = document.createElement('textarea');
@@ -1329,8 +1328,7 @@ class ReelsManager {
                 authorId: this.currentUser.uid,
                 timestamp: Date.now(),
                 likes: 0,
-                likedBy: [],
-                replies: []
+                likedBy: []
             };
 
             // حفظ التعليق في Firebase و localStorage
@@ -1565,7 +1563,7 @@ class ReelsManager {
         // إنشاء HTML للصورة الشخصية
         const avatarHTML = userProfilePicture
             ? `<img src="${userProfilePicture}" alt="صورة المستخدم" class="comment-avatar-img">`
-            : `<i class="bi bi-person-circle comment-avatar-icon"></i>`;
+            : `<img src="${this.createDefaultAvatar(comment.author)}" alt="صورة المستخدم" class="comment-avatar-img">`;
 
         return `
             <div class="comment-item" data-comment-id="${comment.id}">
@@ -1593,95 +1591,13 @@ class ReelsManager {
                             <i class="bi bi-heart${isLiked ? '-fill' : ''}"></i>
                             <span>${comment.likes}</span>
                         </button>
-                        <button class="btn-reply-comment" onclick="reelsManager.toggleReply('${comment.id}')">
-                            <i class="bi bi-reply"></i>
-                            رد
-                        </button>
                     </div>
                 </div>
                 
-                <div class="comment-replies" id="replies-${comment.id}">
-                    ${comment.replies.map(reply => this.createReplyHTML(reply)).join('')}
-                </div>
-                
-                <div class="reply-form" id="reply-form-${comment.id}" style="display: none;">
-                    <div class="reply-input-container">
-                        <textarea 
-                            id="reply-input-${comment.id}" 
-                            class="reply-input" 
-                            placeholder="اكتب ردك هنا..."
-                            rows="1"
-                            oninput="reelsManager.updateReplyButtonState('${comment.id}')"
-                        ></textarea>
-                        <button 
-                            class="btn-send-reply" 
-                            onclick="reelsManager.addReply('${comment.id}')"
-                            disabled
-                            style="opacity: 1; transform: scale(1); background: var(--text-muted);"
-                        >
-                            <i class="bi bi-send"></i>
-                        </button>
-                    </div>
-                </div>
             </div>
         `;
     }
 
-    async createReplyHTML(reply) {
-        const timeAgo = this.getTimeAgo(reply.timestamp);
-        const isLiked = reply.likedBy.includes(this.currentUser?.uid || '');
-        const canDelete = this.currentUser && (this.currentUser.uid === reply.authorId);
-
-        // جلب صورة المستخدم
-        let userProfilePicture = null;
-        if (reply.authorId && this.db) {
-            try {
-                const userDoc = await this.db.collection('users').doc(reply.authorId).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    userProfilePicture = userData.profilePicture;
-                }
-            } catch (error) {
-                console.error('خطأ في جلب صورة المستخدم للرد:', error);
-            }
-        }
-
-        // إنشاء HTML للصورة الشخصية
-        const avatarHTML = userProfilePicture
-            ? `<img src="${userProfilePicture}" alt="صورة المستخدم" class="reply-avatar-img">`
-            : `<i class="bi bi-person-circle reply-avatar-icon"></i>`;
-
-        return `
-            <div class="reply-item" data-reply-id="${reply.id}">
-                <div class="reply-content">
-                    <div class="reply-header">
-                        <div class="reply-author-info">
-                            <div class="reply-avatar">
-                                ${avatarHTML}
-                            </div>
-                        <span class="reply-author">${reply.author}</span>
-                        </div>
-                        <div class="reply-header-right">
-                        <span class="reply-time">${timeAgo}</span>
-                        ${canDelete ? `
-                            <button class="btn-delete-reply" onclick="reelsManager.deleteReply('${reply.id}')">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        ` : ''}
-                        </div>
-                    </div>
-                    <div class="reply-text">${reply.text}</div>
-                    <div class="reply-actions">
-                        <button class="btn-like-reply ${isLiked ? 'liked' : ''}" 
-                                onclick="reelsManager.toggleReplyLike('${reply.id}')">
-                            <i class="bi bi-heart${isLiked ? '-fill' : ''}"></i>
-                            <span>${reply.likes}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
 
     async displayComment(comment) {
         const commentsList = document.getElementById(`comments-list-${comment.postIndex}`);
@@ -1710,6 +1626,35 @@ class ReelsManager {
         if (hours < 24) return `منذ ${hours} ساعة`;
         if (days < 7) return `منذ ${days} يوم`;
         return new Date(timestamp).toLocaleDateString('ar-SA');
+    }
+
+    // دالة إنشاء الصورة الافتراضية مع أول حرف من الاسم
+    createDefaultAvatar(name) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 40;
+        canvas.height = 40;
+        const ctx = canvas.getContext('2d');
+        
+        // الحصول على أول حرف من الاسم
+        const firstLetter = name ? name.charAt(0).toUpperCase() : '?';
+        
+        // استخدام اللون الأساسي للتطبيق
+        const backgroundColor = '#17a2b8'; // اللون الأساسي
+        
+        // رسم الدائرة
+        ctx.beginPath();
+        ctx.arc(20, 20, 20, 0, 2 * Math.PI);
+        ctx.fillStyle = backgroundColor;
+        ctx.fill();
+        
+        // رسم النص
+        ctx.fillStyle = 'white';
+        ctx.font = 'normal 20px Arial'; // حجم أكبر وبدون bold
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(firstLetter, 20, 20);
+        
+        return canvas.toDataURL();
     }
 
     async toggleCommentLike(commentId) {
@@ -1818,216 +1763,10 @@ class ReelsManager {
         }
     }
 
-    toggleReply(commentId) {
-        const replyForm = document.getElementById(`reply-form-${commentId}`);
-        if (replyForm) {
-            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
-        }
-    }
 
-    async addReply(commentId) {
-        const replyInput = document.getElementById(`reply-input-${commentId}`);
-        const replyText = replyInput.value.trim();
 
-        if (!replyText) {
-            showNotification('يرجى كتابة رد', 'warning');
-            return;
-        }
 
-        if (!this.currentUser) {
-            showNotification('يجب تسجيل الدخول أولاً للرد', 'warning');
-            this.openAuthModal();
-            return;
-        }
 
-        const reply = {
-            id: 'reply_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            text: replyText,
-            author: this.currentUser.displayName || 'مجهول',
-            authorId: this.currentUser.uid,
-            timestamp: Date.now(),
-            likes: 0,
-            likedBy: []
-        };
-
-        try {
-            // إضافة الرد للتعليق في localStorage أولاً
-            const comments = await this.getComments();
-            const comment = comments.find(c => c.id === commentId);
-
-            if (!comment) {
-                showError('التعليق غير موجود');
-                return;
-            }
-
-            // إضافة الرد للتعليق
-            comment.replies.push(reply);
-            localStorage.setItem('reels_comments', JSON.stringify(comments));
-
-            // محاولة إضافة الرد في Firebase (داخل البوست)
-            if (this.db && this.posts[comment.postIndex]) {
-                try {
-                    const post = this.posts[comment.postIndex];
-                    const postId = post.id || `post_${comment.postIndex}`;
-
-                    // تحديث التعليق في البوست
-                    await this.db.collection('posts').doc(postId).update({
-                        comments: firebase.firestore.FieldValue.arrayUnion(comment)
-                    });
-                    console.log('Reply added to post in Firebase:', reply.id);
-                } catch (firebaseError) {
-                    console.warn('Failed to update post in Firebase:', firebaseError.message);
-                }
-            }
-
-            // إضافة الرد للواجهة
-            this.displayReply(commentId, reply);
-
-            // مسح حقل الإدخال
-            replyInput.value = '';
-            this.updateReplyButtonState(commentId);
-            this.toggleReply(commentId);
-
-            showNotification('تم إضافة الرد', 'success');
-        } catch (error) {
-            console.error('Error adding reply:', error);
-            showError('حدث خطأ في إضافة الرد');
-        }
-    }
-
-    displayReply(commentId, reply) {
-        const repliesContainer = document.getElementById(`replies-${commentId}`);
-        if (!repliesContainer) return;
-
-        const replyHTML = this.createReplyHTML(reply);
-        repliesContainer.insertAdjacentHTML('beforeend', replyHTML);
-    }
-
-    async deleteReply(replyId) {
-        if (!this.currentUser) return;
-
-        const comments = await this.getComments();
-        let replyFound = false;
-        let commentId = null;
-
-        for (const comment of comments) {
-            const replyIndex = comment.replies.findIndex(r => r.id === replyId);
-            if (replyIndex !== -1) {
-                const reply = comment.replies[replyIndex];
-                if (reply.authorId === this.currentUser.uid) {
-                    comment.replies.splice(replyIndex, 1);
-                    replyFound = true;
-                    commentId = comment.id;
-                    break;
-                }
-            }
-        }
-
-        if (replyFound) {
-            try {
-                // حذف الرد من localStorage أولاً
-                localStorage.setItem('reels_comments', JSON.stringify(comments));
-
-                // محاولة حذف الرد من Firebase (إذا كان التعليق موجود هناك)
-                if (this.db && commentId) {
-                    try {
-                        const comment = comments.find(c => c.id === commentId);
-                        if (comment) {
-                            await this.db.collection('comments').doc(commentId).update({
-                                replies: comment.replies
-                            });
-                            console.log('Reply deleted from Firebase:', replyId);
-                        }
-                    } catch (firebaseError) {
-                        console.warn('Comment not found in Firebase, keeping local only:', firebaseError.message);
-                        // إذا لم يكن التعليق موجود في Firebase، نحتفظ بالتغيير محلياً فقط
-                    }
-                }
-
-                // إزالة الرد من الواجهة
-                const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
-                if (replyElement) {
-                    replyElement.remove();
-                }
-
-                showNotification('تم حذف الرد', 'success');
-            } catch (error) {
-                console.error('Error deleting reply:', error);
-                showNotification('حدث خطأ في حذف الرد', 'error');
-            }
-        } else {
-            showNotification('لا يمكنك حذف هذا الرد', 'error');
-        }
-    }
-
-    async toggleReplyLike(replyId) {
-        if (!this.currentUser) {
-            showNotification('يجب تسجيل الدخول أولاً للإعجاب بالردود', 'warning');
-            this.openAuthModal();
-            return;
-        }
-
-        const comments = await this.getComments();
-        let reply = null;
-        let commentId = null;
-
-        for (const comment of comments) {
-            reply = comment.replies.find(r => r.id === replyId);
-            if (reply) {
-                commentId = comment.id;
-                break;
-            }
-        }
-
-        if (!reply) return;
-
-        const userId = this.currentUser.uid;
-        const isLiked = reply.likedBy.includes(userId);
-
-        if (isLiked) {
-            reply.likedBy = reply.likedBy.filter(id => id !== userId);
-            reply.likes--;
-        } else {
-            reply.likedBy.push(userId);
-            reply.likes++;
-        }
-
-        try {
-            // حفظ التغييرات في localStorage أولاً
-            localStorage.setItem('reels_comments', JSON.stringify(comments));
-
-            // محاولة حفظ التغييرات في Firebase (إذا كان التعليق موجود هناك)
-            if (this.db && commentId) {
-                try {
-                    const comment = comments.find(c => c.id === commentId);
-                    if (comment) {
-                        await this.db.collection('comments').doc(commentId).update({
-                            replies: comment.replies
-                        });
-                        console.log('Reply like updated in Firebase:', replyId);
-                    }
-                } catch (firebaseError) {
-                    console.warn('Comment not found in Firebase, keeping local only:', firebaseError.message);
-                    // إذا لم يكن التعليق موجود في Firebase، نحتفظ بالتغيير محلياً فقط
-                }
-            }
-
-            // تحديث الواجهة
-            this.updateReplyLikes(replyId, reply.likes, !isLiked);
-        } catch (error) {
-            console.error('Error updating reply like:', error);
-            showError('حدث خطأ في تحديث الإعجاب');
-        }
-    }
-
-    updateReplyLikes(replyId, likes, isLiked) {
-        const likeButton = document.querySelector(`[data-reply-id="${replyId}"] .btn-like-reply`);
-        if (likeButton) {
-            likeButton.classList.toggle('liked', isLiked);
-            likeButton.querySelector('span').textContent = likes;
-            likeButton.querySelector('i').className = `bi bi-heart${isLiked ? '-fill' : ''}`;
-        }
-    }
 
     openFullscreen(url, type) {
         const modal = document.createElement('div');
@@ -2184,17 +1923,166 @@ class ReelsManager {
         */
     }
 
+    // تحميل إعدادات GitHub من Firestore
+    async loadGitHubSettings() {
+        try {
+            console.log('تحميل إعدادات GitHub من Firestore...');
+            
+            const settingsDoc = await this.db.collection('admin_settings').doc('github').get();
+            
+            if (settingsDoc.exists) {
+                const settings = settingsDoc.data();
+                
+                // تحديث الإعدادات
+                AppConfig.github.token = settings.token;
+                AppConfig.github.repository = settings.repo.replace('https://github.com/', '');
+                AppConfig.github.branch = settings.branch || 'main';
+                AppConfig.isLoaded = true;
+                
+                console.log('✅ تم تحميل إعدادات GitHub بنجاح');
+                console.log('المستودع:', AppConfig.github.repository);
+                console.log('الفرع:', AppConfig.github.branch);
+                console.log('الـ token:', AppConfig.github.token ? 'موجود' : 'غير موجود');
+                
+                return true;
+            } else {
+                console.error('❌ لم يتم العثور على إعدادات GitHub في Firestore');
+                console.error('🔧 تأكد من وجود المستند في admin_settings/github');
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ خطأ في تحميل إعدادات GitHub:', error);
+            return false;
+        }
+    }
+
+    // اختبار شامل للنظام (Firestore + GitHub)
+    async testSystemConnection() {
+        console.log('🔍 بدء اختبار شامل للنظام...');
+        
+        // اختبار Firestore
+        console.log('1. اختبار اتصال Firestore...');
+        const firestoreTest = await this.loadGitHubSettings();
+        if (!firestoreTest) {
+            console.error('❌ فشل في تحميل الإعدادات من Firestore');
+            return false;
+        }
+        console.log('✅ تم تحميل الإعدادات من Firestore بنجاح');
+        
+        // اختبار GitHub
+        console.log('2. اختبار اتصال GitHub...');
+        const githubTest = await this.testGitHubConnection();
+        if (!githubTest) {
+            console.error('❌ فشل في الاتصال بـ GitHub');
+            return false;
+        }
+        console.log('✅ تم الاتصال بـ GitHub بنجاح');
+        
+        console.log('🎉 جميع الاختبارات نجحت! النظام جاهز للاستخدام');
+        return true;
+    }
+
+    // اختبار صحة GitHub token
+    async testGitHubConnection() {
+        // تحميل الإعدادات أولاً إذا لم تكن محملة
+        if (!AppConfig.isLoaded) {
+            const loaded = await this.loadGitHubSettings();
+            if (!loaded) {
+                return false;
+            }
+        }
+        
+        const repo = AppConfig.github.repository;
+        const token = AppConfig.github.token;
+        const url = `https://api.github.com/repos/${repo}`;
+        
+        // التحقق من وجود الـ token
+        if (!token) {
+            console.error('❌ لم يتم تكوين GitHub token');
+            console.error('🔧 يرجى تحديث الـ token في Firestore');
+            
+            // إظهار إشعار للمستخدم
+            if (typeof showNotification === 'function') {
+                showNotification('لم يتم تكوين GitHub token. يرجى تحديث الإعدادات في Firestore.', 'error');
+            }
+            
+            return false;
+        }
+        
+        try {
+            console.log('اختبار الاتصال بـ GitHub...');
+            console.log('المستودع:', repo);
+            console.log('الـ token:', token.substring(0, 20) + '...');
+            
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/vnd.github.v3+json"
+                }
+            });
+            
+            console.log('استجابة GitHub:', response.status, response.statusText);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('GitHub connection successful');
+                console.log('معلومات المستودع:', data.name, data.full_name);
+                return true;
+            } else {
+                const error = await response.json();
+                console.error('GitHub connection failed:', error);
+                
+                // رسائل خطأ محددة
+                if (response.status === 401) {
+                    console.error('❌ خطأ في المصادقة: الـ token غير صالح أو منتهي الصلاحية');
+                    console.error('🔧 الحل: أنشئ token جديد من GitHub Settings');
+                } else if (response.status === 404) {
+                    console.error('❌ المستودع غير موجود: ' + repo);
+                    console.error('🔧 الحل: تأكد من وجود المستودع أو أنشئه');
+                } else if (response.status === 403) {
+                    console.error('❌ تم رفض الطلب: لا توجد صلاحيات كافية');
+                    console.error('🔧 الحل: تأكد من صلاحيات الـ token');
+                }
+                
+                return false;
+            }
+        } catch (error) {
+            console.error('GitHub connection error:', error);
+            console.error('❌ خطأ في الاتصال: تحقق من اتصال الإنترنت');
+            return false;
+        }
+    }
+
     async uploadToGitHub(file) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
+            // تحميل الإعدادات أولاً إذا لم تكن محملة
+            if (!AppConfig.isLoaded) {
+                const loaded = await this.loadGitHubSettings();
+                if (!loaded) {
+                    reject(new Error('فشل في تحميل إعدادات GitHub من Firestore'));
+                    return;
+                }
+            }
+            
             const reader = new FileReader();
             reader.onload = async function () {
                 try {
                     const base64Data = reader.result.split(',')[1];
-                    const path = file.name;
-                    const repo = "muhammed-taha-mohamed/quran-cast-vedios";
-                    const token = "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";
+                    
+                    // إنشاء اسم ملف فريد لتجنب التضارب
+                    const timestamp = Date.now();
+                    const randomString = Math.random().toString(36).substr(2, 9);
+                    const fileExtension = file.name.split('.').pop();
+                    const path = `uploads/${timestamp}_${randomString}.${fileExtension}`;
+                    
+                    const repo = AppConfig.github.repository;
+                    const token = AppConfig.github.token;
+                    const branch = AppConfig.github.branch;
                     const url = `https://api.github.com/repos/${repo}/contents/${path}`;
-                    const message = `Add ${file.name}`;
+                    const message = `Add ${file.name} - ${new Date().toISOString()}`;
+
+                    console.log('رفع الملف إلى GitHub:', file.name, 'الحجم:', file.size, 'bytes');
 
                     // أولاً، تحقق من وجود الملف
                     let sha = null;
@@ -2210,14 +2098,16 @@ class ReelsManager {
                         if (checkResponse.ok) {
                             const fileData = await checkResponse.json();
                             sha = fileData.sha;
+                            console.log('الملف موجود بالفعل، سيتم تحديثه');
                         }
                     } catch (e) {
-                        // الملف غير موجود، هذا طبيعي
+                        console.log('الملف غير موجود، سيتم إنشاؤه');
                     }
 
                     const body = {
                         message: message,
-                        content: base64Data
+                        content: base64Data,
+                        branch: branch
                     };
 
                     // إضافة SHA إذا كان الملف موجود
@@ -2225,27 +2115,49 @@ class ReelsManager {
                         body.sha = sha;
                     }
 
+                    console.log('إرسال طلب رفع إلى GitHub...');
                     const response = await fetch(url, {
                         method: "PUT",
                         headers: {
                             "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
+                            "Accept": "application/vnd.github.v3+json"
                         },
                         body: JSON.stringify(body)
                     });
 
+                    console.log('استجابة GitHub:', response.status, response.statusText);
+
                     if (!response.ok) {
                         const error = await response.json();
-                        throw new Error(`GitHub API Error: ${JSON.stringify(error)}`);
+                        console.error('خطأ GitHub API:', error);
+                        
+                        // معالجة أخطاء محددة
+                        if (response.status === 401) {
+                            throw new Error('خطأ في المصادقة: تحقق من صحة GitHub token');
+                        } else if (response.status === 403) {
+                            throw new Error('تم رفض الطلب: تحقق من صلاحيات المستودع');
+                        } else if (response.status === 422) {
+                            throw new Error('خطأ في البيانات المرسلة: ' + (error.message || 'غير معروف'));
+                        } else {
+                            throw new Error(`GitHub API Error (${response.status}): ${error.message || JSON.stringify(error)}`);
+                        }
                     }
 
-                    const rawUrl = `https://raw.githubusercontent.com/${repo}/main/${path}`;
+                    const result = await response.json();
+                    console.log('تم رفع الملف بنجاح:', result.content.html_url);
+                    
+                    const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
                     resolve(rawUrl);
                 } catch (error) {
+                    console.error('خطأ في رفع الملف:', error);
                     reject(error);
                 }
             };
-            reader.onerror = reject;
+            reader.onerror = (error) => {
+                console.error('خطأ في قراءة الملف:', error);
+                reject(new Error('فشل في قراءة الملف'));
+            };
             reader.readAsDataURL(file);
         });
     }
@@ -2363,6 +2275,13 @@ class ReelsManager {
             if (profilePictureFile) {
                 try {
                     showNotification('جاري رفع الصورة الشخصية...', 'info');
+                    
+                    // اختبار النظام أولاً
+                    const isConnected = await this.testSystemConnection();
+                    if (!isConnected) {
+                        throw new Error('فشل في تحميل الإعدادات أو الاتصال بـ GitHub');
+                    }
+                    
                     profilePictureUrl = await this.uploadToGitHub(profilePictureFile);
                     console.log('تم رفع الصورة الشخصية:', profilePictureUrl);
                 } catch (uploadError) {
@@ -3314,6 +3233,12 @@ async function updateProfilePicture() {
         try {
             showNotification('جاري تحديث الصورة الشخصية...', 'info');
 
+            // اختبار النظام أولاً
+            const isConnected = await reelsManager.testSystemConnection();
+            if (!isConnected) {
+                throw new Error('فشل في تحميل الإعدادات أو الاتصال بـ GitHub');
+            }
+
             // رفع الصورة إلى GitHub
             const profilePictureUrl = await reelsManager.uploadToGitHub(file);
 
@@ -3483,7 +3408,7 @@ async function showUserProfile(userId, username) {
                             <div class="profile-picture-container mb-3">
                                 ${userProfilePicture
                 ? `<img src="${userProfilePicture}" alt="صورة المستخدم" class="profile-picture-large">`
-                : `<div class="profile-picture-placeholder"><i class="bi bi-person-circle"></i></div>`
+                : `<img src="${reelsManager.createDefaultAvatar(userDisplayName)}" alt="صورة المستخدم" class="profile-picture-large">`
             }
                             </div>
                             <h4 class="mb-2">${userDisplayName}</h4>

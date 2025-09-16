@@ -18,6 +18,9 @@
 
     <link rel="stylesheet" href="styles/main.css">
     
+    <!-- Language Manager -->
+    <script src="js/language.js"></script>
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
@@ -364,17 +367,17 @@
                     <img src="media/images/logo.jpg" alt="Quran Cast Logo">
                 </div>
                 
-                <h1 class="download-title">Quran Cast</h1>
-                <p class="download-subtitle">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                <h1 class="download-title" data-translate="download.title">Quran Cast</h1>
+                <p class="download-subtitle" data-translate="download.subtitle">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
                 
                 <div class="download-buttons">
                     <a href="index.html" class="download-btn primary" id="installBtn">
                         <i class="bi bi-download"></i>
-                        تحميل التطبيق مجاناً
+                        <span data-translate="download.downloadFree">تحميل التطبيق مجاناً</span>
                     </a>
                     <a href="index.html" class="download-btn">
                         <i class="bi bi-play-circle"></i>
-                        تجربة الآن
+                        <span data-translate="download.tryNow">تجربة الآن</span>
                     </a>
                 </div>
             </div>
@@ -388,48 +391,48 @@
                 <div class="feature-icon">
                     <i class="bi bi-music-note"></i>
                 </div>
-                <h3 class="feature-title">تشغيل في الخلفية</h3>
-                <p class="feature-description">استمع للقرآن الكريم والراديو حتى عند إغلاق التطبيق</p>
+                <h3 class="feature-title" data-translate="download.features.backgroundPlay">تشغيل في الخلفية</h3>
+                <p class="feature-description" data-translate="download.features.backgroundPlayDesc">استمع للقرآن الكريم والراديو حتى عند إغلاق التطبيق</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="bi bi-bell"></i>
                 </div>
-                <h3 class="feature-title">إشعارات ذكية</h3>
-                <p class="feature-description">تحكم كامل في التشغيل من الإشعارات</p>
+                <h3 class="feature-title" data-translate="download.features.smartNotifications">إشعارات ذكية</h3>
+                <p class="feature-description" data-translate="download.features.smartNotificationsDesc">تحكم كامل في التشغيل من الإشعارات</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="bi bi-phone"></i>
                 </div>
-                <h3 class="feature-title">تطبيق موبايل</h3>
-                <p class="feature-description">يمكن تثبيته على الهاتف كتطبيق أصلي</p>
+                <h3 class="feature-title" data-translate="download.features.mobileApp">تطبيق موبايل</h3>
+                <p class="feature-description" data-translate="download.features.mobileAppDesc">يمكن تثبيته على الهاتف كتطبيق أصلي</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="bi bi-wifi-off"></i>
                 </div>
-                <h3 class="feature-title">عمل بدون إنترنت</h3>
-                <p class="feature-description">يعمل جزئياً حتى بدون اتصال بالإنترنت</p>
+                <h3 class="feature-title" data-translate="download.features.offline">عمل بدون إنترنت</h3>
+                <p class="feature-description" data-translate="download.features.offlineDesc">يعمل جزئياً حتى بدون اتصال بالإنترنت</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="bi bi-radio"></i>
                 </div>
-                <h3 class="feature-title">راديو إسلامي</h3>
-                <p class="feature-description">أفضل المحطات الإذاعية الإسلامية</p>
+                <h3 class="feature-title" data-translate="download.features.islamicRadio">راديو إسلامي</h3>
+                <p class="feature-description" data-translate="download.features.islamicRadioDesc">أفضل المحطات الإذاعية الإسلامية</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="bi bi-heart"></i>
                 </div>
-                <h3 class="feature-title">أذكار يومية</h3>
-                <p class="feature-description">أذكار الصباح والمساء مع تذكيرات</p>
+                <h3 class="feature-title" data-translate="download.features.dailyAzkar">أذكار يومية</h3>
+                <p class="feature-description" data-translate="download.features.dailyAzkarDesc">أذكار الصباح والمساء مع تذكيرات</p>
             </div>
         </div>
     </section>
@@ -440,19 +443,19 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">100+</div>
-                    <div class="stat-label">محطة إذاعية</div>
+                    <div class="stat-label" data-translate="download.stats.stations">محطة إذاعية</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">50+</div>
-                    <div class="stat-label">قارئ قرآن</div>
+                    <div class="stat-label" data-translate="download.stats.readers">قارئ قرآن</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">1000+</div>
-                    <div class="stat-label">ذكر يومي</div>
+                    <div class="stat-label" data-translate="download.stats.azkar">ذكر يومي</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">24/7</div>
-                    <div class="stat-label">متاح دائماً</div>
+                    <div class="stat-label" data-translate="download.stats.available">متاح دائماً</div>
                 </div>
             </div>
         </div>
@@ -461,25 +464,25 @@
     <!-- Screenshots Section -->
     <section class="container">
         <div class="screenshots">
-            <h2 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; text-align: center;">
+            <h2 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; text-align: center;" data-translate="download.screenshots.title">
                 شاهد التطبيق
             </h2>
-            <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; text-align: center; margin-bottom: 40px;">
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; text-align: center; margin-bottom: 40px;" data-translate="download.screenshots.subtitle">
                 واجهة جميلة وسهلة الاستخدام
             </p>
             
             <div class="screenshot-grid">
                 <div class="screenshot">
                     <img src="media/images/landscape_1.jpg" alt="الصفحة الرئيسية">
-                    <h4 style="color: white; margin-top: 15px;">الصفحة الرئيسية</h4>
+                    <h4 style="color: white; margin-top: 15px;" data-translate="download.screenshots.homepage">الصفحة الرئيسية</h4>
                 </div>
                 <div class="screenshot">
                     <img src="media/images/azan_header.PNG" alt="الراديو">
-                    <h4 style="color: white; margin-top: 15px;">الراديو الإسلامي</h4>
+                    <h4 style="color: white; margin-top: 15px;" data-translate="download.screenshots.radio">الراديو الإسلامي</h4>
                 </div>
                 <div class="screenshot">
                     <img src="media/images/azkar_1.jpg" alt="الأذكار">
-                    <h4 style="color: white; margin-top: 15px;">الأذكار اليومية</h4>
+                    <h4 style="color: white; margin-top: 15px;" data-translate="download.screenshots.azkar">الأذكار اليومية</h4>
                 </div>
             </div>
         </div>
@@ -491,20 +494,20 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <h5 style="color: white; margin-bottom: 20px;">Quran Cast</h5>
-                    <p style="margin-bottom: 20px;">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
+                    <p style="margin-bottom: 20px;" data-translate="footer.description">تطبيق شامل للقرآن الكريم والأذكار والصلوات</p>
                     <div class="download-buttons">
                         <a href="index.html" class="download-btn primary" id="installBtnFooter">
                             <i class="bi bi-download"></i>
-                            تحميل التطبيق
+                            <span data-translate="download.installApp">تحميل التطبيق</span>
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h6 style="color: white; margin-bottom: 15px;">تواصل معنا</h6>
+                    <h6 style="color: white; margin-bottom: 15px;" data-translate="footer.contactUs">تواصل معنا</h6>
                     <div style="color: rgba(255, 255, 255, 0.8);">
-                        <p><i class="bi bi-envelope me-2"></i> info@qurancast.com</p>
-                        <p><i class="bi bi-phone me-2"></i> +201111392984</p>
-                        <p><i class="bi bi-geo-alt me-2"></i> القاهرة جمهورية مصر العربية</p>
+                        <p><i class="bi bi-envelope me-2"></i> <span data-translate="footer.email">info@qurancast.com</span></p>
+                        <p><i class="bi bi-phone me-2"></i> <span data-translate="footer.phone">+201111392984</span></p>
+                        <p><i class="bi bi-geo-alt me-2"></i> <span data-translate="footer.location">القاهرة جمهورية مصر العربية</span></p>
                     </div>
                 </div>
             </div>
@@ -528,10 +531,10 @@
             
             // Update button text
             if (installBtn) {
-                installBtn.innerHTML = '<i class="bi bi-download"></i> تثبيت التطبيق';
+                installBtn.innerHTML = '<i class="bi bi-download"></i> ' + languageManager.getTranslation('download.installApp');
             }
             if (installBtnFooter) {
-                installBtnFooter.innerHTML = '<i class="bi bi-download"></i> تثبيت التطبيق';
+                installBtnFooter.innerHTML = '<i class="bi bi-download"></i> ' + languageManager.getTranslation('download.installApp');
             }
         });
 
@@ -565,11 +568,11 @@
         if (window.matchMedia('(display-mode: standalone)').matches) {
             console.log('App is running in standalone mode');
             if (installBtn) {
-                installBtn.innerHTML = '<i class="bi bi-check-circle"></i> تم التثبيت';
+                installBtn.innerHTML = '<i class="bi bi-check-circle"></i> ' + languageManager.getTranslation('download.installed');
                 installBtn.style.background = 'linear-gradient(45deg, #00b894, #00a085)';
             }
             if (installBtnFooter) {
-                installBtnFooter.innerHTML = '<i class="bi bi-check-circle"></i> تم التثبيت';
+                installBtnFooter.innerHTML = '<i class="bi bi-check-circle"></i> ' + languageManager.getTranslation('download.installed');
                 installBtnFooter.style.background = 'linear-gradient(45deg, #00b894, #00a085)';
             }
         }
@@ -617,6 +620,13 @@
             stat.style.transform = 'translateY(30px)';
             stat.style.transition = 'all 0.6s ease';
             observer.observe(stat);
+        });
+
+        // Initialize language system
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof languageManager !== 'undefined') {
+                languageManager.applyLanguage();
+            }
         });
     </script>
 </body>

@@ -2938,10 +2938,10 @@ function renderCategories(categories) {
   heroSection.innerHTML = `
         <div class="azkar-hero-content">
           <div class="azkar-hero-text">
-            <h1 class="azkar-hero-title">
+            <h1 class="azkar-hero-title" data-translate="azkar.remembrance">
               الأذكار والأدعية
             </h1>
-            <p class="azkar-hero-subtitle">
+            <p class="azkar-hero-subtitle" data-translate="azkar.description">
               اذكر الله في كل وقت وكل مكان، واجعل ذكر الله نوراً في قلبك
             </p>
             
@@ -2957,7 +2957,7 @@ function renderCategories(categories) {
   searchContainer.innerHTML = `
         <div class="search-box">
          
-          <input type="text" id="categorySearch" placeholder="ابحث عن فئة الأذكار..." />
+          <input type="text" id="categorySearch" placeholder="ابحث عن فئة الأذكار..." data-translate="azkar.searchPlaceholder" />
           <button class="clear-search" onclick="clearSearch()" style="display: none;">
             <i class="bi bi-x"></i>
           </button>
@@ -2978,8 +2978,8 @@ function renderCategories(categories) {
         <i class="bi ${getCategoryIcon(index)}"></i>
             </div>
       <div class="azkar-category-info">
-        <h4 class="azkar-category-name">${cat.category}</h4>
-        <p class="azkar-category-description">${cat.array.length} ذكر</p>
+        <h4 class="azkar-category-name">${typeof languageManager !== 'undefined' ? languageManager.getAzkarCategoryName(cat.category) : cat.category}</h4>
+        <p class="azkar-category-description">${cat.array.length} <span data-translate="azkar.remembrance">ذكر</span></p>
           </div>
       <div class="azkar-category-controls">
         <div class="azkar-category-count-badge">
@@ -3201,20 +3201,6 @@ function openAdhkarModal(category) {
       }
     }
     
-    // Add tasbih button for all items
-    const tasbihBtn = document.createElement('button');
-    tasbihBtn.className = 'btn btn-outline-success btn-sm me-2';
-    tasbihBtn.innerHTML = '<i class="bi bi-calculator"></i> المسبحة';
-    tasbihBtn.onclick = (e) => {
-      e.stopPropagation();
-      linkAdhkarWithTasbih(item.text, item.count);
-    };
-    
-    // Add tasbih button to controls
-    const controlsRow = adhkarText.querySelector('.adhkar-controls-row');
-    if (controlsRow) {
-      controlsRow.appendChild(tasbihBtn);
-    }
 
     adhkarContent.appendChild(adhkarText);
     adhkarItem.appendChild(adhkarContent);
@@ -3263,42 +3249,6 @@ function playAzkarAudio(audioUrl) {
   });
 }
 
-// Function to link adhkar with tasbih and scroll to it
-function linkAdhkarWithTasbih(dhikrText, count) {
-  // Close the adhkar modal first
-  closeAdhkarModal();
-  
-  // Navigate to home section where tasbih is located
-  location.hash = '#home';
-  
-  // Wait for home section to load, then set tasbih
-  setTimeout(() => {
-    // Set the tasbih with the selected dhikr
-    if (typeof setTasbihPreset === 'function') {
-      setTasbihPreset(count, dhikrText);
-    }
-    
-    // Scroll to tasbih section smoothly
-    setTimeout(() => {
-      const tasbihSection = document.querySelector('.tasbih-counter');
-      if (tasbihSection) {
-        tasbihSection.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-        
-        // Add a highlight effect
-        tasbihSection.style.transform = 'scale(1.05)';
-        tasbihSection.style.boxShadow = '0 0 20px rgba(15, 118, 110, 0.5)';
-        
-        setTimeout(() => {
-          tasbihSection.style.transform = 'scale(1)';
-          tasbihSection.style.boxShadow = '';
-        }, 1000);
-      }
-    }, 200);
-  }, 100);
-}
 
 // Close modal when clicking outside
 document.addEventListener('click', function (event) {
